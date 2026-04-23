@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>AUEM — Rack Attente Automatique</title>
+<title>AUEM — Rack Attente (Auto)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -15,51 +15,62 @@
   --r: 12px; --r-sm: 8px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:14px; min-height:100vh; }
+body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:14px; min-height:100vh; padding-bottom:20px; }
+
+/* HEADER */
 .header { background:var(--surface); border-bottom:2px solid var(--text); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-.logo { width:36px; height:36px; background:var(--text); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:8px; color:var(--bg); }
-.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--text3); }
-.sync-dot.ok { background:var(--s-green); }
-.sync-dot.loading { background:var(--s-yellow); animation:blink .7s infinite alternate; }
-@keyframes blink { to { opacity:.2; } }
-.legend { display:flex; flex-wrap:wrap; gap:6px; padding:10px 14px; background:var(--surface); border-bottom:1px solid var(--border); font-size:10px; font-weight:600; }
+.logo { width:36px; height:36px; background:var(--text); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:8px; color:var(--bg); font-weight:700; }
+.sync-dot { width:8px; height:8px; border-radius:50%; background:var(--text3); }
+.sync-dot.ok { background:var(--s-green); box-shadow: 0 0 5px var(--s-green); }
+.sync-dot.loading { background:var(--s-yellow); animation: blink .7s infinite alternate; }
+@keyframes blink { to { opacity: 0.2; } }
+
+/* LEGENDE */
+.legend { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; padding:10px 14px; background:var(--surface); border-bottom:1px solid var(--border); font-size:10px; font-weight:700; }
+.leg-item { display:flex; align-items:center; gap:6px; }
+
+/* RACK VIEW */
+.rack-body { padding:12px; }
+.etage-sec { border-radius:var(--r); overflow:hidden; margin-bottom:12px; border:1.5px solid var(--border2); background:white; }
+.etage-hd { padding:8px 12px; font-weight:700; background:#f1f1f1; border-bottom:1px solid var(--border2); display:flex; justify-content:space-between; }
+.emp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border2); }
+.emp-card { background:white; padding:10px; min-height:85px; cursor:pointer; display:flex; flex-direction:column; border-left: 5px solid #eee; transition: background 0.2s; }
+.emp-card:active { background: #f9f9f9; }
+.emp-id { font-weight:700; font-size:15px; color: var(--text); }
+.ep-ref { font-size:11px; margin-top:4px; font-family:'IBM Plex Mono'; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* COLORS BASED ON TIME */
+.sg { border-left-color: var(--s-green) !important; }
+.sb { border-left-color: var(--s-blue) !important; }
+.sy { border-left-color: var(--s-yellow) !important; }
+.sr { border-left-color: var(--s-red) !important; animation: pulseRed 2s infinite; }
+@keyframes pulseRed { 50% { background: #fff1f1; } }
+
+/* EMPLACEMENT VIEW */
 .view { display:none; }
 .view.active { display:block; }
-.rack-body { padding:13px; }
-.etage-sec { border-radius:var(--r); overflow:hidden; margin-bottom:10px; border:1.5px solid var(--border2); background:white; }
-.etage-hd { padding:9px 13px; font-weight:700; background:#eee; }
-.emp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
-.emp-card { background:white; padding:10px; min-height:85px; cursor:pointer; display:flex; flex-direction:column; border-left: 5px solid transparent; }
-.emp-card.sg { border-left-color: var(--s-green); }
-.emp-card.sb { border-left-color: var(--s-blue); }
-.emp-card.sy { border-left-color: var(--s-yellow); }
-.emp-card.sr { border-left-color: var(--s-red); animation: pulse 2s infinite; }
-@keyframes pulse { 50% { background: #fff1f1; } }
-.emp-id { font-weight:700; font-size:15px; }
-.ep-ref { font-size:11px; margin-top:4px; font-family:'IBM Plex Mono'; }
-.ep-date { font-size:9px; color:var(--text3); }
-.section { background:white; border:1.5px solid var(--border); border-radius:var(--r); padding:15px; margin:13px; }
-.inp { width:100%; padding:10px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:6px; }
-.btn-main { width:100%; background:var(--text); color:white; padding:12px; border:none; border-radius:6px; font-weight:700; cursor:pointer; }
-.pal-card { background:var(--bg); padding:10px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
-.btn-back { background:var(--text); color:white; border:none; padding:8px 12px; border-radius:6px; margin:10px; cursor:pointer; }
+.section { background:white; border:1.5px solid var(--border); border-radius:var(--r); padding:15px; margin:12px; }
+.inp { width:100%; padding:12px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:6px; font-family: inherit; font-size: 14px; }
+.btn-main { width:100%; background:var(--text); color:white; padding:14px; border:none; border-radius:6px; font-weight:700; cursor:pointer; }
+.pal-card { background:var(--bg); padding:12px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid #ccc; }
+.btn-back { background:var(--text); color:white; border:none; padding:10px 16px; border-radius:6px; margin:12px; cursor:pointer; font-weight:600; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-left" style="display:flex; align-items:center; gap:10px;">
+  <div style="display:flex; align-items:center; gap:10px;">
     <div class="logo">AUEM</div>
-    <div><div style="font-weight:700">Rack Attente</div><div style="font-size:10px; color:var(--text3)">Délai Automatique</div></div>
+    <div><div style="font-weight:700">Rack Attente</div><div style="font-size:10px; color:var(--text3)">Mise à jour automatique</div></div>
   </div>
   <div class="sync-dot" id="sync-dot"></div>
 </div>
 
 <div class="legend">
-  <div style="color:var(--s-green)">● < 15j</div>
-  <div style="color:var(--s-blue)">● 15-21j</div>
-  <div style="color:var(--s-yellow)">● 21-28j</div>
-  <div style="color:var(--s-red)">● > 28j (URGENT)</div>
+  <div class="leg-item" style="color:var(--s-green)">● Moins de 15j</div>
+  <div class="leg-item" style="color:var(--s-blue)">● 15j à 21j</div>
+  <div class="leg-item" style="color:var(--s-yellow)">● 21j à 28j</div>
+  <div class="leg-item" style="color:var(--s-red)">● + de 28j (URGENT)</div>
 </div>
 
 <div class="view active" id="view-rack">
@@ -67,40 +78,48 @@ body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans
 </div>
 
 <div class="view" id="view-emp">
-  <button class="btn-back" onclick="showRack()">← Retour</button>
+  <button class="btn-back" onclick="showRack()">← Retour au Rack</button>
   <div class="section">
-    <h3 id="emp-title">A1</h3>
-    <p id="emp-sub" style="font-size:12px; color:var(--text2); margin-bottom:10px;"></p>
-    <input class="inp" id="inp-ref" placeholder="N° Commande / Référence">
-    <input class="inp" id="inp-note" placeholder="Notes (ex: Client Martin)">
-    <button class="btn-main" onclick="addPalette()">+ Enregistrer Palette</button>
+    <h3 id="emp-title" style="margin-bottom:12px;">Emplacement</h3>
+    <input class="inp" id="inp-ref" placeholder="N° de commande ou palette">
+    <input class="inp" id="inp-note" placeholder="Note (Transporteur, client...)">
+    <button class="btn-main" onclick="addPalette()">Enregistrer l'entrée</button>
   </div>
-  <div id="palette-list" style="padding:0 13px;"></div>
+  <div id="palette-list" style="padding:0 12px;"></div>
 </div>
 
 <script>
+// --- CONFIGURATION ---
 const ETAGES = ['D','C','B','A'];
 const FIREBASE = 'https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json';
 
-let state = {}, currentEmp = null;
+let state = {};
+let currentEmp = null;
 
-// Logique de calcul du statut en fonction du temps
+// --- LOGIQUE DE TEMPS ---
 function getStatus(timestamp) {
-    const diffDays = Math.floor((new Date() - new Date(timestamp)) / (1000 * 60 * 60 * 24));
-    if (diffDays >= 28) return 'red';
-    if (diffDays >= 21) return 'yellow';
-    if (diffDays >= 15) return 'blue';
+    if (!timestamp) return 'green';
+    const jours = Math.floor((new Date() - new Date(timestamp)) / (1000 * 60 * 60 * 24));
+    
+    if (jours >= 28) return 'red';
+    if (jours >= 21) return 'yellow';
+    if (jours >= 15) return 'blue';
     return 'green';
 }
 
+// --- SYNCHRONISATION ---
 async function loadFromServer() {
-    document.getElementById('sync-dot').className = 'sync-dot loading';
+    const dot = document.getElementById('sync-dot');
+    dot.className = 'sync-dot loading';
     try {
         const res = await fetch(FIREBASE);
         state = await res.json() || {};
         renderRack();
-        document.getElementById('sync-dot').className = 'sync-dot ok';
-    } catch(e) { document.getElementById('sync-dot').className = 'sync-dot'; }
+        dot.className = 'sync-dot ok';
+    } catch(e) { 
+        dot.className = 'sync-dot';
+        console.error("Erreur de synchro");
+    }
 }
 
 async function saveToServer() {
@@ -108,6 +127,7 @@ async function saveToServer() {
     loadFromServer();
 }
 
+// --- RENDER ---
 function renderRack() {
     const grid = document.getElementById('rack-grid');
     grid.innerHTML = '';
@@ -121,22 +141,24 @@ function renderRack() {
         for(let i=1; i<=6; i++) {
             const id = etage+i;
             const pals = state[id]?.palettes || [];
-            let domClass = '';
+            let colorClass = '';
             
             if(pals.length) {
-                // On prend le statut le plus critique de l'emplacement
-                const statuses = pals.map(p => getStatus(p.date));
-                if(statuses.includes('red')) domClass = 'sr';
-                else if(statuses.includes('yellow')) domClass = 'sy';
-                else if(statuses.includes('blue')) domClass = 'sb';
-                else domClass = 'sg';
+                // Déterminer la couleur selon la palette la plus vieille
+                const critStat = pals.map(p => getStatus(p.date));
+                if(critStat.includes('red')) colorClass = 'sr';
+                else if(critStat.includes('yellow')) colorClass = 'sy';
+                else if(critStat.includes('blue')) colorClass = 'sb';
+                else colorClass = 'sg';
             }
             
             const card = document.createElement('div');
-            card.className = `emp-card ${domClass}`;
-            card.innerHTML = `<div class="emp-id">${id}</div>
-                              <div class="ep-ref">${pals.length ? pals[0].ref : '<span style="color:#ccc">Vide</span>'}</div>
-                              ${pals.length > 1 ? `<div style="font-size:9px; color:var(--s-blue)">+ ${pals.length-1} autre(s)</div>` : ''}`;
+            card.className = `emp-card ${colorClass}`;
+            card.innerHTML = `
+                <div class="emp-id">${id}</div>
+                <div class="ep-ref">${pals.length ? pals[0].ref : '<span style="color:#ddd">Vide</span>'}</div>
+                ${pals.length > 1 ? `<div style="font-size:9px; color:var(--s-blue); font-weight:700;">+ ${pals.length-1} palette(s)</div>` : ''}
+            `;
             card.onclick = () => openEmp(id);
             g.appendChild(card);
         }
@@ -158,30 +180,36 @@ function renderPalList() {
     const pals = state[currentEmp]?.palettes || [];
     
     pals.forEach((p, i) => {
-        const status = getStatus(p.date);
-        const dateFr = new Date(p.date).toLocaleDateString('fr-FR');
+        const color = getStatus(p.date);
+        const dateObj = new Date(p.date);
+        const dateTxt = dateObj.toLocaleDateString('fr-FR') + " (" + Math.floor((new Date() - dateObj)/(1000*60*60*24)) + "j)";
+        
         const div = document.createElement('div');
         div.className = 'pal-card';
-        div.style.borderLeft = `4px solid var(--s-${status})`;
-        div.innerHTML = `<div>
-                            <div class="ep-ref">${p.ref}</div>
-                            <div class="ep-date">Posé le ${dateFr}</div>
-                            <div style="font-size:10px; color:var(--text2)">${p.note || ''}</div>
-                         </div>
-                         <button onclick="delPal(${i})" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>`;
+        div.style.borderLeftColor = `var(--s-${color})`;
+        div.innerHTML = `
+            <div>
+                <div class="ep-ref">${p.ref}</div>
+                <div style="font-size:10px; color:var(--text2)">Arrivé le ${dateTxt}</div>
+                <div style="font-size:10px; font-style:italic;">${p.note || ''}</div>
+            </div>
+            <button onclick="delPal(${i})" style="background:none; border:none; font-size:20px; color:var(--text3); cursor:pointer;">✕</button>
+        `;
         list.appendChild(div);
     });
 }
 
+// --- ACTIONS ---
 function addPalette() {
     const ref = document.getElementById('inp-ref').value.trim();
     if(!ref) return;
+    
     if(!state[currentEmp]) state[currentEmp] = { palettes: [] };
     
     state[currentEmp].palettes.push({
         ref: ref,
         note: document.getElementById('inp-note').value,
-        date: new Date().toISOString() // On enregistre la date exacte
+        date: new Date().toISOString() // La date est générée ici automatiquement
     });
     
     document.getElementById('inp-ref').value = '';
@@ -190,18 +218,23 @@ function addPalette() {
 }
 
 function delPal(i) {
-    state[currentEmp].palettes.splice(i, 1);
-    saveToServer();
+    if(confirm("Retirer cette palette ?")) {
+        state[currentEmp].palettes.splice(i, 1);
+        saveToServer();
+    }
 }
 
 function showView(id) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
 }
+
 function showRack() { showView('view-rack'); }
 
+// Initialisation
 window.onload = loadFromServer;
-setInterval(loadFromServer, 30000); 
+setInterval(loadFromServer, 60000); // Rafraîchir toutes les minutes
 </script>
 </body>
 </html>
