@@ -575,12 +575,25 @@ async function refresh() {
   setSyncDot('loading');
   try {
     const r = await fetch(URL_DB);
-    state = (await r.json()) || {};
-    setSyncDot('ok'); renderRack();
+    const raw = await r.json();
+    // Firebase peut retourner null si la base est vide
+    state = raw || {};
+    setSyncDot('ok');
   } catch {
-    setSyncDot('error'); renderRack();
+    // Fallback localStorage
+    try { state = JSON.parse(localStorage.getItem('auem_att_bck')) || {}; } catch { state = {}; }
+    setSyncDot('error');
     showToast('Hors-ligne','📡');
   }
+  // Garantir que tous les emplacements existent (même si Firebase ne les a pas)
+  ensureAllSlots();
+  renderRack();
+}
+
+function ensureAllSlots() {
+  // Ne crée pas les clés dans state (on ne veut pas sauvegarder des emplacements vides)
+  // mais on s'assure juste que renderRack ne plante pas sur undefined
+  // → rien à faire ici, renderRack lit state[id] qui peut être undefined → géré par data = state[id]
 }
 
 async function save() {
@@ -622,21 +635,26 @@ function renderRack() {
   NIVEAUX.forEach(niv => {
     const occupied = niv.cols.filter(i => !!state[niv.id+i]).length;
 
+    // Bloc niveau
     const sec = document.createElement('div');
-    sec.className = `niveau-block`;
-    sec.innerHTML = `
-      <div class="niveau-hdr ${niv.cls}">
-        <div class="niveau-letter">${niv.id}</div>
-        <div class="niveau-info">
-          <div class="niveau-name">${niv.label}</div>
-          <div class="niveau-desc">${niv.desc}</div>
-        </div>
-        <div class="niveau-cnt">${occupied}/${niv.cols.length}</div>
-      </div>
-      <div class="niveau-grid ${niv.cls}" id="grid-${niv.id}"></div>`;
-    grid.appendChild(sec);
+    sec.className = 'niveau-block';
 
-    const g = document.getElementById('grid-'+niv.id);
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = `niveau-hdr ${niv.cls}`;
+    hdr.innerHTML = `
+      <div class="niveau-letter">${niv.id}</div>
+      <div class="niveau-info">
+        <div class="niveau-name">${niv.label}</div>
+        <div class="niveau-desc">${niv.desc}</div>
+      </div>
+      <div class="niveau-cnt">${occupied}/${niv.cols.length}</div>`;
+    sec.appendChild(hdr);
+
+    // Grid des cartes — créé directement sans innerHTML puis getElementById
+    const g = document.createElement('div');
+    g.className = `niveau-grid ${niv.cls}`;
+
     niv.cols.forEach(i => {
       const id   = niv.id + i;
       const data = state[id];
@@ -644,7 +662,7 @@ function renderRack() {
 
       const card = document.createElement('div');
       card.className = `ecard ${data ? info.cls : 'vide'}`;
-      card.dataset.text = id + ' ' + (data?.ref||'') + ' ' + (data?.note||'');
+      card.dataset.text = (id + ' ' + (data?.ref||'') + ' ' + (data?.note||'')).toLowerCase();
 
       card.innerHTML = `
         <div class="ecard-id">${id}</div>
@@ -657,6 +675,9 @@ function renderRack() {
       card.onclick = () => openEmp(id);
       g.appendChild(card);
     });
+
+    sec.appendChild(g);
+    grid.appendChild(sec);
   });
 }
 
@@ -734,7 +755,8 @@ async function addPal() {
   const note = document.getElementById('inp-note').value.trim();
   state[currentId] = { ref, note, date: new Date().toISOString() };
   showToast(`${ref} enregistrée`,'✓'); haptic('light');
-  showRack(); save(); renderRack();
+  save();
+  showRack();
 }
 
 function askDel() {
@@ -746,7 +768,9 @@ function closeModal() {
 async function confirmDel() {
   const ref = state[currentId]?.ref || currentId;
   delete state[currentId];
-  closeModal(); showRack(); save(); renderRack();
+  closeModal();
+  save();
+  showRack();
   showToast(`${ref} sortie`,'📦'); haptic('medium');
 }
 document.getElementById('modal-del').addEventListener('click',function(e){if(e.target===this)closeModal();});
@@ -772,7 +796,12 @@ function showView(id) {
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='view-qr') renderQR();
 }
-function showRack() { renderRack(); showView('view-rack'); }
+function showRack() {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-rack').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  renderRack();
+}
 
 /* ═══════════════════════════════
    HAPTICS + TOAST
