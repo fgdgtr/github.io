@@ -18,7 +18,7 @@
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 50px; }
 
-/* BARRE HAUTE */
+/* HEADER */
 .header { 
     background: var(--header-bg); 
     color: white; padding: 15px 20px; 
@@ -27,7 +27,7 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
     box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
 }
 .brand { font-weight: 900; font-size: 20px; letter-spacing: -1px; }
-.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 40%; text-align: center; }
+.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 45%; text-align: center; line-height: 1.2; }
 
 .qr-btn { 
     background: rgba(255,255,255,0.2); color: white; 
@@ -40,9 +40,9 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 .search-box { padding: 12px; background: #bae6fd; }
 .search-bar { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #7dd3fc; font-family: inherit; font-weight: 600; font-size: 14px; }
 
-/* GRILLE DU RACK */
+/* RACK SYSTEM */
 .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 30px; display: block !important; clear: both; }
+.level-block { margin-bottom: 30px; clear: both; }
 .level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
@@ -66,7 +66,7 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 .p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.1); border-radius: 10px; margin-top: auto; overflow: hidden; }
 .p-fill { height: 100%; }
 
-/* VUES */
+/* VUES / MODALS */
 .view { display: none; padding: 15px; animation: fadeIn 0.3s; }
 .view.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -93,19 +93,19 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
     </div>
     <div class="container">
-        <div class="level-block">
+        <div class="level-block" id="sect-D">
             <div class="level-label">NIVEAU D</div>
             <div class="grid" id="grid-D"></div>
         </div>
-        <div class="level-block">
+        <div class="level-block" id="sect-C">
             <div class="level-label">NIVEAU C</div>
             <div class="grid" id="grid-C"></div>
         </div>
-        <div class="level-block">
+        <div class="level-block" id="sect-B">
             <div class="level-label">NIVEAU B</div>
             <div class="grid" id="grid-B"></div>
         </div>
-        <div class="level-block">
+        <div class="level-block" id="sect-A">
             <div class="level-label">NIVEAU A</div>
             <div class="grid" id="grid-A"></div>
         </div>
@@ -119,7 +119,7 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
         <div class="qr-container">
             <img id="qr-image" src="" alt="QR Code" style="width: 220px; height: 220px;">
         </div>
-        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Faites scanner ce code pour ouvrir le rack sur un autre téléphone.</p>
+        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Scannez pour ouvrir le rack sur un autre téléphone.</p>
     </div>
 </div>
 
@@ -170,11 +170,13 @@ function getStatus(date) {
 }
 
 function render() {
-    // On boucle sur A, B, C, D et on s'assure d'avoir 1 à 6 partout
-    ['A', 'B', 'C', 'D'].forEach(niv => {
+    // Boucle sur les 4 niveaux : D, C, B, A
+    ['D', 'C', 'B', 'A'].forEach(niv => {
         const grid = document.getElementById('grid-' + niv);
         if(!grid) return;
         grid.innerHTML = '';
+        
+        // On génère 6 emplacements pour chaque niveau
         for(let i=1; i<=6; i++) {
             const id = niv + i;
             const data = state[id];
