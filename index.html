@@ -188,8 +188,8 @@ body {
    CARTES EMPLACEMENT
 ══════════════════════════════════════ */
 .ecard {
-  background:var(--card); cursor:pointer; padding:11px 11px 10px;
-  min-height:105px; display:flex; flex-direction:column; gap:3px;
+  background:var(--card); cursor:pointer; padding:11px 11px 11px;
+  min-height:80px; display:flex; flex-direction:column; gap:3px;
   position:relative; overflow:hidden;
   transition:filter .15s var(--ease);
 }
@@ -576,17 +576,22 @@ async function refresh() {
   try {
     const r = await fetch(URL_DB);
     const raw = await r.json();
-    // Firebase peut retourner null si la base est vide
-    state = raw || {};
+    // Firebase retourne null si base vide, ou un objet imbriqué
+    // On s'assure que state est toujours un objet plat
+    if(raw && typeof raw === 'object' && !Array.isArray(raw)) {
+      state = raw;
+    } else {
+      state = {};
+    }
     setSyncDot('ok');
   } catch {
-    // Fallback localStorage
-    try { state = JSON.parse(localStorage.getItem('auem_att_bck')) || {}; } catch { state = {}; }
+    try {
+      const bck = localStorage.getItem('auem_att_bck');
+      state = bck ? JSON.parse(bck) : {};
+    } catch { state = {}; }
     setSyncDot('error');
     showToast('Hors-ligne','📡');
   }
-  // Garantir que tous les emplacements existent (même si Firebase ne les a pas)
-  ensureAllSlots();
   renderRack();
 }
 
@@ -656,8 +661,9 @@ function renderRack() {
     g.className = `niveau-grid ${niv.cls}`;
 
     niv.cols.forEach(i => {
-      const id   = niv.id + i;
-      const data = state[id];
+      const id = niv.id + i;
+      let data = null;
+      try { data = (state && state[id] && typeof state[id] === 'object') ? state[id] : null; } catch { data = null; }
       const info = data ? getStatus(data.date) : null;
 
       const card = document.createElement('div');
@@ -667,11 +673,7 @@ function renderRack() {
       card.innerHTML = `
         <div class="ecard-id">${id}</div>
         <div class="ecard-ref">${data ? data.ref : 'Libre'}</div>
-        ${data && data.note ? `<div class="ecard-note">↗ ${data.note}</div>` : ''}
-        ${data ? `
-          <div class="ecard-badge ${info.bcls}">${info.label}</div>
-          <div class="pbar"><div class="pfill" style="width:${info.pct}%;background:${info.col}"></div></div>
-        ` : ''}`;
+        ${data && data.note ? `<div class="ecard-note">↗ ${data.note}</div>` : ''}`;
       card.onclick = () => openEmp(id);
       g.appendChild(card);
     });
