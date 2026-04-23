@@ -18,7 +18,7 @@
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 50px; }
 
-/* HEADER */
+/* BARRE HAUTE */
 .header { 
     background: var(--header-bg); 
     color: white; padding: 15px 20px; 
@@ -27,7 +27,7 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
     box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
 }
 .brand { font-weight: 900; font-size: 20px; letter-spacing: -1px; }
-.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 45%; text-align: center; line-height: 1.2; }
+.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 45%; text-align: center; }
 
 .qr-btn { 
     background: rgba(255,255,255,0.2); color: white; 
@@ -40,9 +40,9 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 .search-box { padding: 12px; background: #bae6fd; }
 .search-bar { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #7dd3fc; font-family: inherit; font-weight: 600; font-size: 14px; }
 
-/* RACK SYSTEM */
+/* GRILLE DU RACK */
 .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 30px; clear: both; }
+.level-block { margin-bottom: 30px; display: block !important; }
 .level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
@@ -66,7 +66,7 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 .p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.1); border-radius: 10px; margin-top: auto; overflow: hidden; }
 .p-fill { height: 100%; }
 
-/* VUES / MODALS */
+/* VUES */
 .view { display: none; padding: 15px; animation: fadeIn 0.3s; }
 .view.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -93,22 +93,10 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
     </div>
     <div class="container">
-        <div class="level-block" id="sect-D">
-            <div class="level-label">NIVEAU D</div>
-            <div class="grid" id="grid-D"></div>
-        </div>
-        <div class="level-block" id="sect-C">
-            <div class="level-label">NIVEAU C</div>
-            <div class="grid" id="grid-C"></div>
-        </div>
-        <div class="level-block" id="sect-B">
-            <div class="level-label">NIVEAU B</div>
-            <div class="grid" id="grid-B"></div>
-        </div>
-        <div class="level-block" id="sect-A">
-            <div class="level-label">NIVEAU A</div>
-            <div class="grid" id="grid-A"></div>
-        </div>
+        <div class="level-block" id="sect-D"><div class="level-label">NIVEAU D</div><div class="grid" id="grid-D"></div></div>
+        <div class="level-block" id="sect-C"><div class="level-label">NIVEAU C</div><div class="grid" id="grid-C"></div></div>
+        <div class="level-block" id="sect-B"><div class="level-label">NIVEAU B</div><div class="grid" id="grid-B"></div></div>
+        <div class="level-block" id="sect-A"><div class="level-label">NIVEAU A</div><div class="grid" id="grid-A"></div></div>
     </div>
 </div>
 
@@ -116,10 +104,8 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
     <div class="container" style="text-align: center;">
         <button class="btn-back" onclick="showRack()">← RETOUR AU RACK</button>
         <h2 style="color: var(--header-bg);">Partager l'App</h2>
-        <div class="qr-container">
-            <img id="qr-image" src="" alt="QR Code" style="width: 220px; height: 220px;">
-        </div>
-        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Scannez pour ouvrir le rack sur un autre téléphone.</p>
+        <div class="qr-container"><img id="qr-image" src="" alt="QR Code" style="width: 220px; height: 220px;"></div>
+        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Faites scanner ce code pour ouvrir l'application.</p>
     </div>
 </div>
 
@@ -139,7 +125,9 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
                     <p style="font-size: 10px; font-weight: 800; color: #64748b;">TRANSPORTEUR :</p>
                     <p id="det-note" style="font-size:16px; font-weight: 700;"></p>
                 </div>
-                <p id="det-date" style="font-size:11px; color:#94a3b8; margin-bottom:20px;"></p>
+                <div style="background:#fff7ed; padding:10px; border-radius:8px; border: 1px dashed #fdba74;">
+                    <p id="det-date" style="font-size:12px; color:#c2410c; font-weight: 700;"></p>
+                </div>
                 <button class="btn-del" onclick="delPal()">MARQUER COMME SORTI</button>
             </div>
         </div>
@@ -170,13 +158,10 @@ function getStatus(date) {
 }
 
 function render() {
-    // Boucle sur les 4 niveaux : D, C, B, A
     ['D', 'C', 'B', 'A'].forEach(niv => {
         const grid = document.getElementById('grid-' + niv);
         if(!grid) return;
         grid.innerHTML = '';
-        
-        // On génère 6 emplacements pour chaque niveau
         for(let i=1; i<=6; i++) {
             const id = niv + i;
             const data = state[id];
@@ -211,7 +196,12 @@ function openEmp(id) {
         document.getElementById('form-det').style.display = 'block';
         document.getElementById('det-ref').textContent = data.ref;
         document.getElementById('det-note').textContent = data.note || "Non renseigné";
-        document.getElementById('det-date').textContent = "Arrivé le " + new Date(data.date).toLocaleDateString();
+        
+        // Formatage Date + Heure
+        const d = new Date(data.date);
+        const dateStr = d.toLocaleDateString('fr-FR');
+        const heureStr = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('det-date').innerHTML = `📅 Arrivé le ${dateStr}<br>⏰ à ${heureStr}`;
     } else {
         document.getElementById('form-add').style.display = 'block';
         document.getElementById('form-det').style.display = 'none';
@@ -253,7 +243,7 @@ function switchView(viewId) {
 function showRack() { switchView('view-rack'); }
 
 window.onload = refresh;
-setInterval(refresh, 15000);
+setInterval(refresh, 20000);
 </script>
 </body>
 </html>
