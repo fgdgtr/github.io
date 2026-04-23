@@ -21,66 +21,72 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 /* BARRE HAUTE */
 .header { 
     background: var(--header-bg); 
-    color: white; 
-    padding: 15px 20px; 
-    display: flex; 
-    align-items: center; 
-    position: sticky; 
-    top:0; 
-    z-index:100; 
+    color: white; padding: 15px 20px; 
+    display: flex; align-items: center; 
+    position: sticky; top:0; z-index:100; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
 }
-.brand-name { font-weight: 900; font-size: 22px; letter-spacing: -1px; }
-.main-title { flex: 1; text-align: center; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
-.sync-dot { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; margin-left: 10px; }
+.brand-btn { 
+    background: #0ea5e9; color: white; 
+    font-weight: 900; font-size: 18px; 
+    padding: 8px 12px; border-radius: 10px; 
+    text-decoration: none; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.main-title { flex: 1; text-align: center; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+.sync-dot { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; }
 .sync-dot.ok { background: var(--s-green); box-shadow: 0 0 10px var(--s-green); }
 
 /* RECHERCHE */
-.search-box { padding: 12px; background: #bae6fd; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.search-box { padding: 12px; background: #bae6fd; }
 .search-bar { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #7dd3fc; font-family: inherit; font-weight: 600; font-size: 14px; }
 
 /* GRILLE DU RACK */
 .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 30px; }
-.level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; margin-left: 2px; }
+.level-block { margin-bottom: 30px; display: block !important; }
+.level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; }
 
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
 .card { 
-    background: var(--surface); border-radius: 16px; padding: 12px; 
+    background: var(--surface); border-radius: 16px; padding: 10px; 
     border: 1px solid #bae6fd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; min-height: 120px; position: relative; transition: 0.2s;
+    display: flex; flex-direction: column; min-height: 110px; transition: 0.2s;
 }
-.card:active { transform: scale(0.96); background: #f0f9ff; }
 .card.occupied { border-left: 6px solid #cbd5e1; }
-
 .card.sg { background: #f0fdf4; border-left-color: var(--s-green); }
 .card.sb { background: #eff6ff; border-left-color: var(--s-blue); }
 .card.sy { background: #fffbeb; border-left-color: var(--s-yellow); }
 .card.sr { background: #fef2f2; border-left-color: var(--s-red); animation: blink 2s infinite; }
 @keyframes blink { 50% { border-left-color: transparent; } }
 
-.card-id { font-size: 11px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
-.card-ref { font-size: 14px; font-weight: 800; color: #1e293b; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.card-transp { font-size: 10px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 3px 6px; border-radius: 4px; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-id { font-size: 11px; font-weight: 800; color: var(--primary); }
+.card-ref { font-size: 13px; font-weight: 800; color: #1e293b; margin: 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-transp { font-size: 10px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 2px 5px; border-radius: 4px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.p-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; margin-top: auto; overflow: hidden; }
-.p-fill { height: 100%; transition: width 0.5s; }
+.p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.1); border-radius: 10px; margin-top: auto; overflow: hidden; }
+.p-fill { height: 100%; }
 
-/* VUES FORMULAIRES */
-.view { display: none; padding: 15px; }
+/* VUES */
+.view { display: none; padding: 15px; animation: fadeIn 0.3s; }
 .view.active { display: block; }
-.modal { background: white; padding: 25px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; cursor: pointer; }
-input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; margin-top: 5px; margin-bottom: 15px; font-size: 16px; font-family: inherit; }
-.btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; cursor: pointer; }
-.btn-del { width: 100%; padding: 16px; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; border: none; margin-top: 15px; cursor: pointer; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal { background: white; padding: 20px; border-radius: 24px; border: 1px solid #e2e8f0; text-align: center; }
+.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; width: 100%; }
+input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; margin-bottom: 15px; font-size: 16px; font-family: inherit; }
+.btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; }
+.btn-del { width: 100%; padding: 16px; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; border: none; margin-top: 15px; }
+
+/* PAGE QR CODE */
+.qr-container { background: white; padding: 30px; border-radius: 30px; display: inline-block; margin-top: 20px; }
+.qr-img { width: 200px; height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 10px solid white; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="brand-name">AUEM</div>
+    <div class="brand-btn" onclick="showQR()">AUEM</div>
     <div class="main-title">Rack attente fin délais</div>
     <div id="sync-dot" class="sync-dot"></div>
 </div>
@@ -89,7 +95,24 @@ input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8
     <div class="search-box">
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
     </div>
-    <div class="container" id="rack-grid"></div>
+    <div class="container" id="rack-grid">
+        <div id="sect-D" class="level-block"><div class="level-label">NIVEAU D</div><div class="grid" id="grid-D"></div></div>
+        <div id="sect-C" class="level-block"><div class="level-label">NIVEAU C</div><div class="grid" id="grid-C"></div></div>
+        <div id="sect-B" class="level-block"><div class="level-label">NIVEAU B</div><div class="grid" id="grid-B"></div></div>
+        <div id="sect-A" class="level-block"><div class="level-label">NIVEAU A</div><div class="grid" id="grid-A"></div></div>
+    </div>
+</div>
+
+<div id="view-qr" class="view">
+    <div class="container" style="text-align: center;">
+        <button class="btn-back" onclick="showRack()">← RETOUR AU RACK</button>
+        <h2 style="color: var(--header-bg); margin-top: 10px;">Scanner l'application</h2>
+        <p style="font-size: 14px; color: #64748b; margin-top: 10px;">Partagez l'accès au rack avec vos collègues</p>
+        <div class="qr-container">
+            <img id="qr-image" src="" alt="QR Code" style="width: 100%; max-width: 250px;">
+        </div>
+        <p style="margin-top: 20px; font-weight: 700; color: var(--header-bg);">AUEM Logistique</p>
+    </div>
 </div>
 
 <div id="view-emp" class="view">
@@ -98,20 +121,17 @@ input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8
         <div class="modal">
             <h2 id="emp-id-display" style="font-size: 28px; font-weight: 800; color: var(--header-bg); margin-bottom: 20px;"></h2>
             <div id="form-add">
-                <label style="font-size:11px; font-weight:800;">N° COMMANDE</label>
-                <input type="text" id="inp-ref" placeholder="Ex: CMD-1020">
-                <label style="font-size:11px; font-weight:800;">TRANSPORTEUR</label>
-                <input type="text" id="inp-note" placeholder="Ex: DHL, GLS, CHRONO...">
+                <input type="text" id="inp-ref" placeholder="N° COMMANDE">
+                <input type="text" id="inp-note" placeholder="TRANSPORTEUR">
                 <button class="btn-save" onclick="addPal()">VALIDER L'ENTRÉE</button>
             </div>
             <div id="form-det" style="display:none;">
-                <p style="font-size: 11px; font-weight: 800; color: var(--primary);">COMMANDE :</p>
                 <p id="det-ref" style="font-size: 22px; font-weight: 800; margin-bottom: 15px;"></p>
-                <div style="background:#f8fafc; padding:15px; border-radius:12px; border: 1px solid #e2e8f0; margin-bottom:20px;">
-                    <p style="font-size: 10px; font-weight: 800; color: #64748b; margin-bottom: 5px;">TRANSPORTEUR :</p>
+                <div style="background:#f8fafc; padding:15px; border-radius:12px; border: 1px solid #e2e8f0; margin-bottom:20px; text-align: left;">
+                    <p style="font-size: 10px; font-weight: 800; color: #64748b;">TRANSPORTEUR :</p>
                     <p id="det-note" style="font-size:16px; font-weight: 700;"></p>
                 </div>
-                <p id="det-date" style="font-size:11px; color:#94a3b8; text-align: center; margin-bottom:20px;"></p>
+                <p id="det-date" style="font-size:11px; color:#94a3b8; margin-bottom:20px;"></p>
                 <button class="btn-del" onclick="delPal()">MARQUER COMME SORTI</button>
             </div>
         </div>
@@ -143,25 +163,13 @@ function getStatus(date) {
 }
 
 function render() {
-    const main = document.getElementById('rack-grid');
-    main.innerHTML = '';
-    
-    // LISTE DES NIVEAUX (DÉFILÉS DANS CET ORDRE)
-    const niveaux = ['D', 'C', 'B', 'A'];
-    
-    niveaux.forEach(n => {
-        const section = document.createElement('div');
-        section.className = 'level-block';
-        section.innerHTML = `<div class="level-label">NIVEAU ${n}</div>`;
-        
-        const g = document.createElement('div');
-        g.className = 'grid';
-        
+    ['D', 'C', 'B', 'A'].forEach(niv => {
+        const grid = document.getElementById('grid-' + niv);
+        grid.innerHTML = '';
         for(let i=1; i<=6; i++) {
-            const id = n + i;
+            const id = niv + i;
             const data = state[id];
             const info = getStatus(data?.date);
-            
             const card = document.createElement('div');
             card.className = `card ${data ? 'occupied ' + info.cls : ''}`;
             card.innerHTML = `
@@ -171,20 +179,23 @@ function render() {
                 ${data ? `<div class="p-bar"><div class="p-fill" style="width:${info.pct}%; background:${info.col}"></div></div>` : ''}
             `;
             card.onclick = () => openEmp(id);
-            g.appendChild(card);
+            grid.appendChild(card);
         }
-        section.appendChild(g);
-        main.appendChild(section);
     });
+}
+
+function showQR() {
+    // Génère le QR code vers l'URL actuelle du site
+    const currentUrl = window.location.href;
+    document.getElementById('qr-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(currentUrl);
+    switchView('view-qr');
 }
 
 function openEmp(id) {
     currentId = id;
     const data = state[id];
     document.getElementById('emp-id-display').textContent = "Emplacement " + id;
-    document.getElementById('view-rack').classList.remove('active');
-    document.getElementById('view-emp').classList.add('active');
-    
+    switchView('view-emp');
     if(data) {
         document.getElementById('form-add').style.display = 'none';
         document.getElementById('form-det').style.display = 'block';
@@ -224,13 +235,15 @@ function filter() {
     });
 }
 
-function showRack() {
-    document.getElementById('view-emp').classList.remove('active');
-    document.getElementById('view-rack').classList.add('active');
+function switchView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
 }
 
+function showRack() { switchView('view-rack'); }
+
 window.onload = refresh;
-setInterval(refresh, 25000);
+setInterval(refresh, 20000);
 </script>
 </body>
 </html>
