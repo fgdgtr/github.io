@@ -3,83 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AUEM | Smart Rack Color</title>
+<title>AUEM | Gestion Rack</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #e0f2fe; 
-  --header-bg: #0c4a6e; 
+  --header-bg: #075985; 
   --primary: #0284c7;
   --surface: #ffffff;
   --text: #0f172a;
   --s-green: #10b981; --s-blue: #3b82f6; --s-yellow: #f59e0b; --s-red: #ef4444;
-  --radius: 16px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 50px; }
 
-/* HEADER */
-.header { background: var(--header-bg); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index:100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.logo { font-weight: 800; font-size: 18px; letter-spacing: -1px; }
-.sync-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+/* BARRE HAUTE */
+.header { 
+    background: var(--header-bg); 
+    color: white; 
+    padding: 15px 20px; 
+    display: flex; 
+    align-items: center; 
+    position: sticky; 
+    top:0; 
+    z-index:100; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+}
+.brand-name { font-weight: 900; font-size: 22px; letter-spacing: -1px; }
+.main-title { flex: 1; text-align: center; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+.sync-dot { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; margin-left: 10px; }
 .sync-dot.ok { background: var(--s-green); box-shadow: 0 0 10px var(--s-green); }
 
-/* SEARCH */
-.search-box { padding: 15px; background: #bae6fd; }
-.search-bar { width: 100%; padding: 12px; border-radius: 12px; border: none; font-family: inherit; font-weight: 600; font-size: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+/* RECHERCHE */
+.search-box { padding: 12px; background: #bae6fd; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.search-bar { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #7dd3fc; font-family: inherit; font-weight: 600; font-size: 14px; }
 
-/* RACK */
+/* GRILLE DU RACK */
 .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 25px; }
-.level-label { background: var(--primary); color: white; display: inline-block; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 10px; margin-left: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.level-block { margin-bottom: 30px; }
+.level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; margin-left: 2px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
 .card { 
-    background: var(--surface); border-radius: var(--radius); padding: 12px; 
+    background: var(--surface); border-radius: 16px; padding: 12px; 
     border: 1px solid #bae6fd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; min-height: 115px; transition: 0.2s;
-    position: relative;
+    display: flex; flex-direction: column; min-height: 120px; position: relative; transition: 0.2s;
 }
-.card:active { transform: scale(0.95); }
-.card.occupied { border-left: 5px solid #cbd5e1; }
+.card:active { transform: scale(0.96); background: #f0f9ff; }
+.card.occupied { border-left: 6px solid #cbd5e1; }
 
-/* COULEURS STATUS */
 .card.sg { background: #f0fdf4; border-left-color: var(--s-green); }
 .card.sb { background: #eff6ff; border-left-color: var(--s-blue); }
 .card.sy { background: #fffbeb; border-left-color: var(--s-yellow); }
 .card.sr { background: #fef2f2; border-left-color: var(--s-red); animation: blink 2s infinite; }
 @keyframes blink { 50% { border-left-color: transparent; } }
 
-.card-id { font-size: 11px; font-weight: 800; color: var(--primary); margin-bottom: 4px; opacity: 0.8; }
-.card-ref { font-size: 13px; font-weight: 800; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 4px; }
-.card-transp { 
-    font-size: 10px; font-weight: 600; color: #475569; 
-    background: rgba(0,0,0,0.05); padding: 2px 6px; 
-    border-radius: 6px; display: inline-block;
-    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
+.card-id { font-size: 11px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+.card-ref { font-size: 14px; font-weight: 800; color: #1e293b; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-transp { font-size: 10px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 3px 6px; border-radius: 4px; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* PROGRESS BAR */
-.p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.05); border-radius: 10px; margin-top: auto; overflow: hidden; }
-.p-fill { height: 100%; }
+.p-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; margin-top: auto; overflow: hidden; }
+.p-fill { height: 100%; transition: width 0.5s; }
 
-/* MODALS */
+/* VUES FORMULAIRES */
 .view { display: none; padding: 15px; }
 .view.active { display: block; }
-.modal { background: white; padding: 25px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-.btn-back { border:none; background: #0c4a6e; color:white; padding: 10px 18px; border-radius: 10px; margin-bottom: 15px; font-weight: 700; font-size: 12px; }
-.input-group { margin-bottom: 15px; }
-label { display: block; font-size: 11px; font-weight: 800; color: var(--header-bg); margin-bottom: 5px; text-transform: uppercase; }
-input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 16px; font-family: inherit; }
-.btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; font-size: 16px; margin-top: 10px; }
-.btn-del { width: 100%; padding: 15px; border: none; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; font-size: 16px; margin-top: 15px; }
+.modal { background: white; padding: 25px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; cursor: pointer; }
+input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; margin-top: 5px; margin-bottom: 15px; font-size: 16px; font-family: inherit; }
+.btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; cursor: pointer; }
+.btn-del { width: 100%; padding: 16px; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; border: none; margin-top: 15px; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">AUEM RACK</div>
+    <div class="brand-name">AUEM</div>
+    <div class="main-title">Rack attente fin délais</div>
     <div id="sync-dot" class="sync-dot"></div>
 </div>
 
@@ -87,38 +89,29 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
     <div class="search-box">
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
     </div>
-    <div class="container" id="rack-grid">
-        </div>
+    <div class="container" id="rack-grid"></div>
 </div>
 
 <div id="view-emp" class="view">
     <div class="container">
         <button class="btn-back" onclick="showRack()">← RETOUR AU PLAN</button>
         <div class="modal">
-            <h2 id="emp-id-display" style="font-size: 30px; font-weight: 800; color: var(--header-bg); margin-bottom: 20px;"></h2>
-            
+            <h2 id="emp-id-display" style="font-size: 28px; font-weight: 800; color: var(--header-bg); margin-bottom: 20px;"></h2>
             <div id="form-add">
-                <div class="input-group">
-                    <label>Référence / Commande</label>
-                    <input type="text" id="inp-ref" placeholder="Ex: CMD-12345">
-                </div>
-                <div class="input-group">
-                    <label>Transporteur</label>
-                    <input type="text" id="inp-note" placeholder="Ex: DHL, Kuehne, GLS...">
-                </div>
+                <label style="font-size:11px; font-weight:800;">N° COMMANDE</label>
+                <input type="text" id="inp-ref" placeholder="Ex: CMD-1020">
+                <label style="font-size:11px; font-weight:800;">TRANSPORTEUR</label>
+                <input type="text" id="inp-note" placeholder="Ex: DHL, GLS, CHRONO...">
                 <button class="btn-save" onclick="addPal()">VALIDER L'ENTRÉE</button>
             </div>
-
             <div id="form-det" style="display:none;">
                 <p style="font-size: 11px; font-weight: 800; color: var(--primary);">COMMANDE :</p>
-                <p id="det-ref" style="font-size: 20px; font-weight: 800; margin-bottom: 15px;"></p>
-                
-                <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:20px;">
+                <p id="det-ref" style="font-size: 22px; font-weight: 800; margin-bottom: 15px;"></p>
+                <div style="background:#f8fafc; padding:15px; border-radius:12px; border: 1px solid #e2e8f0; margin-bottom:20px;">
                     <p style="font-size: 10px; font-weight: 800; color: #64748b; margin-bottom: 5px;">TRANSPORTEUR :</p>
-                    <p id="det-note" style="font-size:16px; font-weight: 600;"></p>
+                    <p id="det-note" style="font-size:16px; font-weight: 700;"></p>
                 </div>
-                
-                <p id="det-date" style="font-size:11px; color:#64748b; text-align: center; margin-bottom:15px;"></p>
+                <p id="det-date" style="font-size:11px; color:#94a3b8; text-align: center; margin-bottom:20px;"></p>
                 <button class="btn-del" onclick="delPal()">MARQUER COMME SORTI</button>
             </div>
         </div>
@@ -126,21 +119,20 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8
 </div>
 
 <script>
-const FIREBASE = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
+const URL_DB = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
 let state = {};
 let currentId = null;
 
 async function refresh() {
-    const dot = document.getElementById('sync-dot');
     try {
-        const r = await fetch(FIREBASE);
+        const r = await fetch(URL_DB);
         state = await r.json() || {};
         render();
-        dot.className = 'sync-dot ok';
-    } catch(e) { dot.className = 'sync-dot'; }
+        document.getElementById('sync-dot').className = 'sync-dot ok';
+    } catch(e) { document.getElementById('sync-dot').className = 'sync-dot'; }
 }
 
-function getInfo(date) {
+function getStatus(date) {
     if(!date) return null;
     const j = Math.floor((new Date() - new Date(date)) / 86400000);
     const pct = Math.min((j/28)*100, 100);
@@ -151,55 +143,54 @@ function getInfo(date) {
 }
 
 function render() {
-    const grid = document.getElementById('rack-grid');
-    grid.innerHTML = '';
+    const main = document.getElementById('rack-grid');
+    main.innerHTML = '';
     
-    ['D', 'C', 'B', 'A'].forEach(niv => {
-        const block = document.createElement('div');
-        block.className = 'level-block';
-        block.innerHTML = `<div class="level-label">NIVEAU ${niv}</div>`;
+    // LISTE DES NIVEAUX (DÉFILÉS DANS CET ORDRE)
+    const niveaux = ['D', 'C', 'B', 'A'];
+    
+    niveaux.forEach(n => {
+        const section = document.createElement('div');
+        section.className = 'level-block';
+        section.innerHTML = `<div class="level-label">NIVEAU ${n}</div>`;
         
         const g = document.createElement('div');
         g.className = 'grid';
         
         for(let i=1; i<=6; i++) {
-            const id = niv + i;
-            const p = state[id];
-            const info = getInfo(p?.date);
+            const id = n + i;
+            const data = state[id];
+            const info = getStatus(data?.date);
             
             const card = document.createElement('div');
-            card.className = `card ${p ? 'occupied ' + info.cls : ''}`;
-            
-            // Affichage conditionnel du transporteur s'il existe
-            const transporteurHtml = p && p.note ? `<div class="card-transp">${p.note}</div>` : '';
-            
+            card.className = `card ${data ? 'occupied ' + info.cls : ''}`;
             card.innerHTML = `
                 <div class="card-id">${id}</div>
-                <div class="card-ref">${p ? p.ref : '---'}</div>
-                ${transporteurHtml}
-                ${p ? `<div class="p-bar"><div class="p-fill" style="width:${info.pct}%; background:${info.col}"></div></div>` : ''}
+                <div class="card-ref">${data ? data.ref : '---'}</div>
+                ${data && data.note ? `<div class="card-transp">${data.note}</div>` : ''}
+                ${data ? `<div class="p-bar"><div class="p-fill" style="width:${info.pct}%; background:${info.col}"></div></div>` : ''}
             `;
             card.onclick = () => openEmp(id);
             g.appendChild(card);
         }
-        block.appendChild(g);
-        grid.appendChild(block);
+        section.appendChild(g);
+        main.appendChild(section);
     });
 }
 
 function openEmp(id) {
     currentId = id;
-    const p = state[id];
+    const data = state[id];
     document.getElementById('emp-id-display').textContent = "Emplacement " + id;
     document.getElementById('view-rack').classList.remove('active');
     document.getElementById('view-emp').classList.add('active');
     
-    if(p) {
+    if(data) {
         document.getElementById('form-add').style.display = 'none';
         document.getElementById('form-det').style.display = 'block';
-        document.getElementById('det-ref').textContent = p.ref;
-        document.getElementById('det-note').textContent = p.note || "Non renseigné";
-        document.getElementById('det-date').textContent = "Déposé le " + new Date(p.date).toLocaleDateString();
+        document.getElementById('det-ref').textContent = data.ref;
+        document.getElementById('det-note').textContent = data.note || "Non renseigné";
+        document.getElementById('det-date').textContent = "Arrivé le " + new Date(data.date).toLocaleDateString();
     } else {
         document.getElementById('form-add').style.display = 'block';
         document.getElementById('form-det').style.display = 'none';
@@ -209,28 +200,27 @@ function openEmp(id) {
 }
 
 async function addPal() {
-    const ref = document.getElementById('inp-ref').value.trim();
-    const note = document.getElementById('inp-note').value.trim();
-    if(!ref) return;
-    state[currentId] = { ref: ref, note: note, date: new Date().toISOString() };
-    await fetch(FIREBASE, { method:'PUT', body: JSON.stringify(state) });
+    const r = document.getElementById('inp-ref').value.trim();
+    const n = document.getElementById('inp-note').value.trim();
+    if(!r) return;
+    state[currentId] = { ref: r, note: n, date: new Date().toISOString() };
+    await fetch(URL_DB, { method:'PUT', body: JSON.stringify(state) });
     showRack();
     refresh();
 }
 
 async function delPal() {
-    if(!confirm("Sortir ce colis de l'emplacement ?")) return;
+    if(!confirm("Libérer cet emplacement ?")) return;
     delete state[currentId];
-    await fetch(FIREBASE, { method:'PUT', body: JSON.stringify(state) });
+    await fetch(URL_DB, { method:'PUT', body: JSON.stringify(state) });
     showRack();
     refresh();
 }
 
 function filter() {
-    const val = document.getElementById('search-input').value.toUpperCase();
+    const v = document.getElementById('search-input').value.toUpperCase();
     document.querySelectorAll('.card').forEach(c => {
-        const txt = c.innerText.toUpperCase();
-        c.style.display = txt.includes(val) ? 'flex' : 'none';
+        c.style.display = c.innerText.toUpperCase().includes(v) ? 'flex' : 'none';
     });
 }
 
@@ -240,7 +230,7 @@ function showRack() {
 }
 
 window.onload = refresh;
-setInterval(refresh, 20000);
+setInterval(refresh, 25000);
 </script>
 </body>
 </html>
