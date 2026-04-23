@@ -634,52 +634,66 @@ function getDaysLeft(date) {
 ═══════════════════════════════ */
 function renderRack() {
   updateStats();
-  const grid = document.getElementById('rack-grid');
-  grid.innerHTML = '';
+  const wrap = document.getElementById('rack-grid');
+  wrap.innerHTML = '';
 
   NIVEAUX.forEach(niv => {
-    const occupied = niv.cols.filter(i => !!state[niv.id+i]).length;
+    const occupied = niv.cols.filter(i => {
+      try { return state && state[niv.id+i] && typeof state[niv.id+i] === 'object'; } catch { return false; }
+    }).length;
 
-    // Bloc niveau
+    // ── Bloc niveau (même pattern que rack réception) ──
     const sec = document.createElement('div');
     sec.className = 'niveau-block';
 
-    // Header
+    // Header via innerHTML (sans ID donc pas de getElementById après)
     const hdr = document.createElement('div');
     hdr.className = `niveau-hdr ${niv.cls}`;
-    hdr.innerHTML = `
-      <div class="niveau-letter">${niv.id}</div>
-      <div class="niveau-info">
-        <div class="niveau-name">${niv.label}</div>
-        <div class="niveau-desc">${niv.desc}</div>
-      </div>
-      <div class="niveau-cnt">${occupied}/${niv.cols.length}</div>`;
+    hdr.innerHTML =
+      `<div class="niveau-letter">${niv.id}</div>` +
+      `<div class="niveau-info"><div class="niveau-name">${niv.label}</div><div class="niveau-desc">${niv.desc}</div></div>` +
+      `<div class="niveau-cnt">${occupied}/${niv.cols.length}</div>`;
     sec.appendChild(hdr);
 
-    // Grid des cartes — créé directement sans innerHTML puis getElementById
+    // ── Grille — tout par createElement, jamais d'ID puis getElementById ──
     const g = document.createElement('div');
     g.className = `niveau-grid ${niv.cls}`;
 
-    niv.cols.forEach(i => {
-      const id = niv.id + i;
-      let data = null;
-      try { data = (state && state[id] && typeof state[id] === 'object') ? state[id] : null; } catch { data = null; }
+    for (let i = 0; i < niv.cols.length; i++) {
+      const col  = niv.cols[i];
+      const id   = niv.id + col;
+      let   data = null;
+      try {
+        const raw = state[id];
+        if (raw && typeof raw === 'object' && !Array.isArray(raw)) data = raw;
+      } catch(e) { data = null; }
+
       const info = data ? getStatus(data.date) : null;
+      const ref  = data ? (data.ref  || '') : '';
+      const note = data ? (data.note || '') : '';
 
       const card = document.createElement('div');
-      card.className = `ecard ${data ? info.cls : 'vide'}`;
-      card.dataset.text = (id + ' ' + (data?.ref||'') + ' ' + (data?.note||'')).toLowerCase();
+      card.className   = 'ecard ' + (data ? info.cls : 'vide');
+      card.dataset.search = (id + ' ' + ref + ' ' + note).toLowerCase();
 
-      card.innerHTML = `
-        <div class="ecard-id">${id}</div>
-        <div class="ecard-ref">${data ? data.ref : 'Libre'}</div>
-        ${data && data.note ? `<div class="ecard-note">↗ ${data.note}</div>` : ''}`;
-      card.onclick = () => openEmp(id);
+      // Contenu carte
+      const idDiv  = document.createElement('div'); idDiv.className  = 'ecard-id';  idDiv.textContent = id;
+      const refDiv = document.createElement('div'); refDiv.className = 'ecard-ref'; refDiv.textContent = data ? ref : 'Libre';
+      card.appendChild(idDiv);
+      card.appendChild(refDiv);
+
+      if (data && note) {
+        const noteDiv = document.createElement('div'); noteDiv.className = 'ecard-note'; noteDiv.textContent = '↗ ' + note;
+        card.appendChild(noteDiv);
+      }
+
+      // Closure correcte sur id
+      (function(empId){ card.onclick = function(){ openEmp(empId); }; })(id);
       g.appendChild(card);
-    });
+    }
 
     sec.appendChild(g);
-    grid.appendChild(sec);
+    wrap.appendChild(sec);
   });
 }
 
@@ -703,7 +717,8 @@ function updateStats() {
 function doSearch(q) {
   q = q.trim().toLowerCase();
   document.querySelectorAll('.ecard').forEach(c => {
-    c.style.display = (!q || c.dataset.text.toLowerCase().includes(q)) ? 'flex' : 'none';
+    const txt = (c.dataset.search || '').toLowerCase();
+    c.style.display = (!q || txt.includes(q)) ? 'flex' : 'none';
   });
 }
 
@@ -756,7 +771,8 @@ async function addPal() {
   if(!ref) { showToast('Entrez une référence','⚠️'); return; }
   const note = document.getElementById('inp-note').value.trim();
   state[currentId] = { ref, note, date: new Date().toISOString() };
-  showToast(`${ref} enregistrée`,'✓'); haptic('light');
+  showToast(`${ref} enregistrée`, '✓');
+  haptic('light');
   save();
   showRack();
 }
@@ -799,10 +815,10 @@ function showView(id) {
   if(id==='view-qr') renderQR();
 }
 function showRack() {
+  renderRack(); // construire d'abord
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-rack').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  renderRack();
 }
 
 /* ═══════════════════════════════
