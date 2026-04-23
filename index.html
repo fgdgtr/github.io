@@ -5,118 +5,237 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>AUEM | Gestion Rack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f8fafc;
+  --bg: #f1f5f9;
   --surface: #ffffff;
   --text: #0f172a;
   --text-light: #64748b;
-  --accent: #000000;
   --border: #e2e8f0;
-  
-  /* Status Colors (Modern Palette) */
   --s-green: #22c55e;
   --s-blue: #3b82f6;
   --s-yellow: #eab308;
   --s-red: #ef4444;
-  
-  --radius: 16px;
-  --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --radius: 18px;
+  --shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; line-height:1.5; padding-bottom:40px; }
+body { background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; padding-bottom:40px; }
 
 /* HEADER */
 .header { 
-    background: var(--surface); 
-    padding: 20px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    position: sticky; top: 0; z-index: 100;
+    background: var(--surface); padding: 16px 20px; 
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
 }
-.brand { display: flex; align-items: center; gap: 12px; }
-.logo-badge { 
-    background: var(--text); color: white; 
-    padding: 6px 10px; border-radius: 8px; 
-    font-weight: 800; font-size: 14px; letter-spacing: -0.5px;
-}
-.sync-indicator { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-light); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: 0.3s; }
-.dot.active { background: var(--s-green); box-shadow: 0 0 8px var(--s-green); }
-.dot.loading { background: var(--s-yellow); animation: pulse 1s infinite; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo-badge { background: var(--text); color: white; padding: 5px 10px; border-radius: 8px; font-weight: 800; font-size: 13px; }
 
-@keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+.sync-status { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }
+.dot.ok { background: var(--s-green); box-shadow: 0 0 8px var(--s-green); }
+.dot.load { background: var(--s-yellow); animation: blink 0.8s infinite alternate; }
+@keyframes blink { from { opacity: 0.3; } }
 
-/* LEGEND */
-.legend-bar { 
-    display: flex; justify-content: space-around; 
-    background: var(--surface); padding: 12px; 
-    border-bottom: 1px solid var(--border);
-    font-size: 11px; font-weight: 700; color: var(--text-light);
-}
-.leg-point { display: flex; align-items: center; gap: 4px; }
-
-/* MAIN GRID */
-.container { padding: 16px; max-width: 600px; margin: 0 auto; }
-.etage-label { 
-    font-size: 13px; font-weight: 800; text-transform: uppercase; 
-    color: var(--text-light); margin: 20px 0 10px 4px; letter-spacing: 1px;
-}
+/* GRID */
+.container { max-width: 500px; margin: 0 auto; padding: 16px; }
+.level-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-light); margin: 24px 0 12px 4px; letter-spacing: 1px; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
 .card { 
-    background: var(--surface); border-radius: var(--radius); 
-    padding: 16px; border: 1px solid var(--border); 
-    box-shadow: var(--shadow); position: relative;
-    transition: transform 0.1s, border-color 0.2s;
+    background: var(--surface); border-radius: var(--radius); padding: 16px;
+    border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 100px;
+    min-height: 110px; transition: all 0.2s ease;
 }
-.card:active { transform: scale(0.96); }
-.card.occupied { border-left: 6px solid #e2e8f0; }
-
-/* DYNAMIC STATUS COLORS */
+.card:active { transform: scale(0.95); background: #f8fafc; }
+.card.occupied { border-left-width: 6px; }
 .card.sg { border-left-color: var(--s-green); }
 .card.sb { border-left-color: var(--s-blue); }
 .card.sy { border-left-color: var(--s-yellow); }
-.card.sr { border-left-color: var(--s-red); background: #fffafb; }
+.card.sr { border-left-color: var(--s-red); animation: urgent 1.5s infinite; }
+@keyframes urgent { 0% { background: #fff; } 50% { background: #fef2f2; } 100% { background: #fff; } }
 
-.id-badge { font-weight: 800; font-size: 16px; margin-bottom: 4px; }
-.ref-text { font-size: 12px; font-weight: 500; color: var(--text-light); word-break: break-all; }
-.status-tag { 
-    font-size: 9px; font-weight: 800; text-transform: uppercase;
-    margin-top: 8px; padding: 2px 0;
-}
+.card-id { font-weight: 800; font-size: 18px; color: var(--text); }
+.card-ref { font-size: 11px; font-weight: 600; color: var(--text-light); margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-tag { font-size: 9px; font-weight: 800; margin-top: 8px; text-transform: uppercase; }
 
-/* MODAL / VIEW */
-.view { display: none; padding: 20px; animation: fadeIn 0.3s; }
+/* VIEWS */
+.view { display: none; animation: slideIn 0.3s ease-out; }
 .view.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } }
 
-.btn-back { 
-    background: none; border: none; font-weight: 700; color: var(--text-light); 
-    display: flex; align-items: center; gap: 8px; margin-bottom: 24px; cursor: pointer;
-}
+.btn-back { background: none; border: none; font-weight: 700; color: var(--text-light); padding: 10px 0; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.modal { background: white; padding: 24px; border-radius: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
 
-.action-card { background: white; padding: 24px; border-radius: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-.input-group { margin-bottom: 20px; }
-label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--text-light); }
-input { 
-    width: 100%; padding: 14px; border-radius: 12px; 
-    border: 1px solid var(--border); background: #f1f5f9;
-    font-family: inherit; font-size: 16px; outline: none; transition: 0.2s;
-}
+.input-box { margin-bottom: 20px; }
+label { display: block; font-size: 11px; font-weight: 800; color: var(--text-light); margin-bottom: 8px; }
+input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: #f8fafc; font-size: 16px; outline: none; }
 input:focus { border-color: var(--text); background: white; }
 
-.btn-save { 
-    width: 100%; padding: 16px; border-radius: 14px; 
-    background: var(--text); color: white; border: none; 
-    font-weight: 700; font-size: 16px; cursor: pointer;
+.btn-save { width: 100%; padding: 16px; border-radius: 14px; background: var(--text); color: white; border: none; font-weight: 700; font-size: 16px; margin-top: 10px; }
+.btn-del { width: 100%; padding: 16px; border-radius: 14px; background: #fee2e2; color: var(--s-red); border: none; font-weight: 700; font-size: 16px; margin-top: 10px; }
+
+.status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="brand">
+        <div class="logo-badge">AUEM</div>
+        <div style="font-weight: 800; letter-spacing: -0.5px;">Rack Manager</div>
+    </div>
+    <div class="sync-status">
+        <span id="sync-text">Connecté</span>
+        <div class="dot" id="sync-dot"></div>
+    </div>
+</div>
+
+<div id="view-rack" class="view active">
+    <div class="container" id="rack-grid"></div>
+</div>
+
+<div id="view-emp" class="view">
+    <div class="container">
+        <button class="btn-back" onclick="showRack()">← Retour au plan</button>
+        
+        <div id="form-add" class="modal">
+            <h2 id="add-title" style="margin-bottom:20px; font-weight:800;">Entrée</h2>
+            <div class="input-box">
+                <label>RÉFÉRENCE PALETTE / COLIS</label>
+                <input type="text" id="inp-ref" placeholder="Ex: CMD-9950">
+            </div>
+            <div class="input-box">
+                <label>NOTES (Optionnel)</label>
+                <input type="text" id="inp-note" placeholder="Client, transporteur...">
+            </div>
+            <button class="btn-save" onclick="addPal()">Enregistrer</button>
+        </div>
+
+        <div id="form-det" class="modal" style="display:none;">
+            <div id="det-badge" class="status-badge"></div>
+            <h2 id="det-id" style="font-size:32px; font-weight:800;">A1</h2>
+            <p id="det-ref" style="font-weight:600; color:var(--text-light); margin-bottom:15px;"></p>
+            <div style="background:#f1f5f9; padding:15px; border-radius:12px; margin-bottom:20px;">
+                <label>NOTE</label>
+                <div id="det-note" style="font-size:14px; font-weight:500;"></div>
+            </div>
+            <p id="det-date" style="font-size:11px; color:var(--text-light); margin-bottom:15px;"></p>
+            <button class="btn-del" onclick="delPal()">Marquer comme SORTI</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// TON URL FIREBASE AVEC LE .json OBLIGATOIRE
+const FIREBASE_URL = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
+
+let state = {};
+let currentId = null;
+
+function getInfo(date) {
+    if(!date) return { cls: '', lab: 'Vide', col: '#ccc' };
+    const j = Math.floor((new Date() - new Date(date)) / 86400000);
+    if(j >= 28) return { cls: 'sr', lab: j+' jours (Urgent)', col: 'var(--s-red)' };
+    if(j >= 21) return { cls: 'sy', lab: j+' jours (Attente)', col: 'var(--s-yellow)' };
+    if(j >= 15) return { cls: 'sb', lab: j+' jours (Suivi)', col: 'var(--s-blue)' };
+    return { cls: 'sg', lab: j+' jours (OK)', col: 'var(--s-green)' };
 }
-.btn-delete { 
-    width: 100%; padding: 16px; border-radius: 14px; 
-    background: #fee2e2; color: var(--s-red); border: none;
+
+async function refresh() {
+    const dot = document.getElementById('sync-dot');
+    dot.className = 'dot load';
+    try {
+        const r = await fetch(FIREBASE_URL);
+        state = await r.json() || {};
+        render();
+        dot.className = 'dot ok';
+        document.getElementById('sync-text').textContent = "À jour";
+    } catch(e) { 
+        dot.className = 'dot';
+        document.getElementById('sync-text').textContent = "Déconnecté";
+    }
+}
+
+async function sync() {
+    await fetch(FIREBASE_URL, { method:'PUT', body: JSON.stringify(state) });
+    refresh();
+}
+
+function render() {
+    const cont = document.getElementById('rack-grid');
+    cont.innerHTML = '';
+    ['D','C','B','A'].forEach(niv => {
+        const t = document.createElement('div'); t.className = 'level-title'; t.textContent = 'Niveau ' + niv;
+        cont.appendChild(t);
+        const g = document.createElement('div'); g.className = 'grid';
+        for(let i=1; i<=6; i++) {
+            const id = niv+i;
+            const p = state[id];
+            const info = getInfo(p?.date);
+            const c = document.createElement('div');
+            c.className = `card ${p ? 'occupied '+info.cls : ''}`;
+            c.innerHTML = `<div><div class="card-id">${id}</div><div class="card-ref">${p ? p.ref : 'Libre'}</div></div>
+                           ${p ? `<div class="card-tag" style="color:${info.col}">${info.lab}</div>` : ''}`;
+            c.onclick = () => open(id);
+            g.appendChild(c);
+        }
+        cont.appendChild(g);
+    });
+}
+
+function open(id) {
+    currentId = id;
+    const p = state[id];
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-emp').classList.add('active');
+    
+    if(p) {
+        document.getElementById('form-add').style.display = 'none';
+        document.getElementById('form-det').style.display = 'block';
+        const info = getInfo(p.date);
+        document.getElementById('det-id').textContent = id;
+        document.getElementById('det-ref').textContent = p.ref;
+        document.getElementById('det-note').textContent = p.note || "Aucune note.";
+        document.getElementById('det-date').textContent = "Déposé le " + new Date(p.date).toLocaleDateString();
+        document.getElementById('det-badge').textContent = info.lab;
+        document.getElementById('det-badge').style.background = info.col + '20';
+        document.getElementById('det-badge').style.color = info.col;
+    } else {
+        document.getElementById('form-add').style.display = 'block';
+        document.getElementById('form-det').style.display = 'none';
+        document.getElementById('add-title').textContent = "Entrée " + id;
+    }
+}
+
+function addPal() {
+    const ref = document.getElementById('inp-ref').value;
+    if(!ref) return;
+    state[currentId] = { ref: ref, note: document.getElementById('inp-note').value, date: new Date().toISOString() };
+    document.getElementById('inp-ref').value = '';
+    document.getElementById('inp-note').value = '';
+    sync();
+    showRack();
+}
+
+function delPal() {
+    if(confirm("Sortir cette palette ?")) {
+        delete state[currentId];
+        sync();
+        showRack();
+    }
+}
+
+function showRack() {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-rack').classList.add('active');
+}
+
+window.onload = refresh;
+setInterval(refresh, 20000); // Check toutes les 20s
+</script>
+</body>
+</html>
