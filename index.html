@@ -7,129 +7,142 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #e0f2fe; 
+  --bg: #f0f9ff; 
   --header-bg: #075985; 
   --primary: #0284c7;
   --surface: #ffffff;
-  --text: #0f172a;
+  --text: #1e293b;
+  --empty: #f1f5f9;
   --s-green: #10b981; --s-blue: #3b82f6; --s-yellow: #f59e0b; --s-red: #ef4444;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 50px; }
+body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 40px; }
 
-/* BARRE HAUTE */
+/* HEADER */
 .header { 
-    background: var(--header-bg); 
-    color: white; padding: 15px 20px; 
+    background: var(--header-bg); color: white; padding: 12px 20px; 
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top:0; z-index:100; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    position: sticky; top:0; z-index:100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
 }
-.brand { font-weight: 900; font-size: 20px; letter-spacing: -1px; }
-.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 45%; text-align: center; }
-
-.qr-btn { 
-    background: rgba(255,255,255,0.2); color: white; 
-    font-size: 18px; width: 40px; height: 40px; 
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border: none;
-}
+.brand { font-weight: 800; font-size: 20px; }
+.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; opacity: 0.9; text-align: center; flex: 1; }
+.qr-btn { background: rgba(255,255,255,0.15); border: none; color: white; width: 38px; height: 38px; border-radius: 10px; cursor: pointer; font-size: 18px; }
 
 /* RECHERCHE */
-.search-box { padding: 12px; background: #bae6fd; }
-.search-bar { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #7dd3fc; font-family: inherit; font-weight: 600; font-size: 14px; }
+.search-box { padding: 10px 15px; background: #ffffff; border-bottom: 1px solid #e2e8f0; }
+.search-bar { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 14px; outline: none; transition: 0.2s; }
+.search-bar:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
 
-/* GRILLE DU RACK */
-.container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 30px; display: block !important; }
-.level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; }
+/* GRILLE */
+.container { max-width: 600px; margin: 0 auto; padding: 12px; }
+.level-block { margin-bottom: 24px; }
+.level-label { font-size: 11px; font-weight: 800; color: #64748b; margin-bottom: 8px; margin-left: 4px; display: block; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
-
+/* CARTES */
 .card { 
-    background: var(--surface); border-radius: 16px; padding: 10px; 
-    border: 1px solid #bae6fd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; min-height: 115px; transition: 0.2s;
+    background: var(--empty); border-radius: 14px; padding: 12px; 
+    border: 1px dashed #cbd5e1; min-height: 110px; 
+    display: flex; flex-direction: column; transition: all 0.2s; cursor: pointer;
 }
-.card.occupied { border-left: 6px solid #cbd5e1; }
-.card.sg { background: #f0fdf4; border-left-color: var(--s-green); }
-.card.sb { background: #eff6ff; border-left-color: var(--s-blue); }
-.card.sy { background: #fffbeb; border-left-color: var(--s-yellow); }
-.card.sr { background: #fef2f2; border-left-color: var(--s-red); animation: blink 2s infinite; }
-@keyframes blink { 50% { border-left-color: transparent; } }
+.card.occupied { 
+    background: var(--surface); border: 1px solid #e2e8f0; border-left: 5px solid #94a3b8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+}
+.card:active { transform: scale(0.96); }
 
-.card-id { font-size: 11px; font-weight: 800; color: var(--primary); }
-.card-ref { font-size: 13px; font-weight: 800; color: #1e293b; margin: 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.card-transp { font-size: 10px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 2px 5px; border-radius: 4px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card.sg { border-left-color: var(--s-green); }
+.card.sb { border-left-color: var(--s-blue); }
+.card.sy { border-left-color: var(--s-yellow); }
+.card.sr { border-left-color: var(--s-red); animation: blink 2s infinite; }
+@keyframes blink { 50% { border-left-color: #f1f5f9; } }
 
-.p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.1); border-radius: 10px; margin-top: auto; overflow: hidden; }
-.p-fill { height: 100%; }
+.card-id { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+.card-ref { font-size: 15px; font-weight: 800; margin: 4px 0; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-transp { font-size: 10px; font-weight: 700; color: var(--primary); background: #f0f9ff; padding: 2px 6px; border-radius: 4px; align-self: flex-start; }
 
-/* VUES */
-.view { display: none; padding: 15px; animation: fadeIn 0.3s; }
+.p-bar { width: 100%; height: 4px; background: #f1f5f9; border-radius: 10px; margin-top: auto; overflow: hidden; }
+.p-fill { height: 100%; border-radius: 10px; }
+
+/* MODALS / FORMULAIRES */
+.view { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
 .view.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.modal { background: white; padding: 20px; border-radius: 24px; border: 1px solid #e2e8f0; text-align: center; }
-.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; width: 100%; cursor: pointer; }
-input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; margin-bottom: 15px; font-size: 16px; font-family: inherit; }
-.btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; }
-.btn-del { width: 100%; padding: 16px; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; border: none; margin-top: 15px; }
+.modal-card { background: white; padding: 24px; border-radius: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+.btn-back { background: none; border: none; color: var(--primary); font-weight: 700; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-.qr-container { background: white; padding: 20px; border-radius: 20px; display: inline-block; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+input { 
+    width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #cbd5e1; 
+    margin-bottom: 12px; font-size: 16px; font-family: inherit; font-weight: 600;
+}
+input:focus { border-color: var(--primary); outline: none; }
+
+.btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; font-size: 16px; cursor: pointer; }
+.btn-del { width: 100%; padding: 12px; margin-top: 15px; color: #ef4444; background: #fef2f2; border: none; font-weight: 700; border-radius: 10px; cursor: pointer; }
+
+/* QR CODE */
+.qr-container { text-align: center; padding: 20px; }
+#qr-image { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
 </style>
 </head>
 <body>
 
 <div class="header">
     <div class="brand">AUEM</div>
-    <div class="main-title">Rack attente fin délais</div>
+    <div class="main-title">Rack Attente</div>
     <button class="qr-btn" onclick="showQR()">📱</button>
 </div>
 
-<div id="view-rack" class="view active">
+<div id="view-rack" class="view active" style="padding:0;">
     <div class="search-box">
-        <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
+        <input type="text" id="search-input" class="search-bar" placeholder="Rechercher une commande..." oninput="filter()">
     </div>
     <div class="container">
-        <div class="level-block" id="sect-D"><div class="level-label">NIVEAU D</div><div class="grid" id="grid-D"></div></div>
-        <div class="level-block" id="sect-C"><div class="level-label">NIVEAU C</div><div class="grid" id="grid-C"></div></div>
-        <div class="level-block" id="sect-B"><div class="level-label">NIVEAU B</div><div class="grid" id="grid-B"></div></div>
-        <div class="level-block" id="sect-A"><div class="level-label">NIVEAU A</div><div class="grid" id="grid-A"></div></div>
-    </div>
-</div>
-
-<div id="view-qr" class="view">
-    <div class="container" style="text-align: center;">
-        <button class="btn-back" onclick="showRack()">← RETOUR AU RACK</button>
-        <h2 style="color: var(--header-bg);">Partager l'App</h2>
-        <div class="qr-container"><img id="qr-image" src="" alt="QR Code" style="width: 220px; height: 220px;"></div>
-        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Faites scanner ce code pour ouvrir l'application.</p>
+        <div class="level-block"><span class="level-label">NIVEAU D</span><div class="grid" id="grid-D"></div></div>
+        <div class="level-block"><span class="level-label">NIVEAU C</span><div class="grid" id="grid-C"></div></div>
+        <div class="level-block"><span class="level-label">NIVEAU B</span><div class="grid" id="grid-B"></div></div>
+        <div class="level-block"><span class="level-label">NIVEAU A</span><div class="grid" id="grid-A"></div></div>
     </div>
 </div>
 
 <div id="view-emp" class="view">
     <div class="container">
-        <button class="btn-back" onclick="showRack()">← RETOUR AU PLAN</button>
-        <div class="modal">
-            <h2 id="emp-id-display" style="font-size: 28px; font-weight: 800; color: var(--header-bg); margin-bottom: 20px;"></h2>
+        <button class="btn-back" onclick="showRack()">← Retour</button>
+        <div class="modal-card">
+            <h2 id="emp-id-display" style="margin-bottom: 20px; font-size: 24px; color: var(--header-bg);"></h2>
+            
             <div id="form-add">
-                <input type="text" id="inp-ref" placeholder="N° COMMANDE">
-                <input type="text" id="inp-note" placeholder="TRANSPORTEUR">
-                <button class="btn-save" onclick="addPal()">VALIDER L'ENTRÉE</button>
+                <input type="text" id="inp-ref" placeholder="N° Commande" autocapitalize="characters">
+                <input type="text" id="inp-note" placeholder="Transporteur" autocapitalize="words">
+                <button class="btn-save" onclick="addPal()">Valider l'entrée</button>
             </div>
+
             <div id="form-det" style="display:none;">
-                <p id="det-ref" style="font-size: 22px; font-weight: 800; margin-bottom: 15px;"></p>
-                <div style="background:#f8fafc; padding:15px; border-radius:12px; border: 1px solid #e2e8f0; margin-bottom:20px; text-align: left;">
-                    <p style="font-size: 10px; font-weight: 800; color: #64748b;">TRANSPORTEUR :</p>
-                    <p id="det-note" style="font-size:16px; font-weight: 700;"></p>
+                <p style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Référence</p>
+                <p id="det-ref" style="font-size: 24px; font-weight: 800; margin-bottom: 15px;"></p>
+                
+                <div style="background:#f8fafc; padding:12px; border-radius:10px; margin-bottom:15px;">
+                    <p style="font-size: 10px; font-weight: 700; color: #64748b; margin-bottom: 4px;">TRANSPORTEUR</p>
+                    <p id="det-note" style="font-weight: 700;"></p>
                 </div>
-                <div style="background:#fff7ed; padding:10px; border-radius:8px; border: 1px dashed #fdba74;">
-                    <p id="det-date" style="font-size:12px; color:#c2410c; font-weight: 700;"></p>
-                </div>
-                <button class="btn-del" onclick="delPal()">MARQUER COMME SORTI</button>
+                
+                <p id="det-date" style="font-size:12px; color:#64748b; text-align: center; line-height: 1.4;"></p>
+                <button class="btn-del" onclick="delPal()">Libérer l'emplacement</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="view-qr" class="view">
+    <div class="container">
+        <button class="btn-back" onclick="showRack()">← Retour</button>
+        <div class="modal-card qr-container">
+            <h3>Partager l'App</h3>
+            <img id="qr-image" src="" alt="QR Code" style="width: 200px; height: 200px; margin: 20px 0;">
+            <p style="font-size: 13px; color: #64748b;">Faites scanner ce code pour ouvrir le gestionnaire de rack.</p>
         </div>
     </div>
 </div>
@@ -144,23 +157,22 @@ async function refresh() {
         const r = await fetch(URL_DB);
         state = await r.json() || {};
         render();
-    } catch(e) { console.log("Erreur sync"); }
+    } catch(e) {}
 }
 
 function getStatus(date) {
     if(!date) return null;
-    const j = Math.floor((new Date() - new Date(date)) / 86400000);
-    const pct = Math.min((j/28)*100, 100);
-    if(j >= 28) return { cls: 'sr', col: 'var(--s-red)', pct: 100 };
-    if(j >= 21) return { cls: 'sy', col: 'var(--s-yellow)', pct: pct };
-    if(j >= 15) return { cls: 'sb', col: 'var(--s-blue)', pct: pct };
+    const jours = Math.floor((new Date() - new Date(date)) / 86400000);
+    const pct = Math.min((jours/28)*100, 100);
+    if(jours >= 28) return { cls: 'sr', col: 'var(--s-red)', pct: 100 };
+    if(jours >= 21) return { cls: 'sy', col: 'var(--s-yellow)', pct: pct };
+    if(jours >= 15) return { cls: 'sb', col: 'var(--s-blue)', pct: pct };
     return { cls: 'sg', col: 'var(--s-green)', pct: pct };
 }
 
 function render() {
     ['D', 'C', 'B', 'A'].forEach(niv => {
         const grid = document.getElementById('grid-' + niv);
-        if(!grid) return;
         grid.innerHTML = '';
         for(let i=1; i<=6; i++) {
             const id = niv + i;
@@ -180,12 +192,6 @@ function render() {
     });
 }
 
-function showQR() {
-    const currentUrl = window.location.href;
-    document.getElementById('qr-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(currentUrl);
-    switchView('view-qr');
-}
-
 function openEmp(id) {
     currentId = id;
     const data = state[id];
@@ -195,13 +201,9 @@ function openEmp(id) {
         document.getElementById('form-add').style.display = 'none';
         document.getElementById('form-det').style.display = 'block';
         document.getElementById('det-ref').textContent = data.ref;
-        document.getElementById('det-note').textContent = data.note || "Non renseigné";
-        
-        // Formatage Date + Heure
+        document.getElementById('det-note').textContent = data.note || "-";
         const d = new Date(data.date);
-        const dateStr = d.toLocaleDateString('fr-FR');
-        const heureStr = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        document.getElementById('det-date').innerHTML = `📅 Arrivé le ${dateStr}<br>⏰ à ${heureStr}`;
+        document.getElementById('det-date').innerHTML = `📅 Arrivé le ${d.toLocaleDateString()}<br>⏰ à ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
     } else {
         document.getElementById('form-add').style.display = 'block';
         document.getElementById('form-det').style.display = 'none';
@@ -214,7 +216,7 @@ async function addPal() {
     const r = document.getElementById('inp-ref').value.trim();
     const n = document.getElementById('inp-note').value.trim();
     if(!r) return;
-    state[currentId] = { ref: r, note: n, date: new Date().toISOString() };
+    state[currentId] = { ref: r.toUpperCase(), note: n, date: new Date().toISOString() };
     await fetch(URL_DB, { method:'PUT', body: JSON.stringify(state) });
     showRack();
     refresh();
@@ -228,6 +230,11 @@ async function delPal() {
     refresh();
 }
 
+function showQR() {
+    document.getElementById('qr-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(window.location.href);
+    switchView('view-qr');
+}
+
 function filter() {
     const v = document.getElementById('search-input').value.toUpperCase();
     document.querySelectorAll('.card').forEach(c => {
@@ -235,9 +242,9 @@ function filter() {
     });
 }
 
-function switchView(viewId) {
+function switchView(id) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(viewId).classList.add('active');
+    document.getElementById(id).classList.add('active');
 }
 
 function showRack() { switchView('view-rack'); }
