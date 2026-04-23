@@ -22,20 +22,19 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 .header { 
     background: var(--header-bg); 
     color: white; padding: 15px 20px; 
-    display: flex; align-items: center; 
+    display: flex; align-items: center; justify-content: space-between;
     position: sticky; top:0; z-index:100; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
 }
-.brand-btn { 
-    background: #0ea5e9; color: white; 
-    font-weight: 900; font-size: 18px; 
-    padding: 8px 12px; border-radius: 10px; 
-    text-decoration: none; cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+.brand { font-weight: 900; font-size: 20px; letter-spacing: -1px; }
+.main-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; position: absolute; left: 50%; transform: translateX(-50%); width: 40%; text-align: center; }
+
+.qr-btn { 
+    background: rgba(255,255,255,0.2); color: white; 
+    font-size: 18px; width: 40px; height: 40px; 
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: none;
 }
-.main-title { flex: 1; text-align: center; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-.sync-dot { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; }
-.sync-dot.ok { background: var(--s-green); box-shadow: 0 0 10px var(--s-green); }
 
 /* RECHERCHE */
 .search-box { padding: 12px; background: #bae6fd; }
@@ -43,15 +42,15 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 
 /* GRILLE DU RACK */
 .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-.level-block { margin-bottom: 30px; display: block !important; }
+.level-block { margin-bottom: 30px; display: block !important; clear: both; }
 .level-label { background: var(--header-bg); color: white; display: inline-block; padding: 5px 15px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 12px; }
 
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
 
 .card { 
     background: var(--surface); border-radius: 16px; padding: 10px; 
     border: 1px solid #bae6fd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; min-height: 110px; transition: 0.2s;
+    display: flex; flex-direction: column; min-height: 115px; transition: 0.2s;
 }
 .card.occupied { border-left: 6px solid #cbd5e1; }
 .card.sg { background: #f0fdf4; border-left-color: var(--s-green); }
@@ -73,45 +72,54 @@ body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; colo
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal { background: white; padding: 20px; border-radius: 24px; border: 1px solid #e2e8f0; text-align: center; }
-.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; width: 100%; }
+.btn-back { border:none; background: var(--header-bg); color:white; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; width: 100%; cursor: pointer; }
 input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; margin-bottom: 15px; font-size: 16px; font-family: inherit; }
 .btn-save { width: 100%; padding: 16px; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; border: none; }
 .btn-del { width: 100%; padding: 16px; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; border: none; margin-top: 15px; }
 
-/* PAGE QR CODE */
-.qr-container { background: white; padding: 30px; border-radius: 30px; display: inline-block; margin-top: 20px; }
-.qr-img { width: 200px; height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 10px solid white; }
+.qr-container { background: white; padding: 20px; border-radius: 20px; display: inline-block; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="brand-btn" onclick="showQR()">AUEM</div>
+    <div class="brand">AUEM</div>
     <div class="main-title">Rack attente fin délais</div>
-    <div id="sync-dot" class="sync-dot"></div>
+    <button class="qr-btn" onclick="showQR()">📱</button>
 </div>
 
 <div id="view-rack" class="view active">
     <div class="search-box">
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
     </div>
-    <div class="container" id="rack-grid">
-        <div id="sect-D" class="level-block"><div class="level-label">NIVEAU D</div><div class="grid" id="grid-D"></div></div>
-        <div id="sect-C" class="level-block"><div class="level-label">NIVEAU C</div><div class="grid" id="grid-C"></div></div>
-        <div id="sect-B" class="level-block"><div class="level-label">NIVEAU B</div><div class="grid" id="grid-B"></div></div>
-        <div id="sect-A" class="level-block"><div class="level-label">NIVEAU A</div><div class="grid" id="grid-A"></div></div>
+    <div class="container">
+        <div class="level-block">
+            <div class="level-label">NIVEAU D</div>
+            <div class="grid" id="grid-D"></div>
+        </div>
+        <div class="level-block">
+            <div class="level-label">NIVEAU C</div>
+            <div class="grid" id="grid-C"></div>
+        </div>
+        <div class="level-block">
+            <div class="level-label">NIVEAU B</div>
+            <div class="grid" id="grid-B"></div>
+        </div>
+        <div class="level-block">
+            <div class="level-label">NIVEAU A</div>
+            <div class="grid" id="grid-A"></div>
+        </div>
     </div>
 </div>
 
 <div id="view-qr" class="view">
     <div class="container" style="text-align: center;">
         <button class="btn-back" onclick="showRack()">← RETOUR AU RACK</button>
-        <h2 style="color: var(--header-bg); margin-top: 10px;">Scanner l'application</h2>
-        <p style="font-size: 14px; color: #64748b; margin-top: 10px;">Partagez l'accès au rack avec vos collègues</p>
+        <h2 style="color: var(--header-bg);">Partager l'App</h2>
         <div class="qr-container">
-            <img id="qr-image" src="" alt="QR Code" style="width: 100%; max-width: 250px;">
+            <img id="qr-image" src="" alt="QR Code" style="width: 220px; height: 220px;">
         </div>
-        <p style="margin-top: 20px; font-weight: 700; color: var(--header-bg);">AUEM Logistique</p>
+        <p style="margin-top: 20px; font-weight: 600; color: #64748b;">Faites scanner ce code pour ouvrir le rack sur un autre téléphone.</p>
     </div>
 </div>
 
@@ -148,8 +156,7 @@ async function refresh() {
         const r = await fetch(URL_DB);
         state = await r.json() || {};
         render();
-        document.getElementById('sync-dot').className = 'sync-dot ok';
-    } catch(e) { document.getElementById('sync-dot').className = 'sync-dot'; }
+    } catch(e) { console.log("Erreur sync"); }
 }
 
 function getStatus(date) {
@@ -163,8 +170,10 @@ function getStatus(date) {
 }
 
 function render() {
-    ['D', 'C', 'B', 'A'].forEach(niv => {
+    // On boucle sur A, B, C, D et on s'assure d'avoir 1 à 6 partout
+    ['A', 'B', 'C', 'D'].forEach(niv => {
         const grid = document.getElementById('grid-' + niv);
+        if(!grid) return;
         grid.innerHTML = '';
         for(let i=1; i<=6; i++) {
             const id = niv + i;
@@ -185,7 +194,6 @@ function render() {
 }
 
 function showQR() {
-    // Génère le QR code vers l'URL actuelle du site
     const currentUrl = window.location.href;
     document.getElementById('qr-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(currentUrl);
     switchView('view-qr');
@@ -243,7 +251,7 @@ function switchView(viewId) {
 function showRack() { switchView('view-rack'); }
 
 window.onload = refresh;
-setInterval(refresh, 20000);
+setInterval(refresh, 15000);
 </script>
 </body>
 </html>
