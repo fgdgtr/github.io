@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AUEM — Rack Attente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f0ede8;
+  --surface:  #faf8f5;
+  --card:     #ffffff;
+  --border:   #ddd9d2;
+  --border2:  #c8c3bb;
+  --text:     #1c1917;
+  --text2:    #78716c;
+  --text3:    #a8a29e;
+
+  /* étages */
+  --a-bg:  #fef9c3; --a-bdr: #fde047; --a-txt: #854d0e;
+  --b-bg:  #dcfce7; --b-bdr: #86efac; --b-txt: #166534;
+  --c-bg:  #dbeafe; --c-bdr: #93c5fd; --c-txt: #1e40af;
+  --d-bg:  #fce7f3; --d-bdr: #f9a8d4; --d-txt: #9d174d;
+
+  /* statuts */
+  --s-green:  #16a34a; --s-green-bg:  #dcfce7; --s-green-bdr: #86efac;
+  --s-blue:   #2563eb; --s-blue-bg:   #dbeafe; --s-blue-bdr:  #93c5fd;
+  --s-yellow: #d97706; --s-yellow-bg: #fef3c7; --s-yellow-bdr:#fcd34d;
+  --s-red:    #dc2626; --s-red-bg:    #fee2e2; --s-red-bdr:   #fca5a5;
+
+  --r: 12px; --r-sm: 8px;
+  --ease: 0.16s cubic-bezier(.4,0,.2,1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif; font-size:14px;
+  min-height:100vh; padding-bottom:28px; overflow-x:hidden;
+}
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+/* ═══ HEADER ═══ */
+.header {
+  background:var(--surface);
+  border-bottom:2px solid var(--text);
+  padding:12px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100;
+}
+.header-left { display:flex; align-items:center; gap:11px; }
+.logo {
+  width:36px; height:36px; background:var(--text); border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600;
+  color:var(--bg); letter-spacing:1px; line-height:1.2; text-align:center;
+}
+.header-titles { display:flex; flex-direction:column; }
+.header-title { font-weight:700; font-size:15px; letter-spacing:-.2px; line-height:1.2; }
+.header-sub   { font-size:10px; color:var(--text3); margin-top:2px; letter-spacing:.3px; }
+.header-right { display:flex; align-items:center; gap:8px; }
+
+.sync-wrap { display:flex; align-items:center; gap:5px; }
+.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--text3); transition:all .4s; }
+.sync-dot.ok     { background:var(--s-green); box-shadow:0 0 6px rgba(22,163,74,.5); }
+.sync-dot.loading{ background:var(--s-yellow); animation:blink .7s ease-in-out infinite alternate; }
+.sync-dot.error  { background:var(--s-red); }
+@keyframes blink { to { opacity:.15; } }
+.sync-time { font-size:10px; color:var(--text3); font-family:'IBM Plex Mono',monospace; transition:color .3s; }
+.sync-time.ok { color:var(--s-green); }
+
+.btn-icon {
+  width:34px; height:34px; background:var(--bg);
+  border:1.5px solid var(--border2); border-radius:var(--r-sm);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:15px; transition:all var(--ease);
+}
+.btn-icon:active { transform:scale(.93); background:var(--border); }
+
+/* ═══ LÉGENDE ═══ */
+.legend {
+  display:flex; flex-wrap:wrap; gap:6px;
+  padding:10px 14px; background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+.leg { display:flex; align-items:center; gap:5px; padding:3px 9px; border-radius:20px; border:1px solid; font-size:11px; font-weight:600; }
+.leg-dot { width:8px; height:8px; border-radius:50%; }
+.lg { background:var(--s-green-bg);  border-color:var(--s-green-bdr);  color:var(--s-green);  }
+.lb { background:var(--s-blue-bg);   border-color:var(--s-blue-bdr);   color:var(--s-blue);   }
+.ly { background:var(--s-yellow-bg); border-color:var(--s-yellow-bdr); color:var(--s-yellow); }
+.lr { background:var(--s-red-bg);    border-color:var(--s-red-bdr);    color:var(--s-red);    }
+
+/* ═══ VIEWS ═══ */
+.view { display:none; }
+.view.active { display:block; animation:fadeUp .2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ═══ RACK VIEW ═══ */
+.rack-body { padding:13px; }
+
+/* stats strip */
+.stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-bottom:14px; }
+.sstat {
+  background:var(--card); border:1.5px solid var(--border); border-radius:var(--r);
+  padding:10px 6px; text-align:center; position:relative; overflow:hidden;
+}
+.sstat::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; }
+.sstat.ss-g::after { background:var(--s-green); }
+.sstat.ss-b::after { background:var(--s-blue);  }
+.sstat.ss-y::after { background:var(--s-yellow);}
+.sstat.ss-r::after { background:var(--s-red);   }
+.sstat-val { font-size:24px; font-weight:700; line-height:1; font-family:'IBM Plex Mono',monospace; letter-spacing:-1px; transition:transform .18s; }
+.sstat.ss-g .sstat-val { color:var(--s-green);  }
+.sstat.ss-b .sstat-val { color:var(--s-blue);   }
+.sstat.ss-y .sstat-val { color:var(--s-yellow); }
+.sstat.ss-r .sstat-val { color:var(--s-red);    }
+.sstat-lbl { font-size:9px; color:var(--text3); margin-top:3px; letter-spacing:.8px; text-transform:uppercase; }
+
+/* étage section */
+.etage-sec {
+  border-radius:var(--r); overflow:hidden; margin-bottom:10px;
+  border:1.5px solid;
+}
+.etage-sec.ea { border-color:var(--a-bdr); }
+.etage-sec.eb { border-color:var(--b-bdr); }
+.etage-sec.ec { border-color:var(--c-bdr); }
+.etage-sec.ed { border-color:var(--d-bdr); }
+
+.etage-hd {
+  display:flex; align-items:center; gap:10px; padding:9px 13px;
+  font-weight:700;
+}
+.etage-sec.ea .etage-hd { background:var(--a-bg); color:var(--a-txt); }
+.etage-sec.eb .etage-hd { background:var(--b-bg); color:var(--b-txt); }
+.etage-sec.ec .etage-hd { background:var(--c-bg); color:var(--c-txt); }
+.etage-sec.ed .etage-hd { background:var(--d-bg); color:var(--d-txt); }
+
+.etage-name { font-size:16px; font-weight:700; letter-spacing:-.2px; }
+.etage-desc { font-size:10px; font-weight:400; opacity:.75; }
+.etage-cnt  { margin-left:auto; font-size:11px; font-family:'IBM Plex Mono',monospace; background:rgba(0,0,0,.08); padding:2px 8px; border-radius:20px; }
+
+/* grid */
+.emp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; }
+.etage-sec.ea .emp-grid { background:var(--a-bdr); }
+.etage-sec.eb .emp-grid { background:var(--b-bdr); }
+.etage-sec.ec .emp-grid { background:var(--c-bdr); }
+.etage-sec.ed .emp-grid { background:var(--d-bdr); }
+
+/* emp card */
+.emp-card {
+  position:relative; cursor:pointer; min-height:100px;
+  display:flex; flex-direction:column; overflow:hidden;
+  transition:filter var(--ease);
+}
+.etage-sec.ea .emp-card { background:var(--a-bg); }
+.etage-sec.eb .emp-card { background:var(--b-bg); }
+.etage-sec.ec .emp-card { background:var(--c-bg); }
+.etage-sec.ed .emp-card { background:var(--d-bg); }
+.emp-card:active { filter:brightness(.93); }
+
+/* left stripe */
+.emp-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:5px;
+}
+.emp-card.sg::before { background:var(--s-green); }
+.emp-card.sb::before { background:var(--s-blue);  }
+.emp-card.sy::before { background:var(--s-yellow);}
+.emp-card.sr::before { background:var(--s-red);   }
+.emp-card.se::before { background:transparent;    }
+
+/* urgent pulse on card border */
+.emp-card.sr { animation:urgentPulse 2s ease-in-out infinite; }
+@keyframes urgentPulse {
+  0%,100% { filter:brightness(1); }
+  50%      { filter:brightness(.94); }
+}
+
+.emp-inner { padding:9px 9px 9px 16px; flex:1; display:flex; flex-direction:column; gap:3px; }
+.emp-id { font-size:17px; font-weight:700; letter-spacing:-.3px; color:var(--text); line-height:1; }
+.emp-free { font-size:10px; color:var(--text3); margin-top:2px; }
+.emp-pals { display:flex; flex-direction:column; gap:4px; margin-top:4px; }
+.ep-ref { font-size:11px; font-weight:600; font-family:'IBM Plex Mono',monospace; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ep-badge {
+  display:inline-flex; align-items:center; gap:3px;
+  font-size:9px; font-weight:700; border-radius:20px;
+  padding:2px 6px; border:1px solid; font-family:'IBM Plex Mono',monospace;
+  width:fit-content; letter-spacing:.2px;
+}
+.ep-badge.bg { background:var(--s-green-bg);  border-color:var(--s-green-bdr);  color:var(--s-green);  }
+.ep-badge.bb { background:var(--s-blue-bg);   border-color:var(--s-blue-bdr);   color:var(--s-blue);   }
+.ep-badge.by { background:var(--s-yellow-bg); border-color:var(--s-yellow-bdr); color:var(--s-yellow); }
+.ep-badge.br { background:var(--s-red-bg);    border-color:var(--s-red-bdr);    color:var(--s-red);    }
+.ep-note { font-size:9px; color:var(--text2); font-style:italic; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ep-more { font-size:9px; color:var(--text3); }
+
+/* SEP hauteur homme */
+.sep-rack { display:flex; align-items:center; gap:8px; margin:8px 0; }
+.sep-line  { flex:1; height:1px; background:var(--border2); }
+.sep-lbl   { font-size:9px; color:var(--text3); letter-spacing:1.5px; white-space:nowrap; font-family:'IBM Plex Mono',monospace; }
+
+/* ═══ BACK HEADER ═══ */
+.back-header {
+  background:var(--surface); border-bottom:2px solid var(--text);
+  padding:11px 14px; display:flex; align-items:center; gap:12px;
+  position:sticky; top:0; z-index:10;
+}
+.btn-back {
+  width:34px; height:34px; background:var(--text); border:none;
+  border-radius:var(--r-sm); color:var(--bg); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+  transition:opacity var(--ease); flex-shrink:0;
+}
+.btn-back:active { opacity:.7; }
+.bh-title { font-size:18px; font-weight:700; letter-spacing:-.3px; }
+.bh-sub   { font-size:11px; color:var(--text3); margin-top:1px; }
+
+/* ═══ DETAIL VIEW ═══ */
+.view-body { padding:13px; }
+.section {
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:var(--r); padding:13px; margin-bottom:10px;
+}
+.sec-lbl {
+  font-size:10px; font-weight:700; color:var(--text3);
+  letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;
+  font-family:'IBM Plex Mono',monospace;
+}
+
+/* inputs */
+.inp {
+  width:100%; background:var(--bg); border:1.5px solid var(--border);
+  border-radius:var(--r-sm); color:var(--text); font-family:'IBM Plex Sans',sans-serif;
+  font-size:14px; padding:10px 12px; outline:none; transition:border-color var(--ease);
+}
+.inp:focus { border-color:var(--text); }
+.inp::placeholder { color:var(--text3); }
+.inp-row { display:flex; gap:8px; margin-bottom:8px; }
+
+/* status picker */
+.status-picker { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.sopt {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:9px 4px; border-radius:var(--r-sm); border:1.5px solid var(--border);
+  cursor:pointer; transition:all var(--ease); background:var(--bg);
+}
+.sopt:active { transform:scale(.94); }
+.sopt.active.og { border-color:var(--s-green);  background:var(--s-green-bg);  }
+.sopt.active.ob { border-color:var(--s-blue);   background:var(--s-blue-bg);   }
+.sopt.active.oy { border-color:var(--s-yellow); background:var(--s-yellow-bg); }
+.sopt.active.or { border-color:var(--s-red);    background:var(--s-red-bg);    }
+.sopt-dot { width:20px; height:20px; border-radius:50%; }
+.sopt-lbl { font-size:9px; font-weight:700; text-align:center; letter-spacing:.3px; }
+.og .sopt-lbl { color:var(--s-green);  }
+.ob .sopt-lbl { color:var(--s-blue);   }
+.oy .sopt-lbl { color:var(--s-yellow); }
+.or .sopt-lbl { color:var(--s-red);    }
+
+/* buttons */
+.btn-main {
+  width:100%; background:var(--text); color:var(--bg); border:none;
+  border-radius:var(--r-sm); font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px; font-weight:700; padding:12px; cursor:pointer; margin-top:10px;
+  transition:opacity var(--ease);
+}
+.btn-main:active { opacity:.8; }
+.btn-sec {
+  background:var(--bg); border:1.5px solid var(--border2);
+  border-radius:var(--r-sm); color:var(--text2); font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px; font-weight:600; padding:10px 14px; cursor:pointer; white-space:nowrap;
+  transition:all var(--ease);
+}
+.btn-sec:active { background:var(--border); }
+
+/* palette cards in detail */
+.pal-card {
+  background:var(--bg); border:1.5px solid var(--border);
+  border-radius:var(--r); padding:11px; margin-bottom:7px;
+  display:flex; align-items:center; gap:10px;
+  animation:slideIn .18s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:none} }
+.pal-stripe { width:4px; border-radius:2px; align-self:stretch; min-height:42px; flex-shrink:0; }
+.pal-body { flex:1; min-width:0; }
+.pal-ref  { font-size:13px; font-weight:700; font-family:'IBM Plex Mono',monospace; }
+.pal-meta { display:flex; align-items:center; gap:6px; margin-top:4px; flex-wrap:wrap; }
+.pal-note { font-size:11px; color:var(--text2); font-style:italic; }
+.pal-acts { display:flex; gap:5px; flex-shrink:0; }
+.btn-circ {
+  width:30px; height:30px; border-radius:50%; border:1.5px solid var(--border2);
+  background:var(--card); cursor:pointer; display:flex; align-items:center;
+  justify-content:center; font-size:11px; transition:all var(--ease);
+}
+.btn-circ:active { transform:scale(.86); }
+
+.empty { text-align:center; padding:24px 16px; color:var(--text3); font-size:13px; line-height:2; }
+
+/* ═══ QR VIEW ═══ */
+.qr-center { display:flex; flex-direction:column; align-items:center; gap:16px; padding:24px 16px; }
+.qr-box { background:white; padding:16px; border-radius:16px; box-shadow:0 8px 40px rgba(0,0,0,.15); }
+.qr-lbl { font-size:11px; font-weight:700; color:var(--text3); letter-spacing:2px; font-family:'IBM Plex Mono',monospace; text-align:center; }
+.qr-info { background:var(--card); border:1.5px solid var(--border); border-radius:var(--r); padding:14px; width:100%; }
+.qi-title { font-size:10px; font-weight:700; color:var(--text3); letter-spacing:1px; text-transform:uppercase; margin-bottom:11px; font-family:'IBM Plex Mono',monospace; }
+.qi-step { display:flex; align-items:flex-start; gap:10px; margin-bottom:8px; font-size:12px; color:var(--text2); line-height:1.5; }
+.qi-num { width:20px; height:20px; border-radius:50%; background:var(--bg); border:1.5px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+.color-leg { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+.cr { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text2); }
+.cdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.divider { height:1px; background:var(--border); margin:11px 0; }
+
+/* ═══ MODAL ═══ */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(28,25,23,.6);
+  backdrop-filter:blur(6px); z-index:200;
+  display:flex; align-items:flex-end; justify-content:center;
+  padding:16px; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-box {
+  background:var(--card); border:1.5px solid var(--border); border-radius:16px;
+  padding:20px; width:100%; max-width:400px;
+  transform:translateY(20px); transition:transform .25s cubic-bezier(.34,1.4,.64,1);
+}
+.modal-overlay.open .modal-box { transform:translateY(0); }
+.modal-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+.modal-sub   { font-size:13px; color:var(--text2); margin-bottom:18px; line-height:1.5; }
+.modal-acts  { display:flex; gap:8px; }
+.btn-danger {
+  flex:1; padding:12px; background:var(--s-red-bg); border:1.5px solid var(--s-red-bdr);
+  border-radius:var(--r-sm); color:var(--s-red); font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px; font-weight:700; cursor:pointer;
+}
+.btn-cancel {
+  flex:1; padding:12px; background:var(--bg); border:1.5px solid var(--border2);
+  border-radius:var(--r-sm); color:var(--text2); font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px; font-weight:600; cursor:pointer;
+}
+
+/* ═══ TOAST ═══ */
+.toast {
+  position:fixed; bottom:24px; left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--text); color:var(--bg);
+  font-size:13px; font-weight:700; padding:9px 18px; border-radius:22px;
+  transition:transform .28s cubic-bezier(.34,1.4,.64,1);
+  z-index:999; white-space:nowrap; display:flex; align-items:center; gap:7px; pointer-events:none;
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* loading */
+.loading-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; height:50vh; gap:12px; }
+.spinner { width:22px; height:22px; border:2px solid var(--border2); border-top-color:var(--text); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-text { font-size:12px; color:var(--text3); font-family:'IBM Plex Mono',monospace; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">AUEM</div>
+    <div class="header-titles">
+      <div class="header-title">Rack Attente</div>
+      <div class="header-sub">Fin de délais — A·B·C·D</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="sync-wrap">
+      <div class="sync-dot loading" id="sync-dot"></div>
+      <div class="sync-time" id="sync-time">…</div>
+    </div>
+    <button class="btn-icon" onclick="showView('view-qr')">⬛</button>
+  </div>
+</div>
+
+<!-- LÉGENDE -->
+<div class="legend">
+  <div class="leg lg"><div class="leg-dot" style="background:var(--s-green)"></div>OK &gt;1 mois</div>
+  <div class="leg lb"><div class="leg-dot" style="background:var(--s-blue)"></div>Surveiller 2–4 sem.</div>
+  <div class="leg ly"><div class="leg-dot" style="background:var(--s-yellow)"></div>Attention 1–2 sem.</div>
+  <div class="leg lr"><div class="leg-dot" style="background:var(--s-red)"></div>URGENT &lt;1 sem.</div>
+</div>
+
+<!-- VUE RACK -->
+<div class="view active" id="view-rack">
+  <div class="rack-body">
+    <div class="stats-strip">
+      <div class="sstat ss-g"><div class="sstat-val" id="sg">—</div><div class="sstat-lbl">OK</div></div>
+      <div class="sstat ss-b"><div class="sstat-val" id="sb">—</div><div class="sstat-lbl">Surveiller</div></div>
+      <div class="sstat ss-y"><div class="sstat-val" id="sy">—</div><div class="sstat-lbl">Attention</div></div>
+      <div class="sstat ss-r"><div class="sstat-val" id="sr">—</div><div class="sstat-lbl">Urgent</div></div>
+    </div>
+    <div id="rack-grid">
+      <div class="loading-screen"><div class="spinner"></div><div class="loading-text">Chargement…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- VUE EMPLACEMENT -->
+<div class="view" id="view-emp">
+  <div class="back-header">
+    <button class="btn-back" onclick="showRack()">←</button>
+    <div>
+      <div class="bh-title" id="emp-title">A1</div>
+      <div class="bh-sub"  id="emp-sub">Étage A</div>
+    </div>
+  </div>
+  <div class="view-body">
+    <div class="section">
+      <div class="sec-lbl">Poser une palette</div>
+      <div class="inp-row"><input class="inp" id="inp-ref" placeholder="N° commande / référence palette" /></div>
+      <div class="inp-row"><input class="inp" id="inp-note" placeholder="Note (client, transporteur…)" /></div>
+      <div class="sec-lbl" style="margin-top:10px;">Délai restant</div>
+      <div class="status-picker">
+        <div class="sopt og active" id="opt-green"  onclick="selectStatus('green')">
+          <div class="sopt-dot" style="background:var(--s-green)"></div>
+          <div class="sopt-lbl">OK</div>
+        </div>
+        <div class="sopt ob" id="opt-blue"   onclick="selectStatus('blue')">
+          <div class="sopt-dot" style="background:var(--s-blue)"></div>
+          <div class="sopt-lbl">Surveiller</div>
+        </div>
+        <div class="sopt oy" id="opt-yellow" onclick="selectStatus('yellow')">
+          <div class="sopt-dot" style="background:var(--s-yellow)"></div>
+          <div class="sopt-lbl">Attention</div>
+        </div>
+        <div class="sopt or" id="opt-red"    onclick="selectStatus('red')">
+          <div class="sopt-dot" style="background:var(--s-red)"></div>
+          <div class="sopt-lbl">URGENT</div>
+        </div>
+      </div>
+      <button class="btn-main" onclick="addPalette()">+ Poser cette palette</button>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 2px 8px;">
+      <div class="sec-lbl" style="padding:0;margin:0;">Palettes en place</div>
+      <button onclick="purgeAll()" style="background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-weight:600;">Tout vider</button>
+    </div>
+    <div id="palette-list"></div>
+  </div>
+</div>
+
+<!-- VUE QR -->
+<div class="view" id="view-qr">
+  <div class="back-header">
+    <button class="btn-back" onclick="showRack()">←</button>
+    <div><div class="bh-title">QR Code</div><div class="bh-sub">Scanner pour accéder au rack</div></div>
+  </div>
+  <div class="view-body">
+    <div class="qr-center">
+      <div class="qr-box">
+        <div id="qr-container" style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;">
+          <div class="spinner"></div>
+        </div>
+      </div>
+      <div class="qr-lbl">RACK ATTENTE — AUEM</div>
+      <div class="qr-info">
+        <div class="qi-title">Comment utiliser</div>
+        <div class="qi-step"><div class="qi-num">1</div>Hébergez ce fichier sur GitHub Pages</div>
+        <div class="qi-step"><div class="qi-num">2</div>Imprimez ce QR code et fixez-le sur le rack</div>
+        <div class="qi-step"><div class="qi-num">3</div>Tous les opérateurs scannent et voient le même rack en temps réel</div>
+        <div class="divider"></div>
+        <div class="qi-title">Code couleur</div>
+        <div class="color-leg">
+          <div class="cr"><div class="cdot" style="background:var(--s-green)"></div>Vert — délai OK, plus d'1 mois</div>
+          <div class="cr"><div class="cdot" style="background:var(--s-blue)"></div>Bleu — à surveiller, 2 à 4 semaines</div>
+          <div class="cr"><div class="cdot" style="background:var(--s-yellow)"></div>Jaune — attention, 1 à 2 semaines</div>
+          <div class="cr"><div class="cdot" style="background:var(--s-red)"></div>Rouge — urgent, moins d'1 semaine</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-del">
+  <div class="modal-box">
+    <div class="modal-title">Retirer cette palette ?</div>
+    <div class="modal-sub" id="modal-lbl">Cette action est irréversible.</div>
+    <div class="modal-acts">
+      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn-danger" onclick="confirmDel()">Retirer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="t-ico"></span><span id="t-msg"></span></div>
+
+<script>
+/* ══════════════════════════════════
+   CONFIG
+══════════════════════════════════ */
+const ETAGES = ['D','C','B','A']; // D en haut → A en bas (comme le rack réception)
+const ETAGE_INFO = {
+  'D': { label:'Étage D', desc:'Haut — gerbeur obligatoire', cls:'ed' },
+  'C': { label:'Étage C', desc:'Gerbeur nécessaire',         cls:'ec' },
+  'B': { label:'Étage B', desc:'Accessible à la main',       cls:'eb' },
+  'A': { label:'Étage A', desc:'Bas — niveau sol',           cls:'ea' },
+};
+const COLS = 6;
+const FIREBASE = 'https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json';
+
+// ⬇ Mettez ici l'URL GitHub Pages de ce fichier une fois hébergé
+const GITHUB_URL = window.location.href.split('?')[0];
+
+const STATUS = {
+  green:  { cls:'sg', cardCls:'bg', badge:'OK',         stripe:'#16a34a', label:'OK'         },
+  blue:   { cls:'sb', cardCls:'bb', badge:'Surveiller', stripe:'#2563eb', label:'Surveiller' },
+  yellow: { cls:'sy', cardCls:'by', badge:'Attention',  stripe:'#d97706', label:'Attention'  },
+  red:    { cls:'sr', cardCls:'br', badge:'URGENT',     stripe:'#dc2626', label:'URGENT'     },
+};
+
+let state = {}, currentEmp = null, deleteIdx = null, selStatus = 'green', saveTimer = null;
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+function initState() {
+  const s = {};
+  ETAGES.forEach(e => { for(let i=1;i<=COLS;i++) s[`${e}${i}`]={palettes:[]}; });
+  return s;
+}
+function migrate(data) {
+  const s = data || initState();
+  ETAGES.forEach(e => { for(let i=1;i<=COLS;i++) {
+    const id=`${e}${i}`;
+    if(!s[id]) s[id]={palettes:[]};
+    if(!s[id].palettes) s[id].palettes=[];
+  }});
+  return s;
+}
+
+/* ══════════════════════════════════
+   SYNC
+══════════════════════════════════ */
+function setSyncDot(st) {
+  document.getElementById('sync-dot').className = 'sync-dot '+st;
+  const t = document.getElementById('sync-time');
+  if(st==='ok') {
+    const n=new Date();
+    t.textContent=`${n.getHours().toString().padStart(2,'0')}:${n.getMinutes().toString().padStart(2,'0')}`;
+    t.className='sync-time ok';
+    setTimeout(()=>{ t.className='sync-time'; t.textContent='sync'; }, 3000);
+  } else if(st==='loading') { t.textContent='…'; t.className='sync-time'; }
+  else { t.textContent='off'; t.className='sync-time'; }
+}
+
+async function loadFromServer() {
+  setSyncDot('loading');
+  try {
+    const res = await fetch(FIREBASE); if(!res.ok) throw new Error();
+    state = migrate(await res.json());
+    setSyncDot('ok'); renderRack();
+  } catch {
+    try { state = migrate(JSON.parse(localStorage.getItem('auem_att_v1'))); } catch { state = initState(); }
+    setSyncDot('error'); renderRack(); showToast('Hors-ligne','📡');
+  }
+}
+async function saveToServer() {
+  setSyncDot('loading');
+  try {
+    await fetch(FIREBASE,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
+    localStorage.setItem('auem_att_v1',JSON.stringify(state)); setSyncDot('ok');
+  } catch { localStorage.setItem('auem_att_v1',JSON.stringify(state)); setSyncDot('error'); }
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer=setTimeout(saveToServer,600); }
+setInterval(()=>{ if(document.getElementById('view-rack').classList.contains('active')) loadFromServer(); }, 30000);
+
+/* ══════════════════════════════════
+   STATS
+══════════════════════════════════ */
+function computeStats() {
+  let g=0,b=0,y=0,r=0;
+  ETAGES.forEach(e=>{ for(let i=1;i<=COLS;i++) {
+    (state[`${e}${i}`]?.palettes||[]).forEach(p=>{
+      if(p.status==='green')g++; else if(p.status==='blue')b++;
+      else if(p.status==='yellow')y++; else if(p.status==='red')r++;
+    });
+  }});
+  return{g,b,y,r};
+}
+function updateStats() {
+  const s=computeStats();
+  animN('sg',s.g); animN('sb',s.b); animN('sy',s.y); animN('sr',s.r);
+}
+function animN(id,val) {
+  const el=document.getElementById(id);
+  if(el.textContent===String(val)) return;
+  el.style.transform='scale(1.2)'; el.textContent=val;
+  setTimeout(()=>el.style.transform='',160);
+}
+
+/* ══════════════════════════════════
+   DOMINANT
+══════════════════════════════════ */
+function dominant(id) {
+  const ps=state[id]?.palettes||[];
+  if(!ps.length) return 'empty';
+  for(const s of ['red','yellow','blue','green']) { if(ps.some(p=>p.status===s)) return s; }
+  return 'empty';
+}
+
+/* ══════════════════════════════════
+   RENDER RACK
+══════════════════════════════════ */
+function renderRack() {
+  updateStats();
+  const grid=document.getElementById('rack-grid');
+  grid.innerHTML='';
+
+  ETAGES.forEach((etage, ei) => {
+    const info = ETAGE_INFO[etage];
+    const sec = document.createElement('div');
+    sec.className = `etage-sec ${info.cls}`;
+
+    const total = Array.from({length:COLS},(_,i)=>`${etage}${i+1}`)
+      .reduce((sum,id)=>sum+(state[id]?.palettes?.length||0),0);
+
+    sec.innerHTML = `<div class="etage-hd">
+      <div class="etage-name">${info.label}</div>
+      <div class="etage-desc">${info.desc}</div>
+      <div class="etage-cnt">${total} palette${total>1?'s':''}</div>
+    </div>`;
+
+    const g = document.createElement('div'); g.className='emp-grid';
+
+    for(let i=1;i<=COLS;i++) {
+      const id=`${etage}${i}`;
+      const pals=state[id]?.palettes||[];
+      const dom=dominant(id);
+      const domCls=dom==='empty'?'se':`s${dom[0]}`;
+
+      const card=document.createElement('div');
+      card.className=`emp-card ${domCls}`;
+
+      let inner=`<div class="emp-inner"><div class="emp-id">${id}</div>`;
+      if(!pals.length) {
+        inner+=`<div class="emp-free">Libre</div>`;
+      } else {
+        inner+=`<div class="emp-pals">`;
+        pals.slice(0,2).forEach(p=>{
+          const sc=STATUS[p.status]||STATUS.green;
+          inner+=`<div class="ep-ref">${p.ref}</div>
+                  <div class="ep-badge ${sc.cardCls}">${sc.badge}</div>`;
+          if(p.note) inner+=`<div class="ep-note">${p.note}</div>`;
+        });
+        if(pals.length>2) inner+=`<div class="ep-more">+${pals.length-2} autre${pals.length-2>1?'s':''}</div>`;
+        inner+=`</div>`;
+      }
+      inner+=`</div>`;
+      card.innerHTML=inner;
+      card.onclick=()=>openEmp(id);
+      g.appendChild(card);
+    }
+    sec.appendChild(g);
+
+    // Séparateur hauteur d'homme entre B et A
+    if(etage==='B') {
+      const sep=document.createElement('div');
+      sep.className='sep-rack';
+      sep.innerHTML=`<div class="sep-line"></div><div class="sep-lbl">HAUTEUR D'HOMME</div><div class="sep-line"></div>`;
+      grid.appendChild(sec);
+      grid.appendChild(sep);
+      return;
+    }
+    grid.appendChild(sec);
+  });
+}
+
+/* ══════════════════════════════════
+   EMPLACEMENT
+══════════════════════════════════ */
+function openEmp(id) {
+  currentEmp=id;
+  const info=ETAGE_INFO[id[0]];
+  document.getElementById('emp-title').textContent=id;
+  document.getElementById('emp-sub').textContent=`${info.label} — ${info.desc}`;
+  document.getElementById('inp-ref').value='';
+  document.getElementById('inp-note').value='';
+  selectStatus('green');
+  renderPalList();
+  showView('view-emp');
+}
+
+function renderPalList() {
+  const list=document.getElementById('palette-list');
+  const pals=state[currentEmp]?.palettes||[];
+  if(!pals.length) { list.innerHTML='<div class="empty">Aucune palette<br>Posez-en une ci-dessus ↑</div>'; return; }
+  list.innerHTML='';
+  pals.forEach((p,i)=>{
+    const sc=STATUS[p.status]||STATUS.green;
+    const card=document.createElement('div'); card.className='pal-card';
+    card.innerHTML=`
+      <div class="pal-stripe" style="background:${sc.stripe}"></div>
+      <div class="pal-body">
+        <div class="pal-ref">${p.ref}</div>
+        <div class="pal-meta">
+          <span class="ep-badge ${sc.cardCls}">${sc.badge}</span>
+          ${p.note?`<span class="pal-note">${p.note}</span>`:''}
+        </div>
+      </div>
+      <div class="pal-acts">
+        <button class="btn-circ" onclick="cycleStatus(${i})" title="Changer statut">🔄</button>
+        <button class="btn-circ" onclick="askDel(${i})" title="Retirer">✕</button>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function selectStatus(s) {
+  selStatus=s;
+  ['green','blue','yellow','red'].forEach(c=>{
+    document.getElementById(`opt-${c}`).classList.toggle('active',c===s);
+  });
+}
+
+function cycleStatus(idx) {
+  const order=['green','blue','yellow','red'];
+  const cur=state[currentEmp].palettes[idx].status;
+  const next=order[(order.indexOf(cur)+1)%order.length];
+  state[currentEmp].palettes[idx].status=next;
+  renderPalList(); renderRack(); scheduleSave();
+  haptic('light'); showToast(STATUS[next].badge,'🔄');
+}
+
+function addPalette() {
+  const ref=document.getElementById('inp-ref').value.trim();
+  if(!ref) { showToast('Entrez une référence','⚠️'); return; }
+  const note=document.getElementById('inp-note').value.trim();
+  if(!state[currentEmp]) state[currentEmp]={palettes:[]};
+  state[currentEmp].palettes.push({ref,note,status:selStatus,ts:Date.now()});
+  document.getElementById('inp-ref').value='';
+  document.getElementById('inp-note').value='';
+  selectStatus('green');
+  renderPalList(); renderRack(); scheduleSave();
+  showToast(`${ref} posée`,'✓'); haptic('light');
+}
+
+function askDel(idx) {
+  deleteIdx=idx;
+  document.getElementById('modal-lbl').textContent=`Retirer "${state[currentEmp].palettes[idx].ref}" ?`;
+  document.getElementById('modal-del').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-del').classList.remove('open'); deleteIdx=null; }
+function confirmDel() {
+  if(deleteIdx===null) return;
+  const ref=state[currentEmp].palettes[deleteIdx].ref;
+  state[currentEmp].palettes.splice(deleteIdx,1);
+  renderPalList(); renderRack(); scheduleSave();
+  closeModal(); showToast(`${ref} retirée`,'📦'); haptic('medium');
+}
+document.getElementById('modal-del').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+function purgeAll() {
+  if(!(state[currentEmp]?.palettes?.length)){showToast('Déjà vide','ℹ️');return;}
+  const n=state[currentEmp].palettes.length;
+  state[currentEmp].palettes=[];
+  renderPalList(); renderRack(); scheduleSave();
+  showToast(`${n} palette${n>1?'s':''} retirée${n>1?'s':''}`, '🗑'); haptic('heavy');
+}
+
+/* ══════════════════════════════════
+   QR CODE
+══════════════════════════════════ */
+function renderQR() {
+  const container=document.getElementById('qr-container');
+  const img=new Image();
+  img.style.cssText='display:block;width:200px;height:200px;border-radius:4px;';
+  img.onload=()=>{ container.innerHTML=''; container.appendChild(img); };
+  img.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(GITHUB_URL)}&bgcolor=ffffff&color=1c1917&margin=12`;
+}
+
+/* ══════════════════════════════════
+   NAVIGATION
+══════════════════════════════════ */
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='view-qr') renderQR();
+}
+function showRack() { renderRack(); showView('view-rack'); }
+
+/* ══════════════════════════════════
+   HAPTICS + TOAST
+══════════════════════════════════ */
+function haptic(t='light') {
+  if(!navigator.vibrate) return;
+  if(t==='light') navigator.vibrate(10);
+  else if(t==='medium') navigator.vibrate(25);
+  else if(t==='heavy') navigator.vibrate([30,20,30]);
+}
+let toastTimer;
+function showToast(msg,icon='') {
+  document.getElementById('t-ico').textContent=icon;
+  document.getElementById('t-msg').textContent=msg;
+  const t=document.getElementById('toast'); t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+/* ══════════════════════════════════
+   KEYBOARD
+══════════════════════════════════ */
+document.getElementById('inp-ref').addEventListener('keydown',e=>{if(e.key==='Enter')addPalette();});
+document.getElementById('inp-note').addEventListener('keydown',e=>{if(e.key==='Enter')addPalette();});
+
+loadFromServer();
+</script>
+</body>
+</html>
