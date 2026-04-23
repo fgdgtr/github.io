@@ -3,320 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>AUEM | Smart Rack Color</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Nouvelle palette de couleurs pour le fond */
-  --bg-color: #f0f9ff; /* Bleu très clair */
-  --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  
+  --bg: #e0f2fe; 
+  --header-bg: #0c4a6e; 
+  --primary: #0284c7;
   --surface: #ffffff;
   --text: #0f172a;
-  --text-light: #64748b;
-  --primary: #0369a1; /* Bleu plus soutenu */
-  --border: #e0f2fe;
-  
-  /* Couleurs de statut plus vives */
-  --s-green: #10b981;
-  --s-blue: #3b82f6;
-  --s-yellow: #f59e0b;
-  --s-red: #ef4444;
-  
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --shadow: 0 4px 15px -2px rgba(3, 105, 161, 0.1);
+  --s-green: #10b981; --s-blue: #3b82f6; --s-yellow: #f59e0b; --s-red: #ef4444;
+  --radius: 16px;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; outline: none; }
-body { 
-    background-color: var(--bg-color);
-    background-image: var(--bg-gradient);
-    color: var(--text); 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
-    padding-bottom: 80px;
-    min-height: 100vh;
-}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); padding-bottom: 50px; }
 
-/* HEADER & TOOLS */
-.header { 
-    background: rgba(224, 242, 254, 0.85); /* Teinte bleue floutée */
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    padding: 16px 20px; 
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid rgba(186, 230, 253, 0.5);
-}
-.brand { display: flex; align-items: center; gap: 10px; }
-.logo-sq { background: var(--primary); color: white; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+/* HEADER */
+.header { background: var(--header-bg); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index:100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.logo { font-weight: 800; font-size: 18px; letter-spacing: -1px; }
+.sync-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+.sync-dot.ok { background: var(--s-green); box-shadow: 0 0 10px var(--s-green); }
 
-.search-container { padding: 12px 20px; background: rgba(224, 242, 254, 0.6); border-bottom: 1px solid var(--border); }
-.search-bar { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid #bae6fd; background: white; font-family: inherit; font-size: 14px; font-weight: 600; transition: 0.2s; color: var(--primary); }
-.search-bar::placeholder { color: #7dd3fc; }
-.search-bar:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1); }
+/* SEARCH */
+.search-box { padding: 15px; background: #bae6fd; }
+.search-bar { width: 100%; padding: 12px; border-radius: 12px; border: none; font-family: inherit; font-weight: 600; font-size: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
 
-/* RACK DESIGN */
-.container { max-width: 500px; margin: 0 auto; padding: 12px; }
-.level-head { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px 4px; }
-.level-head span { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); }
-.level-line { flex: 1; height: 1px; background: #bae6fd; }
-
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+/* RACK */
+.container { max-width: 600px; margin: 0 auto; padding: 10px; }
+.level-block { margin-bottom: 25px; }
+.level-label { background: var(--primary); color: white; display: inline-block; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 10px; margin-left: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
 .card { 
-    background: var(--surface); border-radius: var(--radius-md); padding: 16px;
-    border: 1px solid var(--border); box-shadow: var(--shadow);
-    display: flex; flex-direction: column; gap: 8px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--surface); border-radius: var(--radius); padding: 12px; 
+    border: 1px solid #bae6fd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; min-height: 115px; transition: 0.2s;
     position: relative;
 }
-.card:active { transform: scale(0.92); box-shadow: none; background: #e0f2fe; }
-.card.hidden { display: none; }
+.card:active { transform: scale(0.95); }
+.card.occupied { border-left: 5px solid #cbd5e1; }
 
-/* Teinte de fond pour les cartes occupées */
-.card.occupied.sg { background: #f0fdf4; border-color: #b9f6ca; }
-.card.occupied.sb { background: #eff6ff; border-color: #bfdbfe; }
-.card.occupied.sy { background: #fffbeb; border-color: #fde68a; }
-.card.occupied.sr { background: #fef2f2; border-color: #fecaca; animation: urgentPulse 2s infinite; }
+/* COULEURS STATUS */
+.card.sg { background: #f0fdf4; border-left-color: var(--s-green); }
+.card.sb { background: #eff6ff; border-left-color: var(--s-blue); }
+.card.sy { background: #fffbeb; border-left-color: var(--s-yellow); }
+.card.sr { background: #fef2f2; border-left-color: var(--s-red); animation: blink 2s infinite; }
+@keyframes blink { 50% { border-left-color: transparent; } }
 
-@keyframes urgentPulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+.card-id { font-size: 11px; font-weight: 800; color: var(--primary); margin-bottom: 4px; opacity: 0.8; }
+.card-ref { font-size: 13px; font-weight: 800; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 4px; }
+.card-transp { 
+    font-size: 10px; font-weight: 600; color: #475569; 
+    background: rgba(0,0,0,0.05); padding: 2px 6px; 
+    border-radius: 6px; display: inline-block;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 
-.card-id { font-weight: 800; font-size: 13px; color: var(--primary); opacity: 0.7; }
-.card-ref { font-size: 12px; font-weight: 700; color: var(--text); min-height: 30px; line-height: 1.2; word-break: break-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-.time-bar { width: 100%; height: 6px; background: #e0f2fe; border-radius: 10px; overflow: hidden; margin-top: auto; }
-.time-fill { height: 100%; transition: width 0.8s ease-in-out; }
+/* PROGRESS BAR */
+.p-bar { width: 100%; height: 5px; background: rgba(0,0,0,0.05); border-radius: 10px; margin-top: auto; overflow: hidden; }
+.p-fill { height: 100%; }
 
 /* MODALS */
-.view { display: none; animation: fadeIn 0.3s ease; }
+.view { display: none; padding: 15px; }
 .view.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } }
-
-.btn-back { border: none; background: #e0f2fe; font-weight: 700; color: var(--primary); padding: 10px 16px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-
-.modal { background: var(--surface); padding: 24px; border-radius: var(--radius-lg); box-shadow: 0 25px 50px -12px rgba(3, 105, 161, 0.15); margin-top: 10px; border: 1px solid var(--border); }
-
-.input-box { margin-bottom: 16px; }
-label { display: block; font-size: 11px; font-weight: 800; color: var(--primary); margin-bottom: 6px; text-transform: uppercase; }
-input { width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid var(--border); background: #f0f9ff; font-family: inherit; font-size: 16px; transition: 0.2s; color: var(--text); }
-input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(3, 105, 161, 0.1); }
-
-.btn-save { width: 100%; padding: 18px; border-radius: 16px; background: var(--primary); color: white; border: none; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(3, 105, 161, 0.3); transition: 0.2s; }
-.btn-save:active { transform: translateY(2px); box-shadow: 0 5px 10px -3px rgba(3, 105, 161, 0.3); }
-.btn-del { width: 100%; padding: 18px; border-radius: 16px; background: #fee2e2; color: var(--s-red); border: none; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 12px; }
-
-.status-pill { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; margin-bottom: 16px; text-transform: uppercase; }
-
-/* RECHERCHE VIDE */
-#search-empty { text-align: center; padding: 40px; color: var(--primary); font-weight: 600; display: none; }
+.modal { background: white; padding: 25px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+.btn-back { border:none; background: #0c4a6e; color:white; padding: 10px 18px; border-radius: 10px; margin-bottom: 15px; font-weight: 700; font-size: 12px; }
+.input-group { margin-bottom: 15px; }
+label { display: block; font-size: 11px; font-weight: 800; color: var(--header-bg); margin-bottom: 5px; text-transform: uppercase; }
+input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 16px; font-family: inherit; }
+.btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--header-bg); color: white; font-weight: 800; font-size: 16px; margin-top: 10px; }
+.btn-del { width: 100%; padding: 15px; border: none; border-radius: 12px; background: #fee2e2; color: #b91c1c; font-weight: 800; font-size: 16px; margin-top: 15px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="brand">
-        <div class="logo-sq">AU</div>
-        <div style="font-weight: 800; font-size: 17px; color: var(--primary);">Smart Rack</div>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px;">
-        <div id="sync-dot" style="width:10px; height:10px; border-radius:50%; background:#cbd5e1; transition: 0.3s;"></div>
-    </div>
-</div>
-
-<div class="search-container" id="search-box">
-    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Rechercher référence ou emplacement..." oninput="filterRack()">
+    <div class="logo">AUEM RACK</div>
+    <div id="sync-dot" class="sync-dot"></div>
 </div>
 
 <div id="view-rack" class="view active">
-    <div class="container" id="rack-grid"></div>
-    <div id="search-empty">Aucun colis ne correspond à votre recherche.</div>
+    <div class="search-box">
+        <input type="text" id="search-input" class="search-bar" placeholder="🔍 Rechercher commande ou transporteur..." oninput="filter()">
+    </div>
+    <div class="container" id="rack-grid">
+        </div>
 </div>
 
 <div id="view-emp" class="view">
     <div class="container">
-        <button class="btn-back" onclick="showRack()">← Retour au plan</button>
-        
-        <div id="form-add" class="modal">
-            <h2 id="add-id-label" style="font-weight:800; font-size: 28px; margin-bottom: 8px; color: var(--primary);"></h2>
-            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 24px;">Enregistrement d'un nouveau colis</p>
-            <div class="input-box">
-                <label>Référence du colis</label>
-                <input type="text" id="inp-ref" placeholder="Ex: CMD-9950-FR" autocomplete="off">
+        <button class="btn-back" onclick="showRack()">← RETOUR AU PLAN</button>
+        <div class="modal">
+            <h2 id="emp-id-display" style="font-size: 30px; font-weight: 800; color: var(--header-bg); margin-bottom: 20px;"></h2>
+            
+            <div id="form-add">
+                <div class="input-group">
+                    <label>Référence / Commande</label>
+                    <input type="text" id="inp-ref" placeholder="Ex: CMD-12345">
+                </div>
+                <div class="input-group">
+                    <label>Transporteur</label>
+                    <input type="text" id="inp-note" placeholder="Ex: DHL, Kuehne, GLS...">
+                </div>
+                <button class="btn-save" onclick="addPal()">VALIDER L'ENTRÉE</button>
             </div>
-            <div class="input-box">
-                <label>Notes logistiques (Optionnel)</label>
-                <input type="text" id="inp-note" placeholder="Transporteur, quai, client..." autocomplete="off">
-            </div>
-            <button class="btn-save" onclick="addPal()">Valider l'entrée</button>
-        </div>
 
-        <div id="form-det" class="modal" style="display:none;">
-            <div id="det-pill" class="status-pill"></div>
-            <h2 id="det-id" style="font-size:36px; font-weight:800; margin-bottom: 4px; color: var(--primary);"></h2>
-            <p id="det-ref" style="font-size:18px; font-weight:700; color: var(--text); margin-bottom: 24px; word-break: break-all;"></p>
-            
-            <div style="background:#f0f9ff; padding:18px; border-radius:16px; margin-bottom:24px; border:1px solid #bae6fd;">
-                <div style="font-size:10px; font-weight:800; color: var(--primary); text-transform: uppercase; margin-bottom: 6px;">Notes logistiques</div>
-                <div id="det-note" style="font-weight:600; font-size:14px; line-height:1.5;"></div>
+            <div id="form-det" style="display:none;">
+                <p style="font-size: 11px; font-weight: 800; color: var(--primary);">COMMANDE :</p>
+                <p id="det-ref" style="font-size: 20px; font-weight: 800; margin-bottom: 15px;"></p>
+                
+                <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:20px;">
+                    <p style="font-size: 10px; font-weight: 800; color: #64748b; margin-bottom: 5px;">TRANSPORTEUR :</p>
+                    <p id="det-note" style="font-size:16px; font-weight: 600;"></p>
+                </div>
+                
+                <p id="det-date" style="font-size:11px; color:#64748b; text-align: center; margin-bottom:15px;"></p>
+                <button class="btn-del" onclick="delPal()">MARQUER COMME SORTI</button>
             </div>
-            
-            <p id="det-date" style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom: 16px;"></p>
-            <button class="btn-del" onclick="delPal()">Marquer comme SORTI</button>
         </div>
     </div>
 </div>
 
 <script>
-// TON URL FIREBASE
-const FIREBASE_URL = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
-
+const FIREBASE = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
 let state = {};
 let currentId = null;
-
-// RETOUR HAPTIQUE (Vibration sur Android)
-function haptic() { if(window.navigator.vibrate) window.navigator.vibrate(15); }
-
-function getStatusInfo(date) {
-    if(!date) return null;
-    const jours = Math.floor((new Date() - new Date(date)) / 86400000);
-    const pct = Math.min((jours / 28) * 100, 100);
-    
-    if(jours >= 28) return { col: 'var(--s-red)', lab: jours+'j - URGENT', pct: 100, cls: 'sr' };
-    if(jours >= 21) return { col: 'var(--s-yellow)', lab: jours+'j - ATTENTE', pct: pct, cls: 'sy' };
-    if(jours >= 15) return { col: 'var(--s-blue)', lab: jours+'j - SUIVI', pct: pct, cls: 'sb' };
-    return { col: 'var(--s-green)', lab: jours+'j - OK', pct: pct, cls: 'sg' };
-}
 
 async function refresh() {
     const dot = document.getElementById('sync-dot');
     try {
-        const r = await fetch(FIREBASE_URL);
+        const r = await fetch(FIREBASE);
         state = await r.json() || {};
         render();
-        dot.style.background = 'var(--s-green)';
-        dot.style.boxShadow = '0 0 10px var(--s-green)';
-    } catch(e) { 
-        dot.style.background = 'var(--s-red)';
-        dot.style.boxShadow = '0 0 10px var(--s-red)';
-    }
+        dot.className = 'sync-dot ok';
+    } catch(e) { dot.className = 'sync-dot'; }
 }
 
-async function sync() {
-    await fetch(FIREBASE_URL, { method:'PUT', body: JSON.stringify(state) });
-    refresh();
+function getInfo(date) {
+    if(!date) return null;
+    const j = Math.floor((new Date() - new Date(date)) / 86400000);
+    const pct = Math.min((j/28)*100, 100);
+    if(j >= 28) return { cls: 'sr', col: 'var(--s-red)', pct: 100 };
+    if(j >= 21) return { cls: 'sy', col: 'var(--s-yellow)', pct: pct };
+    if(j >= 15) return { cls: 'sb', col: 'var(--s-blue)', pct: pct };
+    return { cls: 'sg', col: 'var(--s-green)', pct: pct };
 }
 
 function render() {
-    const cont = document.getElementById('rack-grid');
-    cont.innerHTML = '';
-    // Correction ici : On s'assure que les 4 niveaux sont bien rendus dans l'ordre
-    ['D','C','B','A'].forEach(niv => {
-        const h = document.createElement('div');
-        h.className = 'level-head';
-        h.innerHTML = `<span>Niveau ${niv}</span><div class="level-line"></div>`;
-        cont.appendChild(h);
-
+    const grid = document.getElementById('rack-grid');
+    grid.innerHTML = '';
+    
+    ['D', 'C', 'B', 'A'].forEach(niv => {
+        const block = document.createElement('div');
+        block.className = 'level-block';
+        block.innerHTML = `<div class="level-label">NIVEAU ${niv}</div>`;
+        
         const g = document.createElement('div');
         g.className = 'grid';
+        
         for(let i=1; i<=6; i++) {
-            const id = niv+i;
+            const id = niv + i;
             const p = state[id];
-            const info = getStatusInfo(p?.date);
+            const info = getInfo(p?.date);
             
-            const c = document.createElement('div');
-            // Ajout de la classe de statut (sg, sb, sy, sr) pour la couleur de fond
-            c.className = `card ${p ? 'occupied '+info.cls : ''}`;
-            c.id = `card-${id}`;
-            c.innerHTML = `
+            const card = document.createElement('div');
+            card.className = `card ${p ? 'occupied ' + info.cls : ''}`;
+            
+            // Affichage conditionnel du transporteur s'il existe
+            const transporteurHtml = p && p.note ? `<div class="card-transp">${p.note}</div>` : '';
+            
+            card.innerHTML = `
                 <div class="card-id">${id}</div>
-                <div class="card-ref">${p ? p.ref : '<span style="color:#b9e7fe">---</span>'}</div>
-                ${p ? `<div class="time-bar"><div class="time-fill" style="width:${info.pct}%; background:${info.col}"></div></div>` : ''}
+                <div class="card-ref">${p ? p.ref : '---'}</div>
+                ${transporteurHtml}
+                ${p ? `<div class="p-bar"><div class="p-fill" style="width:${info.pct}%; background:${info.col}"></div></div>` : ''}
             `;
-            c.onclick = () => openEmp(id);
-            g.appendChild(c);
+            card.onclick = () => openEmp(id);
+            g.appendChild(card);
         }
-        cont.appendChild(g);
+        block.appendChild(g);
+        grid.appendChild(block);
     });
-}
-
-function filterRack() {
-    const val = document.getElementById('search-input').value.toUpperCase();
-    const cards = document.querySelectorAll('.card');
-    let hasResult = false;
-
-    cards.forEach(card => {
-        const ref = card.querySelector('.card-ref').innerText.toUpperCase();
-        const id = card.querySelector('.card-id').innerText.toUpperCase();
-        if(ref.includes(val) || id.includes(val)) {
-            card.classList.remove('hidden');
-            hasResult = true;
-        } else {
-            card.classList.add('hidden');
-        }
-    });
-    
-    document.getElementById('search-empty').style.display = hasResult ? 'none' : 'block';
 }
 
 function openEmp(id) {
-    haptic();
     currentId = id;
     const p = state[id];
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('emp-id-display').textContent = "Emplacement " + id;
+    document.getElementById('view-rack').classList.remove('active');
     document.getElementById('view-emp').classList.add('active');
-    document.getElementById('search-box').style.display = 'none';
     
     if(p) {
         document.getElementById('form-add').style.display = 'none';
         document.getElementById('form-det').style.display = 'block';
-        const info = getStatusInfo(p.date);
-        document.getElementById('det-id').textContent = id;
         document.getElementById('det-ref').textContent = p.ref;
-        document.getElementById('det-note').textContent = p.note || "Aucune note logistique.";
-        document.getElementById('det-date').textContent = "Colis enregistré le " + new Date(p.date).toLocaleDateString('fr-FR');
-        document.getElementById('det-pill').textContent = info.lab;
-        document.getElementById('det-pill').style.background = info.col + '15';
-        document.getElementById('det-pill').style.color = info.col;
+        document.getElementById('det-note').textContent = p.note || "Non renseigné";
+        document.getElementById('det-date').textContent = "Déposé le " + new Date(p.date).toLocaleDateString();
     } else {
         document.getElementById('form-add').style.display = 'block';
         document.getElementById('form-det').style.display = 'none';
-        document.getElementById('add-id-label').textContent = "Emplacement " + id;
-        // Focus auto sur le champ référence après l'animation
-        setTimeout(() => document.getElementById('inp-ref').focus(), 350);
+        document.getElementById('inp-ref').value = '';
+        document.getElementById('inp-note').value = '';
     }
 }
 
-function addPal() {
+async function addPal() {
     const ref = document.getElementById('inp-ref').value.trim();
-    if(!ref) { haptic(); haptic(); return; } // Double vibration si erreur
-    haptic();
-    state[currentId] = { ref: ref, note: document.getElementById('inp-note').value.trim(), date: new Date().toISOString() };
-    document.getElementById('inp-ref').value = '';
-    document.getElementById('inp-note').value = '';
-    sync();
+    const note = document.getElementById('inp-note').value.trim();
+    if(!ref) return;
+    state[currentId] = { ref: ref, note: note, date: new Date().toISOString() };
+    await fetch(FIREBASE, { method:'PUT', body: JSON.stringify(state) });
     showRack();
+    refresh();
 }
 
-function delPal() {
-    if(confirm("Confirmer la sortie définitive de ce colis ?")) {
-        haptic();
-        delete state[currentId];
-        sync();
-        showRack();
-    }
+async function delPal() {
+    if(!confirm("Sortir ce colis de l'emplacement ?")) return;
+    delete state[currentId];
+    await fetch(FIREBASE, { method:'PUT', body: JSON.stringify(state) });
+    showRack();
+    refresh();
+}
+
+function filter() {
+    const val = document.getElementById('search-input').value.toUpperCase();
+    document.querySelectorAll('.card').forEach(c => {
+        const txt = c.innerText.toUpperCase();
+        c.style.display = txt.includes(val) ? 'flex' : 'none';
+    });
 }
 
 function showRack() {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-emp').classList.remove('active');
     document.getElementById('view-rack').classList.add('active');
-    document.getElementById('search-box').style.display = 'block';
 }
 
-// Initialisation
 window.onload = refresh;
-setInterval(refresh, 20000); // Check auto toutes les 20s
+setInterval(refresh, 20000);
 </script>
 </body>
 </html>
