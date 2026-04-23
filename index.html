@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>AUEM — Rack Attente (Auto)</title>
+<title>AUEM — Rack Attente (Solo)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -15,9 +15,8 @@
   --r: 12px; --r-sm: 8px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:14px; min-height:100vh; padding-bottom:20px; }
+body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:14px; min-height:100vh; }
 
-/* HEADER */
 .header { background:var(--surface); border-bottom:2px solid var(--text); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
 .logo { width:36px; height:36px; background:var(--text); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:8px; color:var(--bg); font-weight:700; }
 .sync-dot { width:8px; height:8px; border-radius:50%; background:var(--text3); }
@@ -25,35 +24,30 @@ body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans
 .sync-dot.loading { background:var(--s-yellow); animation: blink .7s infinite alternate; }
 @keyframes blink { to { opacity: 0.2; } }
 
-/* LEGENDE */
 .legend { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; padding:10px 14px; background:var(--surface); border-bottom:1px solid var(--border); font-size:10px; font-weight:700; }
-.leg-item { display:flex; align-items:center; gap:6px; }
 
-/* RACK VIEW */
 .rack-body { padding:12px; }
 .etage-sec { border-radius:var(--r); overflow:hidden; margin-bottom:12px; border:1.5px solid var(--border2); background:white; }
-.etage-hd { padding:8px 12px; font-weight:700; background:#f1f1f1; border-bottom:1px solid var(--border2); display:flex; justify-content:space-between; }
+.etage-hd { padding:8px 12px; font-weight:700; background:#f1f1f1; border-bottom:1px solid var(--border2); }
 .emp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border2); }
-.emp-card { background:white; padding:10px; min-height:85px; cursor:pointer; display:flex; flex-direction:column; border-left: 5px solid #eee; transition: background 0.2s; }
-.emp-card:active { background: #f9f9f9; }
-.emp-id { font-weight:700; font-size:15px; color: var(--text); }
-.ep-ref { font-size:11px; margin-top:4px; font-family:'IBM Plex Mono'; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.emp-card { background:white; padding:10px; min-height:85px; cursor:pointer; display:flex; flex-direction:column; border-left: 5px solid #eee; }
 
-/* COLORS BASED ON TIME */
+/* COULEURS AUTO */
 .sg { border-left-color: var(--s-green) !important; }
 .sb { border-left-color: var(--s-blue) !important; }
 .sy { border-left-color: var(--s-yellow) !important; }
 .sr { border-left-color: var(--s-red) !important; animation: pulseRed 2s infinite; }
 @keyframes pulseRed { 50% { background: #fff1f1; } }
 
-/* EMPLACEMENT VIEW */
 .view { display:none; }
 .view.active { display:block; }
 .section { background:white; border:1.5px solid var(--border); border-radius:var(--r); padding:15px; margin:12px; }
-.inp { width:100%; padding:12px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:6px; font-family: inherit; font-size: 14px; }
+.inp { width:100%; padding:12px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:6px; font-size: 14px; }
 .btn-main { width:100%; background:var(--text); color:white; padding:14px; border:none; border-radius:6px; font-weight:700; cursor:pointer; }
-.pal-card { background:var(--bg); padding:12px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid #ccc; }
+.btn-del { width:100%; background:var(--s-red); color:white; padding:14px; border:none; border-radius:6px; font-weight:700; cursor:pointer; margin-top:10px; }
 .btn-back { background:var(--text); color:white; border:none; padding:10px 16px; border-radius:6px; margin:12px; cursor:pointer; font-weight:600; }
+
+.info-box { background:var(--bg); padding:12px; border-radius:8px; border-left: 4px solid var(--text); }
 </style>
 </head>
 <body>
@@ -61,16 +55,16 @@ body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans
 <div class="header">
   <div style="display:flex; align-items:center; gap:10px;">
     <div class="logo">AUEM</div>
-    <div><div style="font-weight:700">Rack Attente</div><div style="font-size:10px; color:var(--text3)">Mise à jour automatique</div></div>
+    <div><div style="font-weight:700">Rack Attente</div><div style="font-size:10px; color:var(--text3)">1 Emplacement = 1 Palette</div></div>
   </div>
   <div class="sync-dot" id="sync-dot"></div>
 </div>
 
 <div class="legend">
-  <div class="leg-item" style="color:var(--s-green)">● Moins de 15j</div>
-  <div class="leg-item" style="color:var(--s-blue)">● 15j à 21j</div>
-  <div class="leg-item" style="color:var(--s-yellow)">● 21j à 28j</div>
-  <div class="leg-item" style="color:var(--s-red)">● + de 28j (URGENT)</div>
+  <div style="color:var(--s-green)">● < 15j</div>
+  <div style="color:var(--s-blue)">● 15j-21j</div>
+  <div style="color:var(--s-yellow)">● 21j-28j</div>
+  <div style="color:var(--s-red)">● +28j (URGENT)</div>
 </div>
 
 <div class="view active" id="view-rack">
@@ -78,36 +72,42 @@ body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans
 </div>
 
 <div class="view" id="view-emp">
-  <button class="btn-back" onclick="showRack()">← Retour au Rack</button>
-  <div class="section">
-    <h3 id="emp-title" style="margin-bottom:12px;">Emplacement</h3>
-    <input class="inp" id="inp-ref" placeholder="N° de commande ou palette">
+  <button class="btn-back" onclick="showRack()">← Retour</button>
+  
+  <div class="section" id="form-ajout">
+    <h3 id="emp-title-add" style="margin-bottom:12px;">Entrée Palette</h3>
+    <input class="inp" id="inp-ref" placeholder="N° Commande / Palette">
     <input class="inp" id="inp-note" placeholder="Note (Transporteur, client...)">
     <button class="btn-main" onclick="addPalette()">Enregistrer l'entrée</button>
   </div>
-  <div id="palette-list" style="padding:0 12px;"></div>
+
+  <div class="section" id="form-details" style="display:none;">
+    <h3 id="emp-title-det" style="margin-bottom:12px;">Détails Emplacement</h3>
+    <div class="info-box">
+        <div id="det-ref" style="font-weight:700; font-size:16px;"></div>
+        <div id="det-date" style="font-size:11px; color:var(--text2); margin:4px 0;"></div>
+        <div id="det-note" style="font-size:12px; font-style:italic;"></div>
+    </div>
+    <button class="btn-del" onclick="delPal()">Vider l'emplacement (Sortie)</button>
+  </div>
 </div>
 
 <script>
-// --- CONFIGURATION ---
 const ETAGES = ['D','C','B','A'];
 const FIREBASE = 'https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json';
 
 let state = {};
 let currentEmp = null;
 
-// --- LOGIQUE DE TEMPS ---
 function getStatus(timestamp) {
-    if (!timestamp) return 'green';
+    if (!timestamp) return '';
     const jours = Math.floor((new Date() - new Date(timestamp)) / (1000 * 60 * 60 * 24));
-    
-    if (jours >= 28) return 'red';
-    if (jours >= 21) return 'yellow';
-    if (jours >= 15) return 'blue';
-    return 'green';
+    if (jours >= 28) return 'sr';
+    if (jours >= 21) return 'sy';
+    if (jours >= 15) return 'sb';
+    return 'sg';
 }
 
-// --- SYNCHRONISATION ---
 async function loadFromServer() {
     const dot = document.getElementById('sync-dot');
     dot.className = 'sync-dot loading';
@@ -116,10 +116,7 @@ async function loadFromServer() {
         state = await res.json() || {};
         renderRack();
         dot.className = 'sync-dot ok';
-    } catch(e) { 
-        dot.className = 'sync-dot';
-        console.error("Erreur de synchro");
-    }
+    } catch(e) { dot.className = 'sync-dot'; }
 }
 
 async function saveToServer() {
@@ -127,7 +124,6 @@ async function saveToServer() {
     loadFromServer();
 }
 
-// --- RENDER ---
 function renderRack() {
     const grid = document.getElementById('rack-grid');
     grid.innerHTML = '';
@@ -140,24 +136,16 @@ function renderRack() {
         
         for(let i=1; i<=6; i++) {
             const id = etage+i;
-            const pals = state[id]?.palettes || [];
-            let colorClass = '';
-            
-            if(pals.length) {
-                // Déterminer la couleur selon la palette la plus vieille
-                const critStat = pals.map(p => getStatus(p.date));
-                if(critStat.includes('red')) colorClass = 'sr';
-                else if(critStat.includes('yellow')) colorClass = 'sy';
-                else if(critStat.includes('blue')) colorClass = 'sb';
-                else colorClass = 'sg';
-            }
+            const pal = state[id]; // Plus de tableau, juste un objet
+            const statusClass = pal ? getStatus(pal.date) : '';
             
             const card = document.createElement('div');
-            card.className = `emp-card ${colorClass}`;
+            card.className = `emp-card ${statusClass}`;
             card.innerHTML = `
                 <div class="emp-id">${id}</div>
-                <div class="ep-ref">${pals.length ? pals[0].ref : '<span style="color:#ddd">Vide</span>'}</div>
-                ${pals.length > 1 ? `<div style="font-size:9px; color:var(--s-blue); font-weight:700;">+ ${pals.length-1} palette(s)</div>` : ''}
+                <div style="font-size:11px; margin-top:4px; font-weight:600;">
+                    ${pal ? pal.ref : '<span style="color:#ddd">Vide</span>'}
+                </div>
             `;
             card.onclick = () => openEmp(id);
             g.appendChild(card);
@@ -169,72 +157,56 @@ function renderRack() {
 
 function openEmp(id) {
     currentEmp = id;
-    document.getElementById('emp-title').textContent = "Emplacement " + id;
-    showView('view-emp');
-    renderPalList();
-}
-
-function renderPalList() {
-    const list = document.getElementById('palette-list');
-    list.innerHTML = '';
-    const pals = state[currentEmp]?.palettes || [];
+    const pal = state[id];
     
-    pals.forEach((p, i) => {
-        const color = getStatus(p.date);
-        const dateObj = new Date(p.date);
-        const dateTxt = dateObj.toLocaleDateString('fr-FR') + " (" + Math.floor((new Date() - dateObj)/(1000*60*60*24)) + "j)";
-        
-        const div = document.createElement('div');
-        div.className = 'pal-card';
-        div.style.borderLeftColor = `var(--s-${color})`;
-        div.innerHTML = `
-            <div>
-                <div class="ep-ref">${p.ref}</div>
-                <div style="font-size:10px; color:var(--text2)">Arrivé le ${dateTxt}</div>
-                <div style="font-size:10px; font-style:italic;">${p.note || ''}</div>
-            </div>
-            <button onclick="delPal(${i})" style="background:none; border:none; font-size:20px; color:var(--text3); cursor:pointer;">✕</button>
-        `;
-        list.appendChild(div);
-    });
+    if (pal) {
+        document.getElementById('form-ajout').style.display = 'none';
+        document.getElementById('form-details').style.display = 'block';
+        document.getElementById('emp-title-det').textContent = "Emplacement " + id;
+        document.getElementById('det-ref').textContent = pal.ref;
+        const jours = Math.floor((new Date() - new Date(pal.date)) / (1000 * 60 * 60 * 24));
+        document.getElementById('det-date').textContent = "Arrivé le " + new Date(pal.date).toLocaleDateString('fr-FR') + " (" + jours + " jours)";
+        document.getElementById('det-note').textContent = pal.note || "Aucune note";
+    } else {
+        document.getElementById('form-ajout').style.display = 'block';
+        document.getElementById('form-details').style.display = 'none';
+        document.getElementById('emp-title-add').textContent = "Entrée sur " + id;
+    }
+    showView('view-emp');
 }
 
-// --- ACTIONS ---
 function addPalette() {
     const ref = document.getElementById('inp-ref').value.trim();
     if(!ref) return;
     
-    if(!state[currentEmp]) state[currentEmp] = { palettes: [] };
-    
-    state[currentEmp].palettes.push({
+    state[currentEmp] = {
         ref: ref,
         note: document.getElementById('inp-note').value,
-        date: new Date().toISOString() // La date est générée ici automatiquement
-    });
+        date: new Date().toISOString()
+    };
     
     document.getElementById('inp-ref').value = '';
     document.getElementById('inp-note').value = '';
     saveToServer();
+    showRack();
 }
 
-function delPal(i) {
-    if(confirm("Retirer cette palette ?")) {
-        state[currentEmp].palettes.splice(i, 1);
+function delPal() {
+    if(confirm("Confirmer la sortie de cette palette ?")) {
+        delete state[currentEmp];
         saveToServer();
+        showRack();
     }
 }
 
 function showView(id) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
 }
-
 function showRack() { showView('view-rack'); }
 
-// Initialisation
 window.onload = loadFromServer;
-setInterval(loadFromServer, 60000); // Rafraîchir toutes les minutes
+setInterval(loadFromServer, 30000);
 </script>
 </body>
 </html>
