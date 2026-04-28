@@ -63,10 +63,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .leg{font-size:9px;font-weight:600;color:var(--text3);display:flex;align-items:center;gap:3px;}
 .leg-dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
 
-/* VIEWS — chaque vue a son propre display */
+/* VIEWS */
 #view-rack  { display:block; }
 #view-emp   { display:none;  }
 #view-qr    { display:none;  }
+#view-guide { display:none;  }
 
 /* RACK */
 .rack-body{padding:11px;}
@@ -165,6 +166,30 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .cr-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2);margin-bottom:5px;}
 .cr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block;}
 
+/* GUIDE */
+.guide-slide{animation:slideIn .3s ease;}
+.guide-title{
+  font-size:18px;font-weight:700;margin-bottom:16px;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:14px;
+  text-align:center;
+}
+.guide-text{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:16px;
+  margin-bottom:16px;line-height:2;
+  font-size:14px;
+}
+.guide-text p{margin:0 0 8px 0;}
+.guide-text p:last-child{margin-bottom:0;}
+.btn-guide-next{
+  width:100%;background:var(--text);color:var(--bg);border:none;
+  border-radius:var(--rs);font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:700;padding:12px;cursor:pointer;
+}
+.btn-guide-next:active{opacity:.8;}
+@keyframes slideIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
 /* MODAL */
 .modal-ov{position:fixed;inset:0;background:rgba(28,24,20,.65);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:16px;}
 .modal-ov.open{display:flex;}
@@ -200,6 +225,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
   <div class="hdr-r">
     <div class="sync-dot loading" id="sync-dot"></div>
     <div class="sync-time" id="sync-time">…</div>
+    <button class="btn-hdr" onclick="goGuide()">❓</button>
     <button class="btn-hdr" onclick="goQR()">📱</button>
   </div>
 </div>
@@ -286,6 +312,89 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
   </div>
 </div>
 
+<!-- VUE GUIDE -->
+<div id="view-guide">
+  <div class="back-hdr">
+    <button class="btn-back" onclick="goRack()">&#8592;</button>
+    <div><div class="bh-title">Guide</div><div class="bh-sub">Comment utiliser le Rack</div></div>
+  </div>
+  <div class="vbody">
+
+    <div class="guide-slide" id="guide-slide-1">
+      <div class="guide-title">📱 Étape 1 : Scannez le QR Code</div>
+      <div class="guide-text">
+        <p><strong>Où est le QR ?</strong> Il est fixé sur le montant du RACK ATTENTE.</p>
+        <p style="margin-top: 12px;"><strong>Comment faire :</strong></p>
+        <p>1️⃣ Ouvrez l'<strong>appareil photo</strong> de votre téléphone</p>
+        <p>2️⃣ Pointez vers le <strong>carré noir/blanc</strong> du QR code</p>
+        <p>3️⃣ Une notification apparaît → cliquez dessus</p>
+        <p>4️⃣ Vous arrivez sur cette application ! ✅</p>
+      </div>
+      <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
+    </div>
+
+    <div class="guide-slide" id="guide-slide-2" style="display:none;">
+      <div class="guide-title">📍 Étape 2 : Choisissez votre emplacement</div>
+      <div class="guide-text">
+        <p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p>
+        <p style="margin-top: 10px;">🟡 <strong>Haut (D)</strong> → D1, D2, D3, D4, D5, D6</p>
+        <p>🔵 <strong>Milieu-haut (C)</strong> → C1, C2, C3, C4, C5, C6</p>
+        <p>🟢 <strong>Milieu (B)</strong> → B1, B2, B3, B4, B5, B6</p>
+        <p>🟠 <strong>Bas (A)</strong> → A1, A2, A3, A4, A5, A6</p>
+        <p style="margin-top: 12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre brut</p>
+        <p style="font-size:12px; color:var(--text3); margin-top:8px;">💡 Exemple : vous mettez sur B4 ? → Cliquez sur "B4"</p>
+      </div>
+      <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
+    </div>
+
+    <div class="guide-slide" id="guide-slide-3" style="display:none;">
+      <div class="guide-title">✏️ Étape 3 : Remplissez les infos du brut</div>
+      <div class="guide-text">
+        <p style="margin-bottom: 8px;"><strong>🔴 N° Commande / Référence (obligatoire !)</strong></p>
+        <p style="font-size:12px; margin-bottom: 10px; color:var(--text3);">Exemple : CMD001, REF12345, N° client, etc.</p>
+        <p style="margin-bottom: 8px;"><strong>🟠 Numéros AFS (optionnel)</strong></p>
+        <p style="font-size:12px; margin-bottom: 10px; color:var(--text3);">Plusieurs ? → Séparez par des virgules ou espaces</p>
+        <p style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,.1);"><strong>📊 Délai max : 90 jours</strong></p>
+        <p style="font-size:12px; margin-top: 6px; color:var(--text3);">L'app calcule automatiquement :</p>
+        <p style="font-size:12px; color:var(--text3); margin-top:4px;">🟢 <strong>0-15 jours</strong> → Vert</p>
+        <p style="font-size:12px; color:var(--text3);">🔵 <strong>15-21 jours</strong> → Bleu</p>
+        <p style="font-size:12px; color:var(--text3);">🟡 <strong>21-28 jours</strong> → Jaune</p>
+        <p style="font-size:12px; color:var(--text3);">🔴 <strong>+28 jours</strong> → Rouge (attention !)</p>
+      </div>
+      <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
+    </div>
+
+    <div class="guide-slide" id="guide-slide-4" style="display:none;">
+      <div class="guide-title">✓ Étape 4 : Validez l'entrée</div>
+      <div class="guide-text">
+        <p><strong>Vous avez rempli la référence ?</strong> Maintenant :</p>
+        <p style="margin: 16px 0; padding: 12px; background:rgba(0,0,0,.05); border-radius:8px; font-weight:600; text-align:center;">🔘 Cliquez sur "✓ Valider l'entrée"</p>
+        <p style="font-size:13px;"><strong>✅ Succès !</strong> Votre brut apparaît immédiatement sur le rack</p>
+        <p style="font-size:13px; margin-top:8px;"><strong>📡 IMPORTANT :</strong> Tous les autres opérateurs voient la modification en temps réel</p>
+        <p style="font-size:12px; color:var(--text3); margin-top:8px;">Aucun doublon, tout est synchronisé automatiquement</p>
+      </div>
+      <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
+    </div>
+
+    <div class="guide-slide" id="guide-slide-5" style="display:none;">
+      <div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
+      <div class="guide-text">
+        <p style="margin-bottom: 16px;"><strong>Résumé rapide :</strong></p>
+        <p>📱 <strong>1.</strong> Scanner le QR code au rack</p>
+        <p>📍 <strong>2.</strong> Cliquer sur votre emplacement (A1, B4, D6, etc.)</p>
+        <p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS (optionnel)</p>
+        <p>✓ <strong>4.</strong> Cliquer "Valider l'entrée"</p>
+        <p style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,.1);"><strong>💡 Astuce importante :</strong></p>
+        <p style="font-size:12px; color:var(--text3); margin-top:6px;">La <strong>couleur change AUTOMATIQUEMENT</strong> selon les jours passés :</p>
+        <p style="font-size:12px; color:var(--text3);">Plus ça reste longtemps → Plus ça devient rouge 🔴</p>
+        <p style="font-size:12px; color:var(--text3);">Si c'est rouge = URGENCE ! Traiter en priorité</p>
+      </div>
+      <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
+    </div>
+
+  </div>
+</div>
+
 <!-- VUE QR -->
 <div id="view-qr">
   <div class="back-hdr">
@@ -349,14 +458,16 @@ var curId   = null;
 var newAFS  = [];
 var toastTm = null;
 var saveTm  = null;
+var currentGuideSlide = 1;
 
 /* ═══════════════════════
-   NAVIGATION — la plus simple possible
+   NAVIGATION
 ═══════════════════════ */
 function showOnly(id) {
   document.getElementById("view-rack").style.display = "none";
   document.getElementById("view-emp").style.display  = "none";
   document.getElementById("view-qr").style.display   = "none";
+  document.getElementById("view-guide").style.display = "none";
   document.getElementById(id).style.display = "block";
   window.scrollTo(0, 0);
 }
@@ -374,6 +485,31 @@ function goEmp(id) {
 function goQR() {
   showOnly("view-qr");
   renderQR();
+}
+
+function goGuide() {
+  currentGuideSlide = 1;
+  updateGuideSlide();
+  showOnly("view-guide");
+}
+
+function nextGuide() {
+  if (currentGuideSlide < 5) {
+    currentGuideSlide++;
+    updateGuideSlide();
+  }
+}
+
+function updateGuideSlide() {
+  for (var i=1; i<=5; i++) {
+    var slide = document.getElementById("guide-slide-" + i);
+    if (i === currentGuideSlide) {
+      slide.style.display = "block";
+    } else {
+      slide.style.display = "none";
+    }
+  }
+  window.scrollTo(0, 0);
 }
 
 /* ═══════════════════════
@@ -569,7 +705,6 @@ function renderRack() {
         card.appendChild(afsEl);
       }
 
-      // ← Technique la plus compatible : attribut data + fonction globale
       card.setAttribute("data-empid", id);
       card.onclick = function() { goEmp(this.getAttribute("data-empid")); };
 
