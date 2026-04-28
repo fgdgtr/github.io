@@ -266,6 +266,17 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
         <div class="slbl">Emplacement réservé</div>
         <p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
         <p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
+        <div class="div"></div>
+        <div class="slbl" style="margin-bottom:7px;">Enregistrer une palette sur cet emplacement</div>
+        <input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
+        <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
+        <div class="afs-wrap" id="afs-reserved"></div>
+        <div class="inp-row">
+          <input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
+          <button class="btn-sec" onclick="addAFSReserved()">+</button>
+        </div>
+        <button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
+        <div class="div"></div>
         <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
       </div>
     </div>
@@ -334,11 +345,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
     </div>
     <div id="guide-slide-4" style="display:none;">
-      <div class="guide-title">✓ Étape 4 : Validez</div>
+      <div class="guide-title">🔒 Les emplacements réservés</div>
       <div class="guide-text">
-        <p>Cliquez sur <strong>"✓ Valider l'entrée"</strong></p>
-        <p style="margin-top:12px;">✅ Votre brut apparaît immédiatement sur le rack</p>
-        <p style="margin-top:8px;">📡 Tous les opérateurs voient la modification en temps réel</p>
+        <p><strong>Certains emplacements sont réservés à une entreprise.</strong></p>
+        <p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p>
+        <p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p>
+        <p>1️⃣ Cliquez sur l'emplacement réservé</p>
+        <p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p>
+        <p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p>
+        <p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p>
+        <p style="margin-top:6px;font-size:12px;color:var(--text3);">⚠️ Ne mettez pas une palette d'une autre entreprise sur un emplacement réservé</p>
       </div>
       <button class="btn-guide-next" onclick="nextGuide(4)">Suivant →</button>
     </div>
@@ -349,7 +365,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
         <p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p>
         <p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p>
         <p>✓ <strong>4.</strong> Valider</p>
-        <p style="margin-top:14px;font-size:12px;color:var(--text3);">🔴 Rouge = délai dépassé → traiter en priorité !</p>
+        <p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p>
+        <p style="margin-top:10px;font-size:12px;color:var(--text3);">🔴 Rouge = délai dépassé → traiter en priorité !</p>
       </div>
       <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
     </div>
