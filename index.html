@@ -8,19 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#f3efe9; --surface:#faf7f3; --card:#fff;
-  --border:#e5dfd6; --border2:#cdc6bc;
-  --text:#1c1814; --text2:#6e6560; --text3:#aba49d;
-  --hdr:#1c1814;
-  --d-h:#18120a; --d-a:#f59e0b; --d-t:#fef3c7;
-  --c-h:#0f2744; --c-a:#60a5fa; --c-t:#dbeafe;
-  --b-h:#052e16; --b-a:#4ade80; --b-t:#dcfce7;
-  --a-h:#431407; --a-a:#fb923c; --a-t:#ffedd5;
-  --sg:#16a34a; --sg-bg:#f0fdf4; --sg-bd:#86efac;
-  --sb:#2563eb; --sb-bg:#eff6ff; --sb-bd:#93c5fd;
-  --sy:#d97706; --sy-bg:#fffbeb; --sy-bd:#fcd34d;
-  --sr:#dc2626; --sr-bg:#fef2f2; --sr-bd:#fca5a5;
-  --r:14px; --rs:9px;
+--bg:#f3efe9; --surface:#faf7f3; --card:#fff;
+--border:#e5dfd6; --border2:#cdc6bc;
+--text:#1c1814; --text2:#6e6560; --text3:#aba49d;
+--hdr:#1c1814;
+--d-h:#18120a; --d-a:#f59e0b; --d-t:#fef3c7;
+--c-h:#0f2744; --c-a:#60a5fa; --c-t:#dbeafe;
+--b-h:#052e16; --b-a:#4ade80; --b-t:#dcfce7;
+--a-h:#431407; --a-a:#fb923c; --a-t:#ffedd5;
+--r:14px; --rs:9px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;padding-bottom:28px;overflow-x:hidden;}
@@ -34,37 +30,26 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .hdr-sub{font-size:10px;color:var(--text3);margin-top:1px;}
 .hdr-r{display:flex;align-items:center;gap:7px;}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:all .4s;display:inline-block;}
-.sync-dot.ok{background:var(--sg);box-shadow:0 0 7px rgba(22,163,74,.6);}
-.sync-dot.loading{background:var(--sy);animation:blink .7s ease-in-out infinite alternate;}
-.sync-dot.error{background:var(--sr);}
+.sync-dot.ok{background:#16a34a;box-shadow:0 0 7px rgba(22,163,74,.6);}
+.sync-dot.loading{background:#d97706;animation:blink .7s ease-in-out infinite alternate;}
+.sync-dot.error{background:#dc2626;}
 @keyframes blink{to{opacity:.15;}}
 .sync-time{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
-.sync-time.ok{color:var(--sg);}
+.sync-time.ok{color:#16a34a;}
 .btn-hdr{width:34px;height:34px;border-radius:var(--rs);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:#f3efe9;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;}
 .btn-hdr:active{background:rgba(255,255,255,.2);}
 
 .bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;}
-.search-wrap{position:relative;margin-bottom:9px;}
+.search-wrap{position:relative;}
 .s-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.35;pointer-events:none;}
 .s-inp{width:100%;padding:9px 11px 9px 33px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;outline:none;}
 .s-inp:focus{border-color:var(--text);}
 .s-inp::placeholder{color:var(--text3);}
-.bar-bottom{display:flex;align-items:center;justify-content:space-between;}
-.stats-row{display:flex;gap:5px;}
-.stt{display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;border:1px solid;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;}
-.stt-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
-.stt.g{background:var(--sg-bg);border-color:var(--sg-bd);color:var(--sg);}
-.stt.b{background:var(--sb-bg);border-color:var(--sb-bd);color:var(--sb);}
-.stt.y{background:var(--sy-bg);border-color:var(--sy-bd);color:var(--sy);}
-.stt.r{background:var(--sr-bg);border-color:var(--sr-bd);color:var(--sr);}
-.legend{display:flex;gap:8px;}
-.leg{font-size:9px;font-weight:600;color:var(--text3);display:flex;align-items:center;gap:3px;}
-.leg-dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
 
-#view-rack  { display:block; }
-#view-emp   { display:none;  }
-#view-qr    { display:none;  }
-#view-guide { display:none;  }
+#view-rack { display:block; }
+#view-emp { display:none; }
+#view-qr { display:none; }
+#view-guide { display:none; }
 
 .rack-body{padding:11px;}
 .niv-block{margin-bottom:9px;border-radius:var(--r);overflow:hidden;}
@@ -87,15 +72,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ecard:active{filter:brightness(.93);}
 .ecard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .ecard.vide::before{background:var(--border);}
-.ecard.sg::before{background:var(--sg);}
-.ecard.sb::before{background:var(--sb);}
-.ecard.sy::before{background:var(--sy);}
-.ecard.sr::before{background:var(--sr);}
+.ecard.occ::before{background:var(--text2);}
 .ecard.reserv::before{background:var(--text3);}
-.ecard.sg{background:var(--sg-bg);}
-.ecard.sb{background:var(--sb-bg);}
-.ecard.sy{background:var(--sy-bg);}
-.ecard.sr{background:var(--sr-bg);}
+.ecard.occ{background:#f7f4f0;}
 .ecard-id{font-size:10px;font-weight:700;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.5px;}
 .ecard-ref{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ecard.vide .ecard-ref{color:var(--text3);font-weight:400;font-size:11px;}
@@ -114,21 +93,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .info-ref{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;}
 .info-arrive{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:10px;}
 
-.cd{border-radius:var(--rs);padding:13px;margin:8px 0 12px;display:flex;align-items:center;gap:12px;border:1.5px solid;}
-.cd.cg{background:var(--sg-bg);border-color:var(--sg-bd);}
-.cd.cb{background:var(--sb-bg);border-color:var(--sb-bd);}
-.cd.cy{background:var(--sy-bg);border-color:var(--sy-bd);}
-.cd.cr{background:var(--sr-bg);border-color:var(--sr-bd);}
-.cd-n{font-size:38px;font-weight:900;font-family:'DM Mono',monospace;letter-spacing:-2px;line-height:1;flex-shrink:0;}
-.cg .cd-n{color:var(--sg);} .cb .cd-n{color:var(--sb);} .cy .cd-n{color:var(--sy);} .cr .cd-n{color:var(--sr);}
-.cd-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.cg .cd-lbl{color:var(--sg);} .cb .cd-lbl{color:var(--sb);} .cy .cd-lbl{color:var(--sy);} .cr .cd-lbl{color:var(--sr);}
-.cd-sub{font-size:10px;color:var(--text3);margin-top:2px;}
-
 .afs-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;min-height:28px;}
-.afs-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sb-bg);border:1px solid var(--sb-bd);color:var(--sb);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
-.afs-x{background:none;border:none;color:var(--sb);cursor:pointer;font-size:15px;line-height:1;padding:0;margin-left:2px;opacity:.6;}
-.afs-x:active{opacity:1;color:var(--sr);}
+.afs-tag{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #93c5fd;color:#2563eb;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
+.afs-x{background:none;border:none;color:#2563eb;cursor:pointer;font-size:15px;line-height:1;padding:0;margin-left:2px;opacity:.6;}
+.afs-x:active{opacity:1;color:#dc2626;}
 .afs-empty{font-size:12px;color:var(--text3);font-style:italic;padding:4px 0;display:block;}
 
 .inp{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none;margin-bottom:8px;text-transform:uppercase;}
@@ -142,7 +110,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .btn-main:active{opacity:.8;}
 .btn-sec{padding:10px 14px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .btn-sec:active{background:var(--border);}
-.btn-danger{width:100%;padding:12px;background:var(--sr-bg);border:1.5px solid var(--sr-bd);border-radius:var(--rs);color:var(--sr);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:6px;}
+.btn-danger{width:100%;padding:12px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:6px;}
 .btn-danger:active{opacity:.7;}
 .div{height:1px;background:var(--border);margin:10px 0;}
 
@@ -162,8 +130,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .qr-ttl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'DM Mono',monospace;}
 .qr-step{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px;font-size:12px;color:var(--text2);line-height:1.5;}
 .qr-n{width:19px;height:19px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
-.cr-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2);margin-bottom:5px;}
-.cr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block;}
 
 .modal-ov{position:fixed;inset:0;background:rgba(28,24,20,.65);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:16px;}
 .modal-ov.open{display:flex;}
@@ -172,7 +138,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .modal-sub{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5;}
 .modal-acts{display:flex;gap:8px;}
 .btn-cancel{flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
-.btn-del{flex:1;padding:12px;background:var(--sr-bg);border:1.5px solid var(--sr-bd);border-radius:var(--rs);color:var(--sr);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
+.btn-del{flex:1;padding:12px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
 
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);font-size:13px;font-weight:700;padding:9px 17px;border-radius:22px;transition:transform .28s;z-index:999;white-space:nowrap;display:flex;align-items:center;gap:6px;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -186,225 +152,199 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <body>
 
 <div class="hdr">
-  <div class="hdr-l">
-    <div class="logo">AUEM</div>
-    <div>
-      <div class="hdr-title">Rack renvoie colis</div>
-      <div class="hdr-sub">Fin de délais · A·B·C·D</div>
-    </div>
-  </div>
-  <div class="hdr-r">
-    <div class="sync-dot loading" id="sync-dot"></div>
-    <div class="sync-time" id="sync-time">…</div>
-    <button class="btn-hdr" onclick="goGuide()">❓</button>
-    <button class="btn-hdr" onclick="goQR()">📱</button>
-  </div>
+<div class="hdr-l">
+<div class="logo">AUEM</div>
+<div>
+<div class="hdr-title">Rack renvoie colis</div>
+<div class="hdr-sub">Emplacements · A·B·C·D</div>
+</div>
+</div>
+<div class="hdr-r">
+<div class="sync-dot loading" id="sync-dot"></div>
+<div class="sync-time" id="sync-time">…</div>
+<button class="btn-hdr" onclick="goGuide()">❓</button>
+<button class="btn-hdr" onclick="goQR()">📱</button>
+</div>
 </div>
 
 <div class="bar">
-  <div class="search-wrap">
-    <span class="s-ico">🔍</span>
-    <input class="s-inp" id="s-inp" placeholder="Rechercher N° commande, AFS…" oninput="doSearch(this.value)"/>
-  </div>
-  <div class="bar-bottom">
-    <div class="stats-row">
-      <div class="stt g"><div class="stt-dot" style="background:var(--sg)"></div><span id="sg">0</span></div>
-      <div class="stt b"><div class="stt-dot" style="background:var(--sb)"></div><span id="sb">0</span></div>
-      <div class="stt y"><div class="stt-dot" style="background:var(--sy)"></div><span id="sy">0</span></div>
-      <div class="stt r"><div class="stt-dot" style="background:var(--sr)"></div><span id="sr">0</span></div>
-    </div>
-    <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:var(--sg)"></div>0–15j</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--sb)"></div>15–21j</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--sy)"></div>21–28j</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--sr)"></div>+28j</div>
-    </div>
-  </div>
+<div class="search-wrap">
+<span class="s-ico">🔍</span>
+<input class="s-inp" id="s-inp" placeholder="Rechercher N° commande, AFS…" oninput="doSearch(this.value)"/>
+</div>
 </div>
 
 <!-- VUE RACK -->
 <div id="view-rack">
-  <div class="rack-body">
-    <div id="rack-grid"><div class="loading"><div class="spinner"></div><div class="loading-txt">Chargement…</div></div></div>
-  </div>
+<div class="rack-body">
+<div id="rack-grid"><div class="loading"><div class="spinner"></div><div class="loading-txt">Chargement…</div></div></div>
+</div>
 </div>
 
 <!-- VUE EMPLACEMENT -->
 <div id="view-emp">
-  <div class="back-hdr">
-    <button class="btn-back" onclick="goRack()">&#8592;</button>
-    <div>
-      <div class="bh-title" id="emp-title">—</div>
-      <div class="bh-sub" id="emp-sub">Emplacement</div>
-    </div>
-  </div>
-  <div class="vbody">
-    <div id="st-occ" style="display:none">
-      <div class="section">
-        <div class="slbl">Palette en place</div>
-        <div class="info-ref" id="occ-ref">—</div>
-        <div class="info-arrive" id="occ-arrive">—</div>
-        <div class="cd" id="occ-cd">
-          <div class="cd-n" id="cd-n">—</div>
-          <div>
-            <div class="cd-lbl" id="cd-lbl">jours restants</div>
-            <div class="cd-sub">Délai max 3 mois (90 j)</div>
-          </div>
-        </div>
-        <div class="slbl" style="margin-bottom:7px;">Numéros AFS</div>
-        <div class="afs-wrap" id="afs-occ"></div>
-        <div class="inp-row">
-          <input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-          <button class="btn-sec" onclick="addAFSOcc()">+</button>
-        </div>
-        <div class="div"></div>
-        <button class="btn-danger" onclick="askDel()">📦 Marquer comme sortie</button>
-      </div>
-    </div>
-    <div id="st-reserved" style="display:none">
-      <div class="section">
-        <div class="slbl">Emplacement réservé</div>
-        <p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
-        <p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
-        <div class="div"></div>
-        <div class="slbl" style="margin-bottom:7px;">Enregistrer une palette sur cet emplacement</div>
-        <input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
-        <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
-        <div class="afs-wrap" id="afs-reserved"></div>
-        <div class="inp-row">
-          <input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-          <button class="btn-sec" onclick="addAFSReserved()">+</button>
-        </div>
-        <button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
-        <div class="div"></div>
-        <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
-      </div>
-    </div>
-    <div id="st-free" style="display:none">
-      <div class="section">
-        <div class="slbl">Enregistrer une palette</div>
-        <input class="inp" id="inp-ref" placeholder="N° commande / référence"/>
-        <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
-        <div class="afs-wrap" id="afs-new"></div>
-        <div class="inp-row">
-          <input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-          <button class="btn-sec" onclick="addAFSNew()">+</button>
-        </div>
-        <button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
-      </div>
-      <div class="section">
-        <div class="slbl">Réserver cet emplacement</div>
-        <input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
-        <button class="btn-sec" style="width:100%;margin-top:4px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
-      </div>
-    </div>
-  </div>
+<div class="back-hdr">
+<button class="btn-back" onclick="goRack()">&#8592;</button>
+<div>
+<div class="bh-title" id="emp-title">—</div>
+<div class="bh-sub" id="emp-sub">Emplacement</div>
+</div>
+</div>
+<div class="vbody">
+<div id="st-occ" style="display:none">
+<div class="section">
+<div class="slbl">Palette en place</div>
+<div class="info-ref" id="occ-ref">—</div>
+<div class="info-arrive" id="occ-arrive">—</div>
+<div class="slbl" style="margin-bottom:7px;">Numéros AFS</div>
+<div class="afs-wrap" id="afs-occ"></div>
+<div class="inp-row">
+<input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
+<button class="btn-sec" onclick="addAFSOcc()">+</button>
+</div>
+<div class="div"></div>
+<button class="btn-danger" onclick="askDel()">📦 Marquer comme sortie</button>
+</div>
+</div>
+<div id="st-reserved" style="display:none">
+<div class="section">
+<div class="slbl">Emplacement réservé</div>
+<p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
+<p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
+<div class="div"></div>
+<div class="slbl" style="margin-bottom:7px;">Enregistrer une palette sur cet emplacement</div>
+<input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
+<div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
+<div class="afs-wrap" id="afs-reserved"></div>
+<div class="inp-row">
+<input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
+<button class="btn-sec" onclick="addAFSReserved()">+</button>
+</div>
+<button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
+<div class="div"></div>
+<button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
+</div>
+</div>
+<div id="st-free" style="display:none">
+<div class="section">
+<div class="slbl">Enregistrer une palette</div>
+<input class="inp" id="inp-ref" placeholder="N° commande / référence"/>
+<div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
+<div class="afs-wrap" id="afs-new"></div>
+<div class="inp-row">
+<input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
+<button class="btn-sec" onclick="addAFSNew()">+</button>
+</div>
+<button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
+</div>
+<div class="section">
+<div class="slbl">Réserver cet emplacement</div>
+<input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
+<button class="btn-sec" style="width:100%;margin-top:4px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
+</div>
+</div>
+</div>
 </div>
 
 <!-- VUE GUIDE -->
 <div id="view-guide">
-  <div class="back-hdr">
-    <button class="btn-back" onclick="goRack()">&#8592;</button>
-    <div><div class="bh-title">Guide</div><div class="bh-sub">Comment utiliser le Rack</div></div>
-  </div>
-  <div class="vbody">
-    <div id="guide-slide-1">
-      <div class="guide-title">📱 Étape 1 : Scannez le QR Code</div>
-      <div class="guide-text">
-        <p><strong>Où est le QR ?</strong> Il est fixé sur le montant du RACK ATTENTE.</p>
-        <p style="margin-top:12px;"><strong>Comment faire :</strong></p>
-        <p>1️⃣ Ouvrez l'<strong>appareil photo</strong> de votre téléphone</p>
-        <p>2️⃣ Pointez vers le <strong>carré noir/blanc</strong> du QR code</p>
-        <p>3️⃣ Une notification apparaît → cliquez dessus</p>
-        <p>4️⃣ Vous arrivez sur cette application ! ✅</p>
-      </div>
-      <button class="btn-guide-next" onclick="nextGuide(1)">Suivant →</button>
-    </div>
-    <div id="guide-slide-2" style="display:none;">
-      <div class="guide-title">📍 Étape 2 : Choisissez votre emplacement</div>
-      <div class="guide-text">
-        <p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p>
-        <p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p>
-        <p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p>
-        <p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p>
-        <p>🟠 <strong>Bas (A)</strong> → A1 à A6</p>
-        <p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre brut</p>
-      </div>
-      <button class="btn-guide-next" onclick="nextGuide(2)">Suivant →</button>
-    </div>
-    <div id="guide-slide-3" style="display:none;">
-      <div class="guide-title">✏️ Étape 3 : Remplissez les infos</div>
-      <div class="guide-text">
-        <p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p>
-        <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p>
-        <p><strong>🟠 Numéros AFS (optionnel)</strong></p>
-        <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p>
-        <p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);"><strong>📊 Couleurs automatiques :</strong></p>
-        <p style="font-size:12px;color:var(--text3);">🟢 0-15j · 🔵 15-21j · 🟡 21-28j · 🔴 +28j</p>
-      </div>
-      <button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
-    </div>
-    <div id="guide-slide-4" style="display:none;">
-      <div class="guide-title">🔒 Les emplacements réservés</div>
-      <div class="guide-text">
-        <p><strong>Certains emplacements sont réservés à une entreprise.</strong></p>
-        <p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p>
-        <p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p>
-        <p>1️⃣ Cliquez sur l'emplacement réservé</p>
-        <p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p>
-        <p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p>
-        <p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p>
-        <p style="margin-top:6px;font-size:12px;color:var(--text3);">⚠️ Ne mettez pas une palette d'une autre entreprise sur un emplacement réservé</p>
-      </div>
-      <button class="btn-guide-next" onclick="nextGuide(4)">Suivant →</button>
-    </div>
-    <div id="guide-slide-5" style="display:none;">
-      <div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
-      <div class="guide-text">
-        <p>📱 <strong>1.</strong> Scanner le QR code au rack</p>
-        <p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p>
-        <p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p>
-        <p>✓ <strong>4.</strong> Valider</p>
-        <p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p>
-        <p style="margin-top:10px;font-size:12px;color:var(--text3);">🔴 Rouge = délai dépassé → traiter en priorité !</p>
-      </div>
-      <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
-    </div>
-  </div>
+<div class="back-hdr">
+<button class="btn-back" onclick="goRack()">&#8592;</button>
+<div><div class="bh-title">Guide</div><div class="bh-sub">Comment utiliser le Rack</div></div>
+</div>
+<div class="vbody">
+<div id="guide-slide-1">
+<div class="guide-title">📱 Étape 1 : Scannez le QR Code</div>
+<div class="guide-text">
+<p><strong>Où est le QR ?</strong> Il est fixé sur le montant du RACK ATTENTE.</p>
+<p style="margin-top:12px;"><strong>Comment faire :</strong></p>
+<p>1️⃣ Ouvrez l'<strong>appareil photo</strong> de votre téléphone</p>
+<p>2️⃣ Pointez vers le <strong>carré noir/blanc</strong> du QR code</p>
+<p>3️⃣ Une notification apparaît → cliquez dessus</p>
+<p>4️⃣ Vous arrivez sur cette application ! ✅</p>
+</div>
+<button class="btn-guide-next" onclick="nextGuide(1)">Suivant →</button>
+</div>
+<div id="guide-slide-2" style="display:none;">
+<div class="guide-title">📍 Étape 2 : Choisissez votre emplacement</div>
+<div class="guide-text">
+<p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p>
+<p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p>
+<p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p>
+<p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p>
+<p>🟠 <strong>Bas (A)</strong> → A1 à A6</p>
+<p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre palette</p>
+</div>
+<button class="btn-guide-next" onclick="nextGuide(2)">Suivant →</button>
+</div>
+<div id="guide-slide-3" style="display:none;">
+<div class="guide-title">✏️ Étape 3 : Remplissez les infos</div>
+<div class="guide-text">
+<p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p>
+<p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p>
+<p><strong>🟠 Numéros AFS (optionnel)</strong></p>
+<p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p>
+</div>
+<button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
+</div>
+<div id="guide-slide-4" style="display:none;">
+<div class="guide-title">🔒 Les emplacements réservés</div>
+<div class="guide-text">
+<p><strong>Certains emplacements sont réservés à une entreprise.</strong></p>
+<p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p>
+<p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p>
+<p>1️⃣ Cliquez sur l'emplacement réservé</p>
+<p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p>
+<p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p>
+<p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p>
+</div>
+<button class="btn-guide-next" onclick="nextGuide(4)">Suivant →</button>
+</div>
+<div id="guide-slide-5" style="display:none;">
+<div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
+<div class="guide-text">
+<p>📱 <strong>1.</strong> Scanner le QR code au rack</p>
+<p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p>
+<p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p>
+<p>✓ <strong>4.</strong> Valider</p>
+<p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p>
+</div>
+<button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
+</div>
+</div>
 </div>
 
 <!-- VUE QR -->
 <div id="view-qr">
-  <div class="back-hdr">
-    <button class="btn-back" onclick="goRack()">&#8592;</button>
-    <div><div class="bh-title">QR Code</div><div class="bh-sub">Partager l'accès</div></div>
-  </div>
-  <div class="vbody">
-    <div class="qr-body">
-      <div class="qr-frame">
-        <div id="qr-c" style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;"><div class="spinner"></div></div>
-      </div>
-      <div class="qr-lbl">RACK ATTENTE — AUEM</div>
-      <div class="qr-card">
-        <div class="qr-ttl">Légende</div>
-        <div class="cr-row"><div class="cr-dot" style="background:var(--sg)"></div>Vert — 0 à 15 jours</div>
-        <div class="cr-row"><div class="cr-dot" style="background:var(--sb)"></div>Bleu — 15 à 21 jours</div>
-        <div class="cr-row"><div class="cr-dot" style="background:var(--sy)"></div>Jaune — 21 à 28 jours</div>
-        <div class="cr-row"><div class="cr-dot" style="background:var(--sr)"></div>Rouge — plus de 28 jours</div>
-      </div>
-    </div>
-  </div>
+<div class="back-hdr">
+<button class="btn-back" onclick="goRack()">&#8592;</button>
+<div><div class="bh-title">QR Code</div><div class="bh-sub">Partager l'accès</div></div>
+</div>
+<div class="vbody">
+<div class="qr-body">
+<div class="qr-frame">
+<div id="qr-c" style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;"><div class="spinner"></div></div>
+</div>
+<div class="qr-lbl">RACK ATTENTE — AUEM</div>
+<div class="qr-card">
+<div class="qr-ttl">Instructions</div>
+<div class="qr-step"><div class="qr-n">1</div>Imprimez et plastifiez ce QR code</div>
+<div class="qr-step"><div class="qr-n">2</div>Fixez-le sur le rack à hauteur des yeux</div>
+<div class="qr-step"><div class="qr-n">3</div>Les opérateurs scannent et voient le même rack en temps réel</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="modal-ov" id="modal-del" onclick="closeModalIfBg(event)">
-  <div class="modal-box">
-    <div class="modal-title">Libérer l'emplacement ?</div>
-    <div class="modal-sub" id="modal-sub">La palette sera retirée définitivement.</div>
-    <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
-      <button class="btn-del" onclick="confirmDel()">Sortie confirmée</button>
-    </div>
-  </div>
+<div class="modal-box">
+<div class="modal-title">Libérer l'emplacement ?</div>
+<div class="modal-sub" id="modal-sub">La palette sera retirée définitivement.</div>
+<div class="modal-acts">
+<button class="btn-cancel" onclick="closeModal()">Annuler</button>
+<button class="btn-del" onclick="confirmDel()">Sortie confirmée</button>
+</div>
+</div>
 </div>
 
 <div class="toast" id="toast"><span id="t-i"></span><span id="t-m"></span></div>
@@ -412,338 +352,331 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <script>
 var DB = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
 var NIVEAUX = [
-  {id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
-  {id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
-  {id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
-  {id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
+{id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
+{id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
+{id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
+{id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
 ];
 var COLS=[1,2,3,4,5,6];
 var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
 
-/* ── HELPER : est-ce un objet valide (pas null, pas array) ? ── */
 function isValidObj(v) {
-  return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
+return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
 }
 
 /* ── NAV ── */
 function showOnly(id) {
-  ["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
-    document.getElementById(v).style.display = v === id ? "block" : "none";
-  });
-  window.scrollTo(0,0);
+["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
+document.getElementById(v).style.display = v === id ? "block" : "none";
+});
+window.scrollTo(0,0);
 }
-function goRack()  { renderRack(); showOnly("view-rack"); }
+function goRack() { renderRack(); showOnly("view-rack"); }
 function goEmp(id) { openEmp(id); showOnly("view-emp"); }
-function goQR()    { showOnly("view-qr"); renderQR(); }
+function goQR() { showOnly("view-qr"); renderQR(); }
 function goGuide() { currentGuideSlide=1; updateGuideSlide(); showOnly("view-guide"); }
 
 function nextGuide(current) {
-  var next = current + 1;
-  if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
+var next = current + 1;
+if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
 }
 function updateGuideSlide() {
-  for(var i=1; i<=5; i++) {
-    var el = document.getElementById("guide-slide-"+i);
-    if(el) el.style.display = (i === currentGuideSlide) ? "block" : "none";
-  }
-  window.scrollTo(0,0);
+for(var i=1; i<=5; i++) {
+var el = document.getElementById("guide-slide-"+i);
+if(el) el.style.display = (i === currentGuideSlide) ? "block" : "none";
+}
+window.scrollTo(0,0);
 }
 
 /* ── SYNC ── */
 function setDot(s) {
-  document.getElementById("sync-dot").className = "sync-dot " + s;
-  var t = document.getElementById("sync-time");
-  if(s === "ok") {
-    var n = new Date();
-    t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
-    t.className = "sync-time ok";
-    setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
-  } else if(s === "loading") {
-    t.textContent="…"; t.className="sync-time";
-  } else {
-    t.textContent="off"; t.className="sync-time";
-  }
+document.getElementById("sync-dot").className = "sync-dot " + s;
+var t = document.getElementById("sync-time");
+if(s === "ok") {
+var n = new Date();
+t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
+t.className = "sync-time ok";
+setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
+} else if(s === "loading") {
+t.textContent="…"; t.className="sync-time";
+} else {
+t.textContent="off"; t.className="sync-time";
+}
 }
 function pad(n){ return n<10?"0"+n:""+n; }
 
 function refresh() {
-  setDot("loading");
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", DB, true);
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState !== 4) return;
-    if(xhr.status === 200) {
-      try {
-        var raw = JSON.parse(xhr.responseText);
-        state = isValidObj(raw) ? raw : {};
-        setDot("ok");
-      } catch(e) { state={}; setDot("error"); }
-    } else {
-      loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
-    }
-    renderRack();
-  };
-  xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); };
-  xhr.send();
+setDot("loading");
+var xhr = new XMLHttpRequest();
+xhr.open("GET", DB, true);
+xhr.onreadystatechange = function() {
+if(xhr.readyState !== 4) return;
+if(xhr.status === 200) {
+try {
+var raw = JSON.parse(xhr.responseText);
+state = isValidObj(raw) ? raw : {};
+setDot("ok");
+} catch(e) { state={}; setDot("error"); }
+} else {
+loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
+}
+renderRack();
+};
+xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); };
+xhr.send();
 }
 function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
 function saveData() {
-  setDot("loading");
-  var body = JSON.stringify(state);
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", DB, true);
-  xhr.setRequestHeader("Content-Type","application/json");
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState !== 4) return;
-    localStorage.setItem("att_bck", body);
-    setDot(xhr.status === 200 ? "ok" : "error");
-  };
-  xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
-  xhr.send(body);
+setDot("loading");
+var body = JSON.stringify(state);
+var xhr = new XMLHttpRequest();
+xhr.open("PUT", DB, true);
+xhr.setRequestHeader("Content-Type","application/json");
+xhr.onreadystatechange = function() {
+if(xhr.readyState !== 4) return;
+localStorage.setItem("att_bck", body);
+setDot(xhr.status === 200 ? "ok" : "error");
+};
+xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
+xhr.send(body);
 }
 setInterval(function(){ if(document.getElementById("view-rack").style.display!=="none") refresh(); }, 20000);
 
-/* ── STATUS ── */
-function getStatus(date) {
-  if(!date) return null;
-  var j = Math.floor((Date.now() - new Date(date).getTime()) / 86400000);
-  if(j>=28) return {cls:"sr",cdCls:"cr"};
-  if(j>=21) return {cls:"sy",cdCls:"cy"};
-  if(j>=15) return {cls:"sb",cdCls:"cb"};
-  return {cls:"sg",cdCls:"cg"};
-}
-function daysLeft(date){ return Math.ceil((new Date(date).getTime()+90*86400000-Date.now())/86400000); }
-
 /* ── RENDER RACK ── */
 function renderRack() {
-  updateStats();
-  var wrap = document.getElementById("rack-grid");
-  wrap.innerHTML = "";
+var wrap = document.getElementById("rack-grid");
+wrap.innerHTML = "";
 
-  for(var ni=0; ni<NIVEAUX.length; ni++) {
-    var niv = NIVEAUX[ni];
-    var occ = 0;
-    for(var ci=0; ci<COLS.length; ci++) {
-      var raw = state[niv.id+COLS[ci]];
-      /* ✅ FIX : isValidObj évite le piège typeof null === "object" */
-      if(isValidObj(raw) && raw.ref) occ++;
-    }
-
-    var block = document.createElement("div");
-    block.className = "niv-block " + niv.hcls;
-
-    var hdr = document.createElement("div"); hdr.className = "niv-hdr";
-    var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
-    var info = document.createElement("div"); info.className = "niv-info";
-    var name = document.createElement("div"); name.className = "niv-name"; name.textContent = niv.label;
-    var desc = document.createElement("div"); desc.className = "niv-desc"; desc.textContent = niv.desc;
-    var cnt = document.createElement("div"); cnt.className = "niv-cnt"; cnt.textContent = occ+"/"+COLS.length;
-    info.appendChild(name); info.appendChild(desc);
-    hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
-    block.appendChild(hdr);
-
-    var grid = document.createElement("div"); grid.className = "niv-grid";
-
-    for(var ci2=0; ci2<COLS.length; ci2++) {
-      var col = COLS[ci2], id = niv.id+col;
-      var raw2 = state[id];
-
-      /* ✅ FIX : on distingue null/undefined/invalid des vrais objets */
-      var data = isValidObj(raw2) ? raw2 : null;
-
-      var cardCls = "vide";
-      if(data && data.ref) {
-        var st = getStatus(data.date);
-        cardCls = st ? st.cls : "sg";
-      } else if(data && data.reserved) {
-        cardCls = "reserv";
-      }
-
-      var card = document.createElement("div"); card.className = "ecard " + cardCls;
-      var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
-      var refEl = document.createElement("div"); refEl.className = "ecard-ref";
-
-      if(data && data.ref) {
-        refEl.textContent = data.ref;
-      } else if(data && data.reserved) {
-        refEl.textContent = "🔒 " + data.reserved;
-      } else {
-        refEl.textContent = "Libre";
-      }
-
-      card.appendChild(idEl); card.appendChild(refEl);
-
-      if(data && data.afs && data.afs.length > 0) {
-        var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
-        var shown = data.afs.slice(0,3), txt = "";
-        for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
-        if(data.afs.length>3) txt += " +"+(data.afs.length-3);
-        afsEl.textContent = txt; card.appendChild(afsEl);
-      }
-
-      card.setAttribute("data-empid", id);
-      card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
-      grid.appendChild(card);
-    }
-    block.appendChild(grid);
-    wrap.appendChild(block);
-  }
+for(var ni=0; ni<NIVEAUX.length; ni++) {
+var niv = NIVEAUX[ni];
+var occ = 0;
+for(var ci=0; ci<COLS.length; ci++) {
+var raw = state[niv.id+COLS[ci]];
+if(isValidObj(raw) && raw.ref) occ++;
 }
 
-function updateStats() {
-  var g=0,b=0,y=0,r=0;
-  Object.keys(state).forEach(function(k) {
-    var d = state[k];
-    if(!isValidObj(d) || !d.date) return;
-    var s = getStatus(d.date); if(!s) return;
-    if(s.cls==="sg") g++; else if(s.cls==="sb") b++; else if(s.cls==="sy") y++; else r++;
-  });
-  document.getElementById("sg").textContent=g;
-  document.getElementById("sb").textContent=b;
-  document.getElementById("sy").textContent=y;
-  document.getElementById("sr").textContent=r;
+var block = document.createElement("div");
+block.className = "niv-block " + niv.hcls;
+
+var hdr = document.createElement("div"); hdr.className = "niv-hdr";
+var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
+var info = document.createElement("div"); info.className = "niv-info";
+var name = document.createElement("div"); name.className = "niv-name"; name.textContent = niv.label;
+var desc = document.createElement("div"); desc.className = "niv-desc"; desc.textContent = niv.desc;
+var cnt = document.createElement("div"); cnt.className = "niv-cnt"; cnt.textContent = occ+"/"+COLS.length;
+info.appendChild(name); info.appendChild(desc);
+hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
+block.appendChild(hdr);
+
+var grid = document.createElement("div"); grid.className = "niv-grid";
+
+for(var ci2=0; ci2<COLS.length; ci2++) {
+var col = COLS[ci2], id = niv.id+col;
+var raw2 = state[id];
+var data = isValidObj(raw2) ? raw2 : null;
+
+var cardCls = "vide";
+if(data && data.ref) {
+cardCls = "occ";
+} else if(data && data.reserved) {
+cardCls = "reserv";
+}
+
+var card = document.createElement("div"); card.className = "ecard " + cardCls;
+var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
+var refEl = document.createElement("div"); refEl.className = "ecard-ref";
+
+if(data && data.ref) {
+refEl.textContent = data.ref;
+} else if(data && data.reserved) {
+refEl.textContent = "🔒 " + data.reserved;
+} else {
+refEl.textContent = "Libre";
+}
+
+card.appendChild(idEl); card.appendChild(refEl);
+
+if(data && data.afs && data.afs.length > 0) {
+var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
+var shown = data.afs.slice(0,3), txt = "";
+for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
+if(data.afs.length>3) txt += " +"+(data.afs.length-3);
+afsEl.textContent = txt; card.appendChild(afsEl);
+}
+
+card.setAttribute("data-empid", id);
+card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
+grid.appendChild(card);
+}
+block.appendChild(grid);
+wrap.appendChild(block);
+}
 }
 
 /* ── SEARCH ── */
 function doSearch(q) {
-  q = q.trim().toLowerCase();
-  document.querySelectorAll(".ecard").forEach(function(c) {
-    c.style.display = (!q||(c.textContent||"").toLowerCase().indexOf(q)>=0) ? "flex" : "none";
-  });
+q = q.trim().toLowerCase();
+document.querySelectorAll(".ecard").forEach(function(c) {
+c.style.display = (!q||(c.textContent||"").toLowerCase().indexOf(q)>=0) ? "flex" : "none";
+});
 }
 
 /* ── OPEN EMP ── */
 function openEmp(id) {
-  curId = id;
-  var niv = null;
-  for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
-  document.getElementById("emp-title").textContent = id;
-  document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
+curId = id;
+var niv = null;
+for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
+document.getElementById("emp-title").textContent = id;
+document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
 
-  var raw = state[id];
-  var data = isValidObj(raw) ? raw : null;
+var raw = state[id];
+var data = isValidObj(raw) ? raw : null;
 
-  document.getElementById("st-occ").style.display      = "none";
-  document.getElementById("st-reserved").style.display = "none";
-  document.getElementById("st-free").style.display     = "none";
+document.getElementById("st-occ").style.display = "none";
+document.getElementById("st-reserved").style.display = "none";
+document.getElementById("st-free").style.display = "none";
 
-  if(data && data.ref) {
-    document.getElementById("st-occ").style.display = "block";
-    document.getElementById("occ-ref").textContent = data.ref || "—";
-    var dA = new Date(data.date);
-    document.getElementById("occ-arrive").textContent =
-      "Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-    var left = daysLeft(data.date), st = getStatus(data.date);
-    var cd = document.getElementById("occ-cd"); cd.className = "cd "+(st?st.cdCls:"cg");
-    document.getElementById("cd-n").textContent = left>0?left:0;
-    document.getElementById("cd-lbl").textContent = left<=0?"Délai DÉPASSÉ !":(left>1?"jours restants":"jour restant");
-    document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
-    renderAFSOcc(data.afs||[]);
-    document.getElementById("inp-afs-add").value = "";
-  } else if(data && data.reserved) {
-    document.getElementById("st-reserved").style.display = "block";
-    document.getElementById("reserved-company").textContent = data.reserved;
-  } else {
-    document.getElementById("st-free").style.display = "block";
-    document.getElementById("inp-ref").value = "";
-    document.getElementById("inp-afs-new").value = "";
-    document.getElementById("inp-company-reserve").value = "";
-    newAFS = []; renderAFSNew();
-  }
+if(data && data.ref) {
+document.getElementById("st-occ").style.display = "block";
+document.getElementById("occ-ref").textContent = data.ref || "—";
+var dA = new Date(data.date);
+document.getElementById("occ-arrive").textContent =
+"Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
+renderAFSOcc(data.afs||[]);
+document.getElementById("inp-afs-add").value = "";
+} else if(data && data.reserved) {
+document.getElementById("st-reserved").style.display = "block";
+document.getElementById("reserved-company").textContent = data.reserved;
+} else {
+document.getElementById("st-free").style.display = "block";
+document.getElementById("inp-ref").value = "";
+document.getElementById("inp-afs-new").value = "";
+document.getElementById("inp-company-reserve").value = "";
+newAFS = []; renderAFSNew();
+}
 }
 
 /* ── AFS OCC ── */
 function renderAFSOcc(list) {
-  var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
-  if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
-  list.forEach(function(val,idx) {
-    var tag=document.createElement("span"); tag.className="afs-tag";
-    var txt=document.createElement("span"); txt.textContent="AFS "+val;
-    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-    x.onclick=function(e){ e.stopPropagation(); removeAFSOcc(idx); };
-    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-  });
+var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
+if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
+list.forEach(function(val,idx) {
+var tag=document.createElement("span"); tag.className="afs-tag";
+var txt=document.createElement("span"); txt.textContent="AFS "+val;
+var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+x.onclick=function(e){ e.stopPropagation(); removeAFSOcc(idx); };
+tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+});
 }
 function addAFSOcc() {
-  var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
-  if(!state[curId]||!isValidObj(state[curId])) return;
-  if(!state[curId].afs) state[curId].afs=[];
-  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
-  inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
+var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
+if(!state[curId]||!isValidObj(state[curId])) return;
+if(!state[curId].afs) state[curId].afs=[];
+raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
+inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
 }
 function removeAFSOcc(idx) {
-  if(!state[curId]||!state[curId].afs) return;
-  state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
+if(!state[curId]||!state[curId].afs) return;
+state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
+}
+
+/* ── AFS RESERVED ── */
+var reservedAFS = [];
+function renderAFSReserved() {
+var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
+if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
+reservedAFS.forEach(function(val,idx) {
+var tag=document.createElement("span"); tag.className="afs-tag";
+var txt=document.createElement("span"); txt.textContent="AFS "+val;
+var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+x.onclick=function(e){ e.stopPropagation(); reservedAFS.splice(idx,1); renderAFSReserved(); };
+tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+});
+}
+function addAFSReserved() {
+var inp=document.getElementById("inp-afs-reserved"), raw=inp.value.trim(); if(!raw) return;
+raw.split(/[,;\s]+/).forEach(function(v){ if(v&&reservedAFS.indexOf(v)<0) reservedAFS.push(v); });
+inp.value=""; renderAFSReserved();
+}
+function addPalReserved() {
+var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
+if(!ref){ showToast("Entrez une référence","⚠️"); return; }
+var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
+state[curId]={ref:ref,afs:reservedAFS.slice(),date:new Date().toISOString(),reserved:reserved};
+showToast(ref+" enregistrée","✓");
+if(navigator.vibrate) navigator.vibrate(10);
+reservedAFS=[]; saveData(); goRack();
 }
 
 /* ── AFS NEW ── */
 function renderAFSNew() {
-  var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
-  if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
-  newAFS.forEach(function(val,idx) {
-    var tag=document.createElement("span"); tag.className="afs-tag";
-    var txt=document.createElement("span"); txt.textContent="AFS "+val;
-    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-    x.onclick=function(e){ e.stopPropagation(); newAFS.splice(idx,1); renderAFSNew(); };
-    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-  });
+var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
+if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
+newAFS.forEach(function(val,idx) {
+var tag=document.createElement("span"); tag.className="afs-tag";
+var txt=document.createElement("span"); txt.textContent="AFS "+val;
+var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+x.onclick=function(e){ e.stopPropagation(); newAFS.splice(idx,1); renderAFSNew(); };
+tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+});
 }
 function addAFSNew() {
-  var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
-  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
-  inp.value=""; renderAFSNew();
+var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
+raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
+inp.value=""; renderAFSNew();
 }
 
 /* ── ADD / DELETE ── */
 function addPal() {
-  var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
-  if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-  state[curId]={ref:ref,afs:newAFS.slice(),date:new Date().toISOString()};
-  showToast(ref+" enregistrée","✓");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
+var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
+if(!ref){ showToast("Entrez une référence","⚠️"); return; }
+state[curId]={ref:ref,afs:newAFS.slice(),date:new Date().toISOString()};
+showToast(ref+" enregistrée","✓");
+if(navigator.vibrate) navigator.vibrate(10);
+saveData(); goRack();
 }
 function reserveEmp() {
-  var company=document.getElementById("inp-company-reserve").value.trim();
-  if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
-  state[curId]={reserved:company};
-  showToast(company+" — réservé","🔒");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
+var company=document.getElementById("inp-company-reserve").value.trim();
+if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
+state[curId]={reserved:company};
+showToast(company+" — réservé","🔒");
+if(navigator.vibrate) navigator.vibrate(10);
+saveData(); goRack();
 }
 function cancelReservation() {
-  delete state[curId];
-  showToast("Réservation annulée","🔓");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
+delete state[curId];
+showToast("Réservation annulée","🔓");
+if(navigator.vibrate) navigator.vibrate(10);
+saveData(); goRack();
 }
 function askDel(){ document.getElementById("modal-del").classList.add("open"); }
 function closeModal(){ document.getElementById("modal-del").classList.remove("open"); }
 function closeModalIfBg(e){ if(e.target===document.getElementById("modal-del")) closeModal(); }
 function confirmDel() {
-  var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
-  delete state[curId]; closeModal(); saveData();
-  showToast(ref+" sortie","📦");
-  if(navigator.vibrate) navigator.vibrate(25);
-  goRack();
+var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
+delete state[curId]; closeModal(); saveData();
+showToast(ref+" sortie","📦");
+if(navigator.vibrate) navigator.vibrate(25);
+goRack();
 }
 
 /* ── QR ── */
 function renderQR() {
-  var url=window.location.href.split("?")[0];
-  var c=document.getElementById("qr-c");
-  var img=new Image();
-  img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";
-  img.onload=function(){ c.innerHTML=""; c.appendChild(img); };
-  img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
+var url=window.location.href.split("?")[0];
+var c=document.getElementById("qr-c");
+var img=new Image();
+img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";
+img.onload=function(){ c.innerHTML=""; c.appendChild(img); };
+img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
 }
 
 /* ── TOAST ── */
 function showToast(msg,ico) {
-  document.getElementById("t-i").textContent=ico||"";
-  document.getElementById("t-m").textContent=msg;
-  var el=document.getElementById("toast"); el.classList.add("show");
-  clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
+document.getElementById("t-i").textContent=ico||"";
+document.getElementById("t-m").textContent=msg;
+var el=document.getElementById("toast"); el.classList.add("show");
+clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
 }
 
 /* ── KEYBOARD ── */
