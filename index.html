@@ -307,6 +307,24 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
         </div>
         <button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
       </div>
+
+      <div class="section">
+        <div class="slbl">Ou réserver cet emplacement</div>
+        <p style="font-size:12px; color:var(--text3); margin-bottom:10px;">Réservez cet emplacement pour une entreprise spécifique</p>
+        <input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
+        <button class="btn-sec" style="width:100%; margin-top:10px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
+      </div>
+    </div>
+
+    <!-- RÉSERVÉ -->
+    <div id="st-reserved" style="display:none">
+      <div class="section">
+        <div class="slbl">Emplacement réservé</div>
+        <p style="font-size:18px; font-weight:800; margin-bottom:4px;">🔒 Réservé</p>
+        <p style="font-size:14px; color:var(--text2); margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
+        <p style="font-size:12px; color:var(--text3); margin-bottom:12px;">Cet emplacement est réservé pour cette entreprise. Il sera occupé dès qu'un colis arrive.</p>
+        <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
+      </div>
     </div>
 
   </div>
@@ -352,7 +370,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <div class="guide-text">
         <p style="margin-bottom: 8px;"><strong>🔴 N° Commande / Référence (obligatoire !)</strong></p>
         <p style="font-size:12px; margin-bottom: 10px; color:var(--text3);">Exemple : CMD001, REF12345, N° client, etc.</p>
-        <p style="margin-bottom: 8px;"><strong>🟠 Numéros AFS </strong></p>
+        <p style="margin-bottom: 8px;"><strong>🟠 Numéros AFS (optionnel)</strong></p>
         <p style="font-size:12px; margin-bottom: 10px; color:var(--text3);">Plusieurs ? → Séparez par des virgules ou espaces</p>
         <p style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,.1);"><strong>📊 Délai max : 90 jours</strong></p>
         <p style="font-size:12px; margin-top: 6px; color:var(--text3);">L'app calcule automatiquement :</p>
@@ -365,6 +383,22 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     </div>
 
     <div class="guide-slide" id="guide-slide-4" style="display:none;">
+      <div class="guide-title">🔒 Optionnel : Réserver un emplacement</div>
+      <div class="guide-text">
+        <p><strong>Vous avez un client régulier ?</strong></p>
+        <p style="margin-top: 12px;">Au lieu d'enregistrer tout de suite un colis, vous pouvez <strong>réserver l'emplacement</strong> pour une entreprise.</p>
+        <p style="margin-top: 12px;"><strong>Comment faire :</strong></p>
+        <p>1️⃣ Allez sur un emplacement libre</p>
+        <p>2️⃣ Au lieu de remplir "N° commande", remplissez le champ "Réserver pour"</p>
+        <p>3️⃣ Écrivez le nom de l'entreprise</p>
+        <p>4️⃣ Cliquez "🔒 Réserver pour cette entreprise"</p>
+        <p style="margin-top: 12px; font-size:12px; color:var(--text3);">✅ L'emplacement s'affichera comme "🔒 Réservé : [Entreprise]" jusqu'à ce qu'un colis arrive</p>
+        <p style="margin-top: 8px; font-size:12px; color:var(--text3);">❌ Vous pouvez annuler la réservation quand vous voulez</p>
+      </div>
+      <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
+    </div>
+
+    <div class="guide-slide" id="guide-slide-5" style="display:none;">
       <div class="guide-title">✓ Étape 4 : Validez l'entrée</div>
       <div class="guide-text">
         <p><strong>Vous avez rempli la référence ?</strong> Maintenant :</p>
@@ -376,14 +410,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <button class="btn-guide-next" onclick="nextGuide()">Suivant →</button>
     </div>
 
-    <div class="guide-slide" id="guide-slide-5" style="display:none;">
+    <div class="guide-slide" id="guide-slide-6" style="display:none;">
       <div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
       <div class="guide-text">
         <p style="margin-bottom: 16px;"><strong>Résumé rapide :</strong></p>
         <p>📱 <strong>1.</strong> Scanner le QR code au rack</p>
         <p>📍 <strong>2.</strong> Cliquer sur votre emplacement (A1, B4, D6, etc.)</p>
-        <p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS </p>
-        <p>✓ <strong>4.</strong> Cliquer "Valider l'entrée"</p>
+        <p>✏️ <strong>3a.</strong> Entrer la N° Commande + AFS (optionnel) → Valider</p>
+        <p>✏️ <strong>3b.</strong> OU réserver pour une entreprise → Réserver</p>
         <p style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,.1);"><strong>💡 Astuce importante :</strong></p>
         <p style="font-size:12px; color:var(--text3); margin-top:6px;">La <strong>couleur change AUTOMATIQUEMENT</strong> selon les jours passés :</p>
         <p style="font-size:12px; color:var(--text3);">Plus ça reste longtemps → Plus ça devient rouge 🔴</p>
@@ -687,7 +721,16 @@ function renderRack() {
 
       var refEl = document.createElement("div");
       refEl.className = "ecard-ref";
-      refEl.textContent = data ? (data.ref || "—") : "Libre";
+      if (data && data.ref) {
+        refEl.textContent = data.ref || "—";
+      } else if (data && data.reserved) {
+        refEl.style.fontSize = "11px";
+        refEl.style.fontWeight = "500";
+        refEl.style.color = "var(--text2)";
+        refEl.textContent = "🔒 Réservé : " + data.reserved;
+      } else {
+        refEl.textContent = "Libre";
+      }
 
       card.appendChild(idEl);
       card.appendChild(refEl);
@@ -761,8 +804,10 @@ function openEmp(id) {
   document.getElementById("emp-title").textContent = id;
   document.getElementById("emp-sub").textContent   = niv ? niv.label + " — " + niv.desc : "";
 
-  if (data) {
+  if (data && data.ref) {
+    // OCCUPÉ — palette présente
     document.getElementById("st-free").style.display = "none";
+    document.getElementById("st-reserved").style.display = "none";
     document.getElementById("st-occ").style.display  = "block";
 
     document.getElementById("occ-ref").textContent    = data.ref || "—";
@@ -784,10 +829,21 @@ function openEmp(id) {
     renderAFSOcc(data.afs || []);
     document.getElementById("inp-afs-add").value = "";
 
-  } else {
+  } else if (data && data.reserved) {
+    // RÉSERVÉ — emplacement réservé mais vide
+    document.getElementById("st-free").style.display = "none";
     document.getElementById("st-occ").style.display  = "none";
+    document.getElementById("st-reserved").style.display = "block";
+
+    document.getElementById("reserved-company").textContent = data.reserved || "—";
+
+  } else {
+    // LIBRE — emplacement vide et non réservé
+    document.getElementById("st-occ").style.display  = "none";
+    document.getElementById("st-reserved").style.display = "none";
     document.getElementById("st-free").style.display = "block";
     document.getElementById("inp-ref").value     = "";
+    document.getElementById("inp-company-reserve").value = "";
     document.getElementById("inp-afs-new").value = "";
     newAFS = [];
     renderAFSNew();
@@ -901,6 +957,26 @@ function addPal() {
   if (!ref) { showToast("Entrez une référence", "⚠️"); return; }
   state[curId] = { ref: ref, afs: newAFS.slice(), date: new Date().toISOString() };
   showToast(ref + " enregistrée", "✓");
+  vibrate(10);
+  saveData();
+  goRack();
+}
+
+function reserveEmp() {
+  var company = document.getElementById("inp-company-reserve").value.trim();
+  if (!company) { showToast("Entrez un nom d'entreprise", "⚠️"); return; }
+  state[curId] = { reserved: company };
+  showToast(company + " — emplacement réservé", "🔒");
+  vibrate(10);
+  saveData();
+  openEmp(curId);
+  renderRack();
+}
+
+function cancelReservation() {
+  var company = (state[curId] && state[curId].reserved) ? state[curId].reserved : "—";
+  delete state[curId];
+  showToast("Réservation annulée", "🔓");
   vibrate(10);
   saveData();
   goRack();
