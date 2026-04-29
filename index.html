@@ -710,6 +710,7 @@ var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
 if(!ref){ showToast("Entrez une référence","⚠️"); return; }
 var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
 var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").value : "";
+if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
 state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
 if(space) state[curId].space = space;
 showToast(ref+" enregistrée","✓");
@@ -740,6 +741,7 @@ function addPal() {
 var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
 if(!ref){ showToast("Entrez une référence","⚠️"); return; }
 var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value : "";
+if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
 state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
 if(space) state[curId].space = space;
 showToast(ref+" enregistrée","✓");
