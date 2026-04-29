@@ -80,6 +80,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ecard.vide .ecard-ref{color:var(--text3);font-weight:400;font-size:11px;}
 .ecard.reserv .ecard-ref{color:var(--text2);font-weight:500;font-size:11px;}
 .ecard-afs{font-size:9px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ecard-space{font-size:9px;font-weight:700;font-family:'DM Mono',monospace;margin-top:1px;}
+.ecard-space.sp-oui{color:#16a34a;}
+.ecard-space.sp-un-peu{color:#d97706;}
+.ecard-space.sp-non{color:#dc2626;}
 
 .back-hdr{background:var(--hdr);padding:11px 14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
 .btn-back{width:36px;height:36px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:var(--rs);color:#f3efe9;cursor:pointer;font-size:18px;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1;}
@@ -106,6 +110,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .inp-row{display:flex;gap:7px;align-items:flex-start;}
 .inp-row .inp{margin-bottom:0;}
 
+.sel{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none;cursor:pointer;margin-bottom:8px;}
+.sel:focus{border-color:var(--text);}
+
 .btn-main{width:100%;padding:12px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:10px;}
 .btn-main:active{opacity:.8;}
 .btn-sec{padding:10px 14px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
@@ -113,6 +120,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .btn-danger{width:100%;padding:12px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:6px;}
 .btn-danger:active{opacity:.7;}
 .div{height:1px;background:var(--border);margin:10px 0;}
+
+.space-display{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:var(--rs);margin-bottom:8px;font-size:13px;font-weight:700;}
+.space-display.sp-oui{background:#f0fdf4;border:1px solid #86efac;color:#16a34a;}
+.space-display.sp-un-peu{background:#fffbeb;border:1px solid #fcd34d;color:#d97706;}
+.space-display.sp-non{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;}
 
 .guide-slide{animation:slideIn .3s ease;}
 .guide-title{font-size:18px;font-weight:700;margin-bottom:16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;}
@@ -202,6 +214,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSOcc()">+</button>
 </div>
+<!-- Espace B4/B5/B6 : affiché dynamiquement -->
+<div id="space-occ-section" style="display:none;">
+<div class="div"></div>
+<div class="slbl" style="margin-bottom:7px;">Reste de la place ?</div>
+<div id="space-occ-display"></div>
+<select class="sel" id="sel-space-occ">
+<option value="">Mettre à jour…</option>
+<option value="oui">✅ Oui</option>
+<option value="un-peu">⚠️ Un peu</option>
+<option value="non">❌ Non</option>
+</select>
+<button class="btn-sec" style="width:100%;" onclick="saveSpaceOcc()">✓ Enregistrer la place</button>
+</div>
 <div class="div"></div>
 <button class="btn-danger" onclick="askDel()">📦 Marquer comme sortie</button>
 </div>
@@ -220,6 +245,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSReserved()">+</button>
 </div>
+<!-- Espace B4/B5/B6 pour réservé -->
+<div id="space-reserved-section" style="display:none;">
+<div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
+<select class="sel" id="sel-space-reserved">
+<option value="">Choisir…</option>
+<option value="oui">✅ Oui</option>
+<option value="un-peu">⚠️ Un peu</option>
+<option value="non">❌ Non</option>
+</select>
+</div>
 <button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
 <div class="div"></div>
 <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
@@ -234,6 +269,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="inp-row">
 <input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSNew()">+</button>
+</div>
+<!-- Espace B4/B5/B6 pour libre -->
+<div id="space-free-section" style="display:none;">
+<div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
+<select class="sel" id="sel-space-free">
+<option value="">Choisir…</option>
+<option value="oui">✅ Oui</option>
+<option value="un-peu">⚠️ Un peu</option>
+<option value="non">❌ Non</option>
+</select>
 </div>
 <button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
 </div>
@@ -284,6 +329,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p>
 <p><strong>🟠 Numéros AFS (optionnel)</strong></p>
 <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p>
+<p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p>
+<p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place sur la palette !</p>
+<p style="font-size:12px;color:var(--text3);">✅ Oui · ⚠️ Un peu · ❌ Non</p>
 </div>
 <button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
 </div>
@@ -308,6 +356,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p>
 <p>✓ <strong>4.</strong> Valider</p>
 <p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p>
+<p style="margin-top:8px;font-size:12px;color:var(--text3);">⚠️ <strong>B4, B5, B6</strong> : pensez à indiquer s'il reste de la place !</p>
 </div>
 <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
 </div>
@@ -358,7 +407,10 @@ var NIVEAUX = [
 {id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
 ];
 var COLS=[1,2,3,4,5,6];
+var SPACE_IDS = ["B4","B5","B6"];
 var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
+
+function isSpaceEmp(id) { return SPACE_IDS.indexOf(id) >= 0; }
 
 function isValidObj(v) {
 return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
@@ -443,6 +495,19 @@ xhr.send(body);
 setInterval(function(){ if(document.getElementById("view-rack").style.display!=="none") refresh(); }, 20000);
 
 /* ── RENDER RACK ── */
+function getSpaceLabel(space) {
+if(space === "oui") return "✅ Place dispo";
+if(space === "un-peu") return "⚠️ Un peu";
+if(space === "non") return "❌ Plein";
+return null;
+}
+function getSpaceCls(space) {
+if(space === "oui") return "sp-oui";
+if(space === "un-peu") return "sp-un-peu";
+if(space === "non") return "sp-non";
+return "";
+}
+
 function renderRack() {
 var wrap = document.getElementById("rack-grid");
 wrap.innerHTML = "";
@@ -476,23 +541,16 @@ var raw2 = state[id];
 var data = isValidObj(raw2) ? raw2 : null;
 
 var cardCls = "vide";
-if(data && data.ref) {
-cardCls = "occ";
-} else if(data && data.reserved) {
-cardCls = "reserv";
-}
+if(data && data.ref) { cardCls = "occ"; }
+else if(data && data.reserved) { cardCls = "reserv"; }
 
 var card = document.createElement("div"); card.className = "ecard " + cardCls;
 var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
 var refEl = document.createElement("div"); refEl.className = "ecard-ref";
 
-if(data && data.ref) {
-refEl.textContent = data.ref;
-} else if(data && data.reserved) {
-refEl.textContent = "🔒 " + data.reserved;
-} else {
-refEl.textContent = "Libre";
-}
+if(data && data.ref) { refEl.textContent = data.ref; }
+else if(data && data.reserved) { refEl.textContent = "🔒 " + data.reserved; }
+else { refEl.textContent = "Libre"; }
 
 card.appendChild(idEl); card.appendChild(refEl);
 
@@ -502,6 +560,14 @@ var shown = data.afs.slice(0,3), txt = "";
 for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
 if(data.afs.length>3) txt += " +"+(data.afs.length-3);
 afsEl.textContent = txt; card.appendChild(afsEl);
+}
+
+// Affichage place disponible sur B4/B5/B6
+if(isSpaceEmp(id) && data && data.ref && data.space) {
+var spEl = document.createElement("div");
+spEl.className = "ecard-space " + getSpaceCls(data.space);
+spEl.textContent = getSpaceLabel(data.space);
+card.appendChild(spEl);
 }
 
 card.setAttribute("data-empid", id);
@@ -545,15 +611,42 @@ document.getElementById("occ-arrive").textContent =
 document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
 renderAFSOcc(data.afs||[]);
 document.getElementById("inp-afs-add").value = "";
+
+// Section espace pour B4/B5/B6
+var spaceOccSec = document.getElementById("space-occ-section");
+if(isSpaceEmp(id)) {
+spaceOccSec.style.display = "block";
+var spaceDisp = document.getElementById("space-occ-display");
+if(data.space) {
+spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(data.space) + '">' + getSpaceLabel(data.space) + '</div>';
+} else {
+spaceDisp.innerHTML = '';
+}
+document.getElementById("sel-space-occ").value = "";
+} else {
+spaceOccSec.style.display = "none";
+}
+
 } else if(data && data.reserved) {
 document.getElementById("st-reserved").style.display = "block";
 document.getElementById("reserved-company").textContent = data.reserved;
+document.getElementById("inp-ref-reserved").value = "";
+document.getElementById("inp-afs-reserved").value = "";
+var reservedAFS_local = [];
+renderAFSReserved_local(reservedAFS_local);
+// Section espace pour B4/B5/B6
+document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
+document.getElementById("sel-space-reserved").value = "";
+
 } else {
 document.getElementById("st-free").style.display = "block";
 document.getElementById("inp-ref").value = "";
 document.getElementById("inp-afs-new").value = "";
 document.getElementById("inp-company-reserve").value = "";
 newAFS = []; renderAFSNew();
+// Section espace pour B4/B5/B6
+document.getElementById("space-free-section").style.display = isSpaceEmp(id) ? "block" : "none";
+document.getElementById("sel-space-free").value = "";
 }
 }
 
@@ -581,8 +674,21 @@ if(!state[curId]||!state[curId].afs) return;
 state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
 }
 
+/* ── SAVE SPACE OCC ── */
+function saveSpaceOcc() {
+var space = document.getElementById("sel-space-occ").value;
+if(!space) { showToast("Sélectionnez une option","⚠️"); return; }
+if(!state[curId]||!isValidObj(state[curId])) return;
+state[curId].space = space;
+var spaceDisp = document.getElementById("space-occ-display");
+spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(space) + '">' + getSpaceLabel(space) + '</div>';
+document.getElementById("sel-space-occ").value = "";
+renderRack(); saveData(); showToast("Place enregistrée","✓");
+}
+
 /* ── AFS RESERVED ── */
 var reservedAFS = [];
+function renderAFSReserved_local(list) { reservedAFS = list || []; renderAFSReserved(); }
 function renderAFSReserved() {
 var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
 if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
@@ -603,7 +709,9 @@ function addPalReserved() {
 var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
 if(!ref){ showToast("Entrez une référence","⚠️"); return; }
 var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
-state[curId]={ref:ref,afs:reservedAFS.slice(),date:new Date().toISOString(),reserved:reserved};
+var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").value : "";
+state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
+if(space) state[curId].space = space;
 showToast(ref+" enregistrée","✓");
 if(navigator.vibrate) navigator.vibrate(10);
 reservedAFS=[]; saveData(); goRack();
@@ -631,7 +739,9 @@ inp.value=""; renderAFSNew();
 function addPal() {
 var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
 if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-state[curId]={ref:ref,afs:newAFS.slice(),date:new Date().toISOString()};
+var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value : "";
+state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
+if(space) state[curId].space = space;
 showToast(ref+" enregistrée","✓");
 if(navigator.vibrate) navigator.vibrate(10);
 saveData(); goRack();
