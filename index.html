@@ -1309,6 +1309,103 @@ document.addEventListener('keydown', function(e) {
 showOnly("view-rack");
 refresh();
 
+// Initialisation de l'heure au lancement
+if(document.getElementById('chat-init-time')) {
+    document.getElementById('chat-init-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
+
+function toggleAssistant() {
+    const panel = document.getElementById('ai-panel');
+    panel.classList.toggle('open');
+}
+
+function switchTab(tab) {
+    document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.ai-tab-content').forEach(c => c.classList.remove('active'));
+    
+    if(tab === 'chat') {
+        document.querySelector('.ai-tab:nth-child(1)').classList.add('active');
+        document.getElementById('tab-chat').classList.add('active');
+    } else {
+        document.querySelector('.ai-tab:nth-child(2)').classList.add('active');
+        document.getElementById('tab-hist').classList.add('active');
+        renderHistory(); // On rafraîchit l'historique si on clique sur l'onglet
+    }
+}
+
+function sendSugg(btn) {
+    document.getElementById('chat-inp').value = btn.innerText;
+    sendChat();
+}
+
+async function sendChat() {
+    const input = document.getElementById('chat-inp');
+    const container = document.getElementById('chat-messages');
+    const text = input.value.trim();
+    
+    if(!text) return;
+
+    // Afficher message utilisateur
+    addMessage(text, 'user');
+    input.value = '';
+
+    // Simulation de réflexion
+    const typingId = 'typing-' + Date.now();
+    addMessage('Réflexion...', 'bot', typingId);
+
+    setTimeout(() => {
+        const typingElem = document.getElementById(typingId);
+        if(typingElem) typingElem.remove();
+        
+        // Ici, l'IA regarde les données réelles du rack (state)
+        const response = generateAIResponse(text);
+        addMessage(response, 'bot');
+    }, 600);
+}
+
+function addMessage(text, side, id = null) {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `chat-msg ${side}`;
+    if(id) div.id = id;
+    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    div.innerHTML = `<div class="chat-bubble ${id ? 'typing' : ''}">${text}</div><div class="chat-time">${time}</div>`;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+// L'IA analyse maintenant tes données Firebase (variable 'state')
+function generateAIResponse(input) {
+    const msg = input.toLowerCase();
+    
+    // Compter les places libres
+    let libres = 0;
+    let occupees = [];
+    for(let id in state) {
+        if(state[id] && state[id].ref) occupees.push(id);
+    }
+    libres = 24 - occupees.length;
+
+    if(msg.includes("libre") || msg.includes("disponible")) {
+        return `Il reste actuellement **${libres} emplacements libres** sur 24.`;
+    }
+    
+    if(msg.includes("b4") || msg.includes("b5") || msg.includes("b6")) {
+        let info = "État des palettes partagées : \n";
+        ["B4","B5","B6"].forEach(id => {
+            let s = state[id] && state[id].space ? state[id].space : "Inconnu";
+            info += `- **${id}** : ${s}\n`;
+        });
+        return info;
+    }
+
+    if(msg.includes("quel") || msg.includes("liste") || msg.includes("palette")) {
+        if(occupees.length === 0) return "Le rack est totalement vide.";
+        return `Il y a ${occupees.length} palettes. Voici les premières : ` + occupees.slice(0,5).join(", ") + "...";
+    }
+
+    return "Je suis l'assistant du rack. Je peux te dire combien de places sont libres ou vérifier les niveaux B4/B5/B6. Que veux-tu savoir ?";
+}
 </script>
 </body>
 </html>
