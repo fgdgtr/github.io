@@ -229,7 +229,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ai-b-row:hover{background:rgba(255,255,255,.08);}
 .ai-b-id{font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#f3efe9;min-width:28px;}
 .ai-b-ref{font-size:11px;font-weight:600;color:#f3efe9;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
 </style>
 </head>
 <body>
@@ -286,7 +285,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSOcc()">+</button>
 </div>
-<!-- Espace B4/B5/B6 : affiché dynamiquement -->
 <div id="space-occ-section" style="display:none;">
 <div class="div"></div>
 <div class="slbl" style="margin-bottom:7px;">Reste de la place ?</div>
@@ -317,7 +315,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSReserved()">+</button>
 </div>
-<!-- Espace B4/B5/B6 pour réservé -->
 <div id="space-reserved-section" style="display:none;">
 <div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
 <select class="sel" id="sel-space-reserved">
@@ -342,7 +339,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
 <button class="btn-sec" onclick="addAFSNew()">+</button>
 </div>
-<!-- Espace B4/B5/B6 pour libre -->
 <div id="space-free-section" style="display:none;">
 <div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
 <select class="sel" id="sel-space-free">
@@ -457,7 +453,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
-
 <!-- ── ASSISTANT IA ── -->
 <div id="ai-panel">
   <div class="ai-hdr">
@@ -487,27 +482,27 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <script>
 var DB = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
 var NIVEAUX = [
-{id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
-{id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
-{id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
-{id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
+  {id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
+  {id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
+  {id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
+  {id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
 ];
-var COLS=[1,2,3,4,5,6];
+var COLS = [1,2,3,4,5,6];
 var SPACE_IDS = ["B4","B5","B6"];
-var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
+var state = {}, curId = null, newAFS = [], toastTm = null, currentGuideSlide = 1;
 
 function isSpaceEmp(id) { return SPACE_IDS.indexOf(id) >= 0; }
 
 function isValidObj(v) {
-return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
+  return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
 }
 
 /* ── NAV ── */
 function showOnly(id) {
-["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
-document.getElementById(v).style.display = v === id ? "block" : "none";
-});
-window.scrollTo(0,0);
+  ["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
+    document.getElementById(v).style.display = v === id ? "block" : "none";
+  });
+  window.scrollTo(0,0);
 }
 function goRack() { renderRack(); showOnly("view-rack"); }
 function goEmp(id) { openEmp(id); showOnly("view-emp"); }
@@ -515,368 +510,364 @@ function goQR() { showOnly("view-qr"); renderQR(); }
 function goGuide() { currentGuideSlide=1; updateGuideSlide(); showOnly("view-guide"); }
 
 function nextGuide(current) {
-var next = current + 1;
-if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
+  var next = current + 1;
+  if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
 }
 function updateGuideSlide() {
-for(var i=1; i<=5; i++) {
-var el = document.getElementById("guide-slide-"+i);
-if(el) el.style.display = (i === currentGuideSlide) ? "block" : "none";
-}
-window.scrollTo(0,0);
+  for(var i=1; i<=5; i++) {
+    var el = document.getElementById("guide-slide-"+i);
+    if(el) el.style.display = (i === currentGuideSlide) ? "block" : "none";
+  }
+  window.scrollTo(0,0);
 }
 
 /* ── SYNC ── */
 function setDot(s) {
-document.getElementById("sync-dot").className = "sync-dot " + s;
-var t = document.getElementById("sync-time");
-if(s === "ok") {
-var n = new Date();
-t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
-t.className = "sync-time ok";
-setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
-} else if(s === "loading") {
-t.textContent="…"; t.className="sync-time";
-} else {
-t.textContent="off"; t.className="sync-time";
-}
+  document.getElementById("sync-dot").className = "sync-dot " + s;
+  var t = document.getElementById("sync-time");
+  if(s === "ok") {
+    var n = new Date();
+    t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
+    t.className = "sync-time ok";
+    setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
+  } else if(s === "loading") {
+    t.textContent="…"; t.className="sync-time";
+  } else {
+    t.textContent="off"; t.className="sync-time";
+  }
 }
 function pad(n){ return n<10?"0"+n:""+n; }
 
 function refresh() {
-setDot("loading");
-var xhr = new XMLHttpRequest();
-xhr.open("GET", DB, true);
-xhr.onreadystatechange = function() {
-if(xhr.readyState !== 4) return;
-if(xhr.status === 200) {
-try {
-var raw = JSON.parse(xhr.responseText);
-state = isValidObj(raw) ? raw : {};
-setDot("ok");
-} catch(e) { state={}; setDot("error"); }
-} else {
-loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
-}
-renderRack(); openAssistantAuto();
-};
-xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); openAssistantAuto(); };
-xhr.send();
+  setDot("loading");
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", DB, true);
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState !== 4) return;
+    if(xhr.status === 200) {
+      try {
+        var raw = JSON.parse(xhr.responseText);
+        state = isValidObj(raw) ? raw : {};
+        setDot("ok");
+      } catch(e) { state={}; setDot("error"); }
+    } else {
+      loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
+    }
+    renderRack(); openAssistantAuto();
+  };
+  xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); openAssistantAuto(); };
+  xhr.send();
 }
 function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
 function saveData() {
-setDot("loading");
-var body = JSON.stringify(state);
-var xhr = new XMLHttpRequest();
-xhr.open("PUT", DB, true);
-xhr.setRequestHeader("Content-Type","application/json");
-xhr.onreadystatechange = function() {
-if(xhr.readyState !== 4) return;
-localStorage.setItem("att_bck", body);
-setDot(xhr.status === 200 ? "ok" : "error");
-};
-xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
-xhr.send(body);
+  setDot("loading");
+  var body = JSON.stringify(state);
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", DB, true);
+  xhr.setRequestHeader("Content-Type","application/json");
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState !== 4) return;
+    localStorage.setItem("att_bck", body);
+    setDot(xhr.status === 200 ? "ok" : "error");
+  };
+  xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
+  xhr.send(body);
 }
 setInterval(function(){ if(document.getElementById("view-rack").style.display!=="none") refresh(); }, 20000);
 
 /* ── RENDER RACK ── */
 function getSpaceLabel(space) {
-if(space === "oui") return "✅ Place dispo";
-if(space === "un-peu") return "⚠️ Un peu";
-if(space === "non") return "❌ Plein";
-return null;
+  if(space === "oui") return "✅ Place dispo";
+  if(space === "un-peu") return "⚠️ Un peu";
+  if(space === "non") return "❌ Plein";
+  return null;
 }
 function getSpaceCls(space) {
-if(space === "oui") return "sp-oui";
-if(space === "un-peu") return "sp-un-peu";
-if(space === "non") return "sp-non";
-return "";
+  if(space === "oui") return "sp-oui";
+  if(space === "un-peu") return "sp-un-peu";
+  if(space === "non") return "sp-non";
+  return "";
 }
 
 function renderRack() {
-var wrap = document.getElementById("rack-grid");
-wrap.innerHTML = "";
+  var wrap = document.getElementById("rack-grid");
+  wrap.innerHTML = "";
 
-for(var ni=0; ni<NIVEAUX.length; ni++) {
-var niv = NIVEAUX[ni];
-var occ = 0;
-for(var ci=0; ci<COLS.length; ci++) {
-var raw = state[niv.id+COLS[ci]];
-if(isValidObj(raw) && raw.ref) occ++;
-}
+  for(var ni=0; ni<NIVEAUX.length; ni++) {
+    var niv = NIVEAUX[ni];
+    var occ = 0;
+    for(var ci=0; ci<COLS.length; ci++) {
+      var raw = state[niv.id+COLS[ci]];
+      if(isValidObj(raw) && raw.ref) occ++;
+    }
 
-var block = document.createElement("div");
-block.className = "niv-block " + niv.hcls;
+    var block = document.createElement("div");
+    block.className = "niv-block " + niv.hcls;
 
-var hdr = document.createElement("div"); hdr.className = "niv-hdr";
-var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
-var info = document.createElement("div"); info.className = "niv-info";
-var name = document.createElement("div"); name.className = "niv-name"; name.textContent = niv.label;
-var desc = document.createElement("div"); desc.className = "niv-desc"; desc.textContent = niv.desc;
-var cnt = document.createElement("div"); cnt.className = "niv-cnt"; cnt.textContent = occ+"/"+COLS.length;
-info.appendChild(name); info.appendChild(desc);
-hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
-block.appendChild(hdr);
+    var hdr = document.createElement("div"); hdr.className = "niv-hdr";
+    var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
+    var info = document.createElement("div"); info.className = "niv-info";
+    var name = document.createElement("div"); name.className = "niv-name"; name.textContent = niv.label;
+    var desc = document.createElement("div"); desc.className = "niv-desc"; desc.textContent = niv.desc;
+    var cnt = document.createElement("div"); cnt.className = "niv-cnt"; cnt.textContent = occ+"/"+COLS.length;
+    info.appendChild(name); info.appendChild(desc);
+    hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
+    block.appendChild(hdr);
 
-var grid = document.createElement("div"); grid.className = "niv-grid";
+    var grid = document.createElement("div"); grid.className = "niv-grid";
 
-for(var ci2=0; ci2<COLS.length; ci2++) {
-var col = COLS[ci2], id = niv.id+col;
-var raw2 = state[id];
-var data = isValidObj(raw2) ? raw2 : null;
+    for(var ci2=0; ci2<COLS.length; ci2++) {
+      var col = COLS[ci2], id = niv.id+col;
+      var raw2 = state[id];
+      var data = isValidObj(raw2) ? raw2 : null;
 
-var cardCls = "vide";
-if(data && data.ref) { cardCls = "occ"; }
-else if(data && data.reserved) { cardCls = "reserv"; }
+      var cardCls = "vide";
+      if(data && data.ref) { cardCls = "occ"; }
+      else if(data && data.reserved) { cardCls = "reserv"; }
 
-var card = document.createElement("div"); card.className = "ecard " + cardCls;
-var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
-var refEl = document.createElement("div"); refEl.className = "ecard-ref";
+      var card = document.createElement("div"); card.className = "ecard " + cardCls;
+      var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
+      var refEl = document.createElement("div"); refEl.className = "ecard-ref";
 
-if(data && data.ref) { refEl.textContent = data.ref; }
-else if(data && data.reserved) { refEl.textContent = "🔒 " + data.reserved; }
-else { refEl.textContent = "Libre"; }
+      if(data && data.ref) { refEl.textContent = data.ref; }
+      else if(data && data.reserved) { refEl.textContent = "🔒 " + data.reserved; }
+      else { refEl.textContent = "Libre"; }
 
-card.appendChild(idEl); card.appendChild(refEl);
+      card.appendChild(idEl); card.appendChild(refEl);
 
-if(data && data.afs && data.afs.length > 0) {
-var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
-var shown = data.afs.slice(0,3), txt = "";
-for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
-if(data.afs.length>3) txt += " +"+(data.afs.length-3);
-afsEl.textContent = txt; card.appendChild(afsEl);
-}
+      if(data && data.afs && data.afs.length > 0) {
+        var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
+        var shown = data.afs.slice(0,3), txt = "";
+        for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
+        if(data.afs.length>3) txt += " +"+(data.afs.length-3);
+        afsEl.textContent = txt; card.appendChild(afsEl);
+      }
 
-// Affichage place disponible sur B4/B5/B6
-if(isSpaceEmp(id) && data && data.ref && data.space) {
-var spEl = document.createElement("div");
-spEl.className = "ecard-space " + getSpaceCls(data.space);
-spEl.textContent = getSpaceLabel(data.space);
-card.appendChild(spEl);
-}
+      if(isSpaceEmp(id) && data && data.ref && data.space) {
+        var spEl = document.createElement("div");
+        spEl.className = "ecard-space " + getSpaceCls(data.space);
+        spEl.textContent = getSpaceLabel(data.space);
+        card.appendChild(spEl);
+      }
 
-card.setAttribute("data-empid", id);
-card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
-grid.appendChild(card);
-}
-block.appendChild(grid);
-wrap.appendChild(block);
-}
+      card.setAttribute("data-empid", id);
+      card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
+      grid.appendChild(card);
+    }
+    block.appendChild(grid);
+    wrap.appendChild(block);
+  }
 }
 
 /* ── SEARCH ── */
 function doSearch(q) {
-q = q.trim().toLowerCase();
-document.querySelectorAll(".ecard").forEach(function(c) {
-c.style.display = (!q||(c.textContent||"").toLowerCase().indexOf(q)>=0) ? "flex" : "none";
-});
+  q = q.trim().toLowerCase();
+  document.querySelectorAll(".ecard").forEach(function(c) {
+    c.style.display = (!q||(c.textContent||"").toLowerCase().indexOf(q)>=0) ? "flex" : "none";
+  });
 }
 
 /* ── OPEN EMP ── */
 function openEmp(id) {
-curId = id;
-var niv = null;
-for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
-document.getElementById("emp-title").textContent = id;
-document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
+  curId = id;
+  var niv = null;
+  for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
+  document.getElementById("emp-title").textContent = id;
+  document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
 
-var raw = state[id];
-var data = isValidObj(raw) ? raw : null;
+  var raw = state[id];
+  var data = isValidObj(raw) ? raw : null;
 
-document.getElementById("st-occ").style.display = "none";
-document.getElementById("st-reserved").style.display = "none";
-document.getElementById("st-free").style.display = "none";
+  document.getElementById("st-occ").style.display = "none";
+  document.getElementById("st-reserved").style.display = "none";
+  document.getElementById("st-free").style.display = "none";
 
-if(data && data.ref) {
-document.getElementById("st-occ").style.display = "block";
-document.getElementById("occ-ref").textContent = data.ref || "—";
-var dA = new Date(data.date);
-document.getElementById("occ-arrive").textContent =
-"Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
-renderAFSOcc(data.afs||[]);
-document.getElementById("inp-afs-add").value = "";
+  if(data && data.ref) {
+    document.getElementById("st-occ").style.display = "block";
+    document.getElementById("occ-ref").textContent = data.ref || "—";
+    var dA = new Date(data.date);
+    document.getElementById("occ-arrive").textContent =
+      "Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
+    renderAFSOcc(data.afs||[]);
+    document.getElementById("inp-afs-add").value = "";
 
-// Section espace pour B4/B5/B6
-var spaceOccSec = document.getElementById("space-occ-section");
-if(isSpaceEmp(id)) {
-spaceOccSec.style.display = "block";
-var spaceDisp = document.getElementById("space-occ-display");
-if(data.space) {
-spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(data.space) + '">' + getSpaceLabel(data.space) + '</div>';
-} else {
-spaceDisp.innerHTML = '';
-}
-document.getElementById("sel-space-occ").value = "";
-} else {
-spaceOccSec.style.display = "none";
-}
+    var spaceOccSec = document.getElementById("space-occ-section");
+    if(isSpaceEmp(id)) {
+      spaceOccSec.style.display = "block";
+      var spaceDisp = document.getElementById("space-occ-display");
+      if(data.space) {
+        spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(data.space) + '">' + getSpaceLabel(data.space) + '</div>';
+      } else {
+        spaceDisp.innerHTML = '';
+      }
+      document.getElementById("sel-space-occ").value = "";
+    } else {
+      spaceOccSec.style.display = "none";
+    }
 
-} else if(data && data.reserved) {
-document.getElementById("st-reserved").style.display = "block";
-document.getElementById("reserved-company").textContent = data.reserved;
-document.getElementById("inp-ref-reserved").value = "";
-document.getElementById("inp-afs-reserved").value = "";
-var reservedAFS_local = [];
-renderAFSReserved_local(reservedAFS_local);
-// Section espace pour B4/B5/B6
-document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
-document.getElementById("sel-space-reserved").value = "";
+  } else if(data && data.reserved) {
+    document.getElementById("st-reserved").style.display = "block";
+    document.getElementById("reserved-company").textContent = data.reserved;
+    document.getElementById("inp-ref-reserved").value = "";
+    document.getElementById("inp-afs-reserved").value = "";
+    var reservedAFS_local = [];
+    renderAFSReserved_local(reservedAFS_local);
+    document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
+    document.getElementById("sel-space-reserved").value = "";
 
-} else {
-document.getElementById("st-free").style.display = "block";
-document.getElementById("inp-ref").value = "";
-document.getElementById("inp-afs-new").value = "";
-document.getElementById("inp-company-reserve").value = "";
-newAFS = []; renderAFSNew();
-// Section espace pour B4/B5/B6
-document.getElementById("space-free-section").style.display = isSpaceEmp(id) ? "block" : "none";
-document.getElementById("sel-space-free").value = "";
-}
+  } else {
+    document.getElementById("st-free").style.display = "block";
+    document.getElementById("inp-ref").value = "";
+    document.getElementById("inp-afs-new").value = "";
+    document.getElementById("inp-company-reserve").value = "";
+    newAFS = []; renderAFSNew();
+    document.getElementById("space-free-section").style.display = isSpaceEmp(id) ? "block" : "none";
+    document.getElementById("sel-space-free").value = "";
+  }
 }
 
 /* ── AFS OCC ── */
 function renderAFSOcc(list) {
-var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
-if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
-list.forEach(function(val,idx) {
-var tag=document.createElement("span"); tag.className="afs-tag";
-var txt=document.createElement("span"); txt.textContent="AFS "+val;
-var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-x.onclick=function(e){ e.stopPropagation(); removeAFSOcc(idx); };
-tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-});
+  var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
+  if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
+  list.forEach(function(val,idx) {
+    var tag=document.createElement("span"); tag.className="afs-tag";
+    var txt=document.createElement("span"); txt.textContent="AFS "+val;
+    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+    x.onclick=function(e){ e.stopPropagation(); removeAFSOcc(idx); };
+    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+  });
 }
 function addAFSOcc() {
-var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
-if(!state[curId]||!isValidObj(state[curId])) return;
-if(!state[curId].afs) state[curId].afs=[];
-raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
-inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
+  var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
+  if(!state[curId]||!isValidObj(state[curId])) return;
+  if(!state[curId].afs) state[curId].afs=[];
+  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
+  inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
 }
 function removeAFSOcc(idx) {
-if(!state[curId]||!state[curId].afs) return;
-state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
+  if(!state[curId]||!state[curId].afs) return;
+  state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
 }
 
 /* ── SAVE SPACE OCC ── */
 function saveSpaceOcc() {
-var space = document.getElementById("sel-space-occ").value;
-if(!space) { showToast("Sélectionnez une option","⚠️"); return; }
-if(!state[curId]||!isValidObj(state[curId])) return;
-state[curId].space = space;
-var spaceDisp = document.getElementById("space-occ-display");
-spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(space) + '">' + getSpaceLabel(space) + '</div>';
-document.getElementById("sel-space-occ").value = "";
-renderRack(); saveData(); showToast("Place enregistrée","✓");
+  var space = document.getElementById("sel-space-occ").value;
+  if(!space) { showToast("Sélectionnez une option","⚠️"); return; }
+  if(!state[curId]||!isValidObj(state[curId])) return;
+  state[curId].space = space;
+  var spaceDisp = document.getElementById("space-occ-display");
+  spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(space) + '">' + getSpaceLabel(space) + '</div>';
+  document.getElementById("sel-space-occ").value = "";
+  renderRack(); saveData(); showToast("Place enregistrée","✓");
 }
 
 /* ── AFS RESERVED ── */
 var reservedAFS = [];
 function renderAFSReserved_local(list) { reservedAFS = list || []; renderAFSReserved(); }
 function renderAFSReserved() {
-var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
-if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
-reservedAFS.forEach(function(val,idx) {
-var tag=document.createElement("span"); tag.className="afs-tag";
-var txt=document.createElement("span"); txt.textContent="AFS "+val;
-var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-x.onclick=function(e){ e.stopPropagation(); reservedAFS.splice(idx,1); renderAFSReserved(); };
-tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-});
+  var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
+  if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
+  reservedAFS.forEach(function(val,idx) {
+    var tag=document.createElement("span"); tag.className="afs-tag";
+    var txt=document.createElement("span"); txt.textContent="AFS "+val;
+    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+    x.onclick=function(e){ e.stopPropagation(); reservedAFS.splice(idx,1); renderAFSReserved(); };
+    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+  });
 }
 function addAFSReserved() {
-var inp=document.getElementById("inp-afs-reserved"), raw=inp.value.trim(); if(!raw) return;
-raw.split(/[,;\s]+/).forEach(function(v){ if(v&&reservedAFS.indexOf(v)<0) reservedAFS.push(v); });
-inp.value=""; renderAFSReserved();
+  var inp=document.getElementById("inp-afs-reserved"), raw=inp.value.trim(); if(!raw) return;
+  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&reservedAFS.indexOf(v)<0) reservedAFS.push(v); });
+  inp.value=""; renderAFSReserved();
 }
 function addPalReserved() {
-var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
-if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
-var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").value : "";
-if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
-state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
-if(space) state[curId].space = space;
-AI.register(ref, reservedAFS);
-showToast(ref+" enregistrée","✓");
-if(navigator.vibrate) navigator.vibrate(10);
-reservedAFS=[]; saveData(); goRack();
+  var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
+  if(!ref){ showToast("Entrez une référence","⚠️"); return; }
+  var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
+  var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").value : "";
+  if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
+  state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
+  if(space) state[curId].space = space;
+  AI.register(ref, reservedAFS);
+  showToast(ref+" enregistrée","✓");
+  if(navigator.vibrate) navigator.vibrate(10);
+  reservedAFS=[]; saveData(); goRack();
 }
 
 /* ── AFS NEW ── */
 function renderAFSNew() {
-var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
-if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
-newAFS.forEach(function(val,idx) {
-var tag=document.createElement("span"); tag.className="afs-tag";
-var txt=document.createElement("span"); txt.textContent="AFS "+val;
-var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-x.onclick=function(e){ e.stopPropagation(); newAFS.splice(idx,1); renderAFSNew(); };
-tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-});
+  var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
+  if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
+  newAFS.forEach(function(val,idx) {
+    var tag=document.createElement("span"); tag.className="afs-tag";
+    var txt=document.createElement("span"); txt.textContent="AFS "+val;
+    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
+    x.onclick=function(e){ e.stopPropagation(); newAFS.splice(idx,1); renderAFSNew(); };
+    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
+  });
 }
 function addAFSNew() {
-var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
-raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
-inp.value=""; renderAFSNew();
+  var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
+  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
+  inp.value=""; renderAFSNew();
 }
 
 /* ── ADD / DELETE ── */
 function addPal() {
-var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
-if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value : "";
-if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
-state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
-if(space) state[curId].space = space;
-AI.register(ref, newAFS);
-showToast(ref+" enregistrée","✓");
-if(navigator.vibrate) navigator.vibrate(10);
-saveData(); goRack();
+  var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
+  if(!ref){ showToast("Entrez une référence","⚠️"); return; }
+  var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value : "";
+  if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
+  state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
+  if(space) state[curId].space = space;
+  AI.register(ref, newAFS);
+  showToast(ref+" enregistrée","✓");
+  if(navigator.vibrate) navigator.vibrate(10);
+  saveData(); goRack();
 }
 function reserveEmp() {
-var company=document.getElementById("inp-company-reserve").value.trim();
-if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
-state[curId]={reserved:company};
-showToast(company+" — réservé","🔒");
-if(navigator.vibrate) navigator.vibrate(10);
-saveData(); goRack();
+  var company=document.getElementById("inp-company-reserve").value.trim();
+  if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
+  state[curId]={reserved:company};
+  showToast(company+" — réservé","🔒");
+  if(navigator.vibrate) navigator.vibrate(10);
+  saveData(); goRack();
 }
 function cancelReservation() {
-delete state[curId];
-showToast("Réservation annulée","🔓");
-if(navigator.vibrate) navigator.vibrate(10);
-saveData(); goRack();
+  delete state[curId];
+  showToast("Réservation annulée","🔓");
+  if(navigator.vibrate) navigator.vibrate(10);
+  saveData(); goRack();
 }
 function askDel(){ document.getElementById("modal-del").classList.add("open"); }
 function closeModal(){ document.getElementById("modal-del").classList.remove("open"); }
 function closeModalIfBg(e){ if(e.target===document.getElementById("modal-del")) closeModal(); }
 function confirmDel() {
-var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
-delete state[curId]; closeModal(); saveData();
-showToast(ref+" sortie","📦");
-if(navigator.vibrate) navigator.vibrate(25);
-goRack();
+  var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
+  delete state[curId]; closeModal(); saveData();
+  showToast(ref+" sortie","📦");
+  if(navigator.vibrate) navigator.vibrate(25);
+  goRack();
 }
 
 /* ── QR ── */
 function renderQR() {
-var url=window.location.href.split("?")[0];
-var c=document.getElementById("qr-c");
-var img=new Image();
-img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";
-img.onload=function(){ c.innerHTML=""; c.appendChild(img); };
-img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
+  var url=window.location.href.split("?")[0];
+  var c=document.getElementById("qr-c");
+  var img=new Image();
+  img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";
+  img.onload=function(){ c.innerHTML=""; c.appendChild(img); };
+  img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
 }
 
 /* ── TOAST ── */
 function showToast(msg,ico) {
-document.getElementById("t-i").textContent=ico||"";
-document.getElementById("t-m").textContent=msg;
-var el=document.getElementById("toast"); el.classList.add("show");
-clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
+  document.getElementById("t-i").textContent=ico||"";
+  document.getElementById("t-m").textContent=msg;
+  var el=document.getElementById("toast"); el.classList.add("show");
+  clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
 }
 
 /* ── KEYBOARD ── */
@@ -887,10 +878,15 @@ document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter"
 
 /* ══════════════════════════════════════════
    ASSISTANT IA — Rack Renvoie Colis
-   Fonctionnalités utiles pour l'opérateur
    ══════════════════════════════════════════ */
 
 var AI = {
+
+  /* ── FIX 1 : méthode register manquante ── */
+  register: function(ref, afs) {
+    // Trace interne lors de l'enregistrement d'une palette
+    console.log('[AI] Palette enregistrée :', ref, afs);
+  },
 
   /* ── Analyse complète du rack ── */
   analyze: function() {
@@ -910,7 +906,6 @@ var AI = {
 
         if(d && d.ref) {
           nOcc++; occ++;
-          // Palette B4/B5/B6 : vérif espace
           if(['B4','B5','B6'].indexOf(id) >= 0) {
             spacesB.push({ id:id, ref:d.ref, space: d.space || null });
             if(!d.space) {
@@ -921,7 +916,6 @@ var AI = {
           }
         } else if(d && d.reserved) {
           nReserv++; reserv++;
-          // Réservation sans palette = signaler
           alertes.push({ type:'info', prio:4, msg:'<strong>' + id + '</strong> réservé ' + d.reserved + ' — vide' });
         } else {
           nLibre++; libre++;
@@ -933,16 +927,12 @@ var AI = {
       niveauxData.push({ id:niv.id, label:niv.label, desc:niv.desc, occ:nOcc, libre:nLibre, reserv:nReserv });
     });
 
-    // Alerte taux global
     var pct = Math.round(occ / totalEmp * 100);
     if(pct >= 90) alertes.push({ type:'err', prio:0, msg:'🔴 Rack quasi plein — ' + pct + '% occupé !' });
     else if(pct >= 75) alertes.push({ type:'warn', prio:1, msg:'Rack chargé — ' + pct + '% occupé' });
 
-    // Trier alertes par priorité
     alertes.sort(function(a,b){ return a.prio - b.prio; });
 
-    // Meilleure suggestion d'emplacement : niveau le plus libre
-    // Sépare gerbeur (D,C) et main (B,A)
     var suggMain = null, suggGerbeur = null;
     niveauxData.forEach(function(niv) {
       if(niv.libre > 0) {
@@ -988,8 +978,9 @@ var AI = {
       html += '<div class="ai-alert err"><span class="ai-alert-ico">🔴</span><span>Aucun emplacement libre !</span></div>';
     } else {
       if(A.suggMain) {
+        /* FIX 2 : guillemets correctement échappés dans onclick */
         var ids = A.libresParNiveau[A.suggMain.id] || [];
-        html += '<div class="ai-sugg" onclick="goEmp('' + ids[0] + ''); toggleAssistant();">';
+        html += '<div class="ai-sugg" onclick="goEmp(\'' + ids[0] + '\'); toggleAssistant();">';
         html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggMain.id + '</span>';
         html += '<span class="ai-sugg-label">À la main</span>';
         html += '<span class="ai-badge green">' + A.suggMain.libre + ' libre' + (A.suggMain.libre > 1 ? 's' : '') + '</span></div>';
@@ -1001,8 +992,9 @@ var AI = {
         html += '</div></div>';
       }
       if(A.suggGerbeur) {
+        /* FIX 2 : guillemets correctement échappés dans onclick */
         var idsG = A.libresParNiveau[A.suggGerbeur.id] || [];
-        html += '<div class="ai-sugg" onclick="goEmp('' + idsG[0] + ''); toggleAssistant();">';
+        html += '<div class="ai-sugg" onclick="goEmp(\'' + idsG[0] + '\'); toggleAssistant();">';
         html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggGerbeur.id + '</span>';
         html += '<span class="ai-sugg-label">Gerbeur</span>';
         html += '<span class="ai-badge gray">' + A.suggGerbeur.libre + ' libre' + (A.suggGerbeur.libre > 1 ? 's' : '') + '</span></div>';
@@ -1043,11 +1035,9 @@ var AI = {
     html += '<div class="ai-section">';
     html += '<div class="ai-lbl">🗄️ Places partagées B4 · B5 · B6</div>';
     var bIds = ['B4','B5','B6'];
-    var anyB = false;
     bIds.forEach(function(bid) {
       var d = isValidObj(state[bid]) ? state[bid] : null;
       if(d && d.ref) {
-        anyB = true;
         var spLabel = d.space === 'oui' ? '✅ Place dispo' : d.space === 'un-peu' ? '⚠️ Un peu' : d.space === 'non' ? '❌ Plein' : '❓ Non renseigné';
         var spCls = d.space ? d.space : 'none';
         html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
@@ -1056,14 +1046,12 @@ var AI = {
         html += '<span class="ai-space-badge ' + spCls + '">' + spLabel + '</span>';
         html += '</div>';
       } else if(d && d.reserved) {
-        anyB = true;
         html += '<div class="ai-b-row">';
         html += '<span class="ai-b-id">' + bid + '</span>';
         html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.35);">🔒 ' + d.reserved + '</span>';
         html += '<span class="ai-space-badge none">—</span>';
         html += '</div>';
       } else {
-        anyB = true;
         html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
         html += '<span class="ai-b-id">' + bid + '</span>';
         html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.3);">Libre</span>';
@@ -1081,7 +1069,6 @@ var AI = {
     if(empId) { goEmp(empId); toggleAssistant(); }
   },
 
-  /* Compte le nombre d'alertes actives */
   countAlerts: function() {
     var A = this.analyze();
     return A.alertes.length;
@@ -1098,7 +1085,6 @@ function toggleAssistant() {
 }
 
 function openAssistantAuto() {
-  // S'ouvre automatiquement si alertes importantes
   var n = AI.countAlerts();
   if(n > 0) {
     var panel = document.getElementById('ai-panel');
@@ -1109,7 +1095,6 @@ function openAssistantAuto() {
   }
 }
 
-// Raccourci clavier Ctrl+K
 document.addEventListener('keydown', function(e) {
   if((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault();
@@ -1117,10 +1102,8 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-
 showOnly("view-rack");
 refresh();
-// Auto-check alertes après le 1er chargement
 setTimeout(function(){ openAssistantAuto(); }, 1800);
 </script>
 </body>
