@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AUEM | Rack renvoie colis</title>
+<title>AUEM | Rack renvoie colis </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -159,26 +159,70 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .spinner{width:22px;height:22px;border:2px solid var(--border2);border-top-color:var(--text);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;}
+/* ── CHATBOT IA ── */
+#ai-panel{
+  position:fixed;top:58px;right:10px;width:310px;height:calc(100vh - 78px);
+  background:var(--hdr);border:1.5px solid rgba(255,255,255,.13);border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4);z-index:150;overflow:hidden;
+  display:none;flex-direction:column;font-family:'DM Sans',sans-serif;
+  animation:aiIn .2s cubic-bezier(.34,1.4,.64,1);
+}
+#ai-panel.open{display:flex;}
+@keyframes aiIn{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
+.ai-hdr{padding:11px 13px 9px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
+.ai-hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:1px;}
+.ai-hdr-ico{font-size:15px;}
+.ai-hdr-title{font-size:12px;font-weight:800;color:#fbbf24;letter-spacing:.5px;flex:1;}
+.ai-hdr-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;padding:0;line-height:1;}
+.ai-hdr-close:active{color:#fff;}
+.ai-hdr-sub{font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.3px;}
 
-/* AI WIDGET */
-#ai-widget{position:fixed;bottom:80px;right:14px;z-index:99;background:rgba(28,24,20,.97);backdrop-filter:blur(12px);border:1.5px solid rgba(0,0,0,.15);border-radius:14px;padding:12px;width:290px;max-height:380px;overflow-y:auto;font-family:'DM Sans',sans-serif;color:#f3efe9;box-shadow:0 12px 40px rgba(0,0,0,.25);}
-#ai-widget.hidden{display:none;}
-.ai-title{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:7px;color:#f59e0b;}
-.ai-close{margin-left:auto;background:none;border:none;color:#f59e0b;cursor:pointer;font-size:18px;padding:0;line-height:1;width:24px;height:24px;display:flex;align-items:center;justify-content:center;}
-.ai-close:active{opacity:0.6;}
-.ai-section{margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.08);}
-.ai-section:last-child{border-bottom:none;}
-.ai-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px;}
-.ai-item{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 10px;margin-bottom:5px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;display:flex;align-items:center;justify-content:space-between;}
-.ai-item:hover{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.3);transform:translateX(2px);}
-.ai-item:active{transform:scale(0.95);}
-.ai-item-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ai-badge{background:rgba(245,158,11,.2);color:#fbbf24;border-radius:4px;padding:2px 6px;font-size:8px;font-weight:700;flex-shrink:0;margin-left:5px;}
-.ai-alert{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:8px;margin-bottom:6px;font-size:10px;color:#fca5a5;font-weight:600;line-height:1.4;}
-.ai-alert.info{background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.3);color:#93c5fd;}
-.ai-empty{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;padding:8px;text-align:center;}
-.ai-stats{font-size:9px;color:rgba(255,255,255,.3);line-height:1.6;}
-.ai-stats div{margin-bottom:2px;}
+/* Onglets */
+.ai-tabs{display:flex;gap:4px;padding:8px 10px 0;flex-shrink:0;}
+.ai-tab{flex:1;padding:6px 4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px 8px 0 0;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;letter-spacing:.3px;}
+.ai-tab.active{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.35);color:#fbbf24;}
+.ai-tab:active{opacity:.7;}
+
+/* Zone de contenu */
+.ai-tab-content{display:none;flex:1;overflow:hidden;flex-direction:column;}
+.ai-tab-content.active{display:flex;}
+
+/* ── CHAT ── */
+.chat-messages{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;}
+.chat-messages::-webkit-scrollbar{width:2px;}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);}
+.chat-msg{max-width:88%;display:flex;flex-direction:column;gap:2px;}
+.chat-msg.user{align-self:flex-end;align-items:flex-end;}
+.chat-msg.bot{align-self:flex-start;align-items:flex-start;}
+.chat-bubble{padding:9px 12px;border-radius:14px;font-size:12px;line-height:1.5;font-weight:500;}
+.chat-msg.user .chat-bubble{background:#fbbf24;color:#1c1814;border-bottom-right-radius:4px;}
+.chat-msg.bot .chat-bubble{background:rgba(255,255,255,.1);color:#f3efe9;border-bottom-left-radius:4px;}
+.chat-msg.bot .chat-bubble.typing{color:rgba(255,255,255,.4);font-style:italic;}
+.chat-time{font-size:8px;color:rgba(255,255,255,.2);font-family:'DM Mono',monospace;padding:0 3px;}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:6px 10px;flex-shrink:0;}
+.chat-sugg-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;color:rgba(255,255,255,.6);font-size:10px;font-weight:600;padding:5px 10px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.chat-sugg-btn:active{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.3);color:#fbbf24;}
+.chat-input-row{display:flex;gap:6px;padding:8px 10px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.chat-inp{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:22px;color:#f3efe9;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 13px;outline:none;}
+.chat-inp:focus{border-color:rgba(251,191,36,.5);}
+.chat-inp::placeholder{color:rgba(255,255,255,.25);}
+.chat-send{width:34px;height:34px;background:#fbbf24;border:none;border-radius:50%;color:#1c1814;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.chat-send:active{opacity:.8;}
+.chat-send:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.2);cursor:not-allowed;}
+
+/* ── HISTORIQUE ── */
+.hist-body{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;}
+.hist-body::-webkit-scrollbar{width:2px;}
+.hist-empty{text-align:center;padding:30px 10px;font-size:11px;color:rgba(255,255,255,.25);font-style:italic;}
+.hist-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;margin-bottom:6px;display:flex;align-items:flex-start;gap:9px;}
+.hist-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.hist-body-txt{flex:1;min-width:0;}
+.hist-ref{font-size:13px;font-weight:800;color:#f3efe9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-meta{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;font-family:'DM Mono',monospace;}
+.hist-afs{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;flex-shrink:0;font-family:'DM Mono',monospace;background:rgba(239,68,68,.15);color:#fca5a5;}
+.hist-clear{width:100%;padding:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.35);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:4px;}
+.hist-clear:active{background:rgba(239,68,68,.1);color:#fca5a5;}
 </style>
 </head>
 <body>
@@ -194,6 +238,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="hdr-r">
 <div class="sync-dot loading" id="sync-dot"></div>
 <div class="sync-time" id="sync-time">…</div>
+<button class="btn-hdr" onclick="toggleAssistant()" id="btn-ai" title="Assistant (Ctrl+K)" style="position:relative;">🤖<span id="ai-notif" style="display:none;position:absolute;top:1px;right:1px;min-width:15px;height:15px;background:#ef4444;border-radius:8px;font-size:8px;font-weight:800;color:#fff;font-family:monospace;line-height:15px;text-align:center;padding:0 3px;"><span id="ai-notif-count"></span></span></button>
 <button class="btn-hdr" onclick="goGuide()">❓</button>
 <button class="btn-hdr" onclick="goQR()">📱</button>
 </div>
@@ -202,7 +247,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="bar">
 <div class="search-wrap">
 <span class="s-ico">🔍</span>
-<input class="s-inp" id="s-inp" placeholder="Rechercher N° client, AFS…" oninput="doSearch(this.value)"/>
+<input class="s-inp" id="s-inp" placeholder="Rechercher N° commande, AFS…" oninput="doSearch(this.value)"/>
 </div>
 </div>
 
@@ -257,7 +302,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
 <div class="div"></div>
 <div class="slbl" style="margin-bottom:7px;">Enregistrer une palette sur cet emplacement</div>
-<input class="inp" id="inp-ref-reserved" placeholder="N° client / référence"/>
+<input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
 <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
 <div class="afs-wrap" id="afs-reserved"></div>
 <div class="inp-row">
@@ -281,7 +326,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div id="st-free" style="display:none">
 <div class="section">
 <div class="slbl">Enregistrer une palette</div>
-<input class="inp" id="inp-ref" placeholder="N° client / référence"/>
+<input class="inp" id="inp-ref" placeholder="N° commande / référence"/>
 <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
 <div class="afs-wrap" id="afs-new"></div>
 <div class="inp-row">
@@ -303,6 +348,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="slbl">Réserver cet emplacement</div>
 <input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
 <button class="btn-sec" style="width:100%;margin-top:4px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
+</div>
 </div>
 </div>
 </div>
@@ -341,9 +387,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div id="guide-slide-3" style="display:none;">
 <div class="guide-title">✏️ Étape 3 : Remplissez les infos</div>
 <div class="guide-text">
-<p><strong>🔴 N° client / Référence (obligatoire)</strong></p>
+<p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p>
 <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p>
-<p><strong>🟠 Numéros AFS </strong></p>
+<p><strong>🟠 Numéros AFS (optionnel)</strong></p>
 <p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p>
 <p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p>
 <p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place sur la palette !</p>
@@ -358,7 +404,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p>
 <p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p>
 <p>1️⃣ Cliquez sur l'emplacement réservé</p>
-<p>2️⃣ Entrez le <strong>N° client</strong> et les AFS</p>
+<p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p>
 <p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p>
 <p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p>
 </div>
@@ -401,16 +447,47 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
-<!-- AI WIDGET -->
-<div id="ai-widget" class="hidden">
-  <div class="ai-title">
-    🤖 ASSISTANT
-    <button class="ai-close" onclick="toggleAI()">×</button>
+<!-- ── ASSISTANT IA ── -->
+<div id="ai-panel">
+  <div class="ai-hdr">
+    <div class="ai-hdr-top">
+      <span class="ai-hdr-ico">🤖</span>
+      <span class="ai-hdr-title">ASSISTANT RACK</span>
+      <button class="ai-hdr-close" onclick="toggleAssistant()">×</button>
+    </div>
+    <div class="ai-hdr-sub">Pose-moi n'importe quelle question sur le rack</div>
   </div>
-  <div id="ai-content"></div>
+  <div class="ai-tabs">
+    <div class="ai-tab active" onclick="switchTab('chat')">💬 Chat</div>
+    <div class="ai-tab" onclick="switchTab('hist')">📦 Sorties</div>
+  </div>
+
+  <!-- TAB CHAT -->
+  <div class="ai-tab-content active" id="tab-chat">
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg bot">
+        <div class="chat-bubble">Bonjour ! Je connais l'état du rack en temps réel. Pose-moi une question !</div>
+        <div class="chat-time" id="chat-init-time"></div>
+      </div>
+    </div>
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Quels emplacements sont libres ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Y a-t-il de la place sur B4/B5/B6 ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Comment utiliser le rack ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Quelles palettes sont présentes ?</button>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-inp" id="chat-inp" placeholder="Tape ta question…" onkeydown="if(event.key==='Enter') sendChat()"/>
+      <button class="chat-send" id="chat-send-btn" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+
+  <!-- TAB HISTORIQUE -->
+  <div class="ai-tab-content" id="tab-hist">
+    <div class="hist-body" id="hist-body"></div>
+  </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-ov" id="modal-del" onclick="closeModalIfBg(event)">
 <div class="modal-box">
 <div class="modal-title">Libérer l'emplacement ?</div>
@@ -422,135 +499,42 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"><span id="t-i"></span><span id="t-m"></span></div>
 
 <script>
-var DB = "https://auem-rac-default-rtdb.europe-west1.firebasedatabase.app/retour.json";
+var DB = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
 var NIVEAUX = [
-{id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
-{id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
-{id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
-{id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
+  {id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
+  {id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
+  {id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
+  {id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
 ];
-var COLS=[1,2,3,4,5,6];
+var COLS = [1,2,3,4,5,6];
 var SPACE_IDS = ["B4","B5","B6"];
-var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
-
-// ====== AI HELPER ======
-var AIHelper = {
-  clients: JSON.parse(localStorage.getItem('ai_clients') || '{}'),
-  recent: JSON.parse(localStorage.getItem('ai_recent') || '[]'),
-  patterns: JSON.parse(localStorage.getItem('ai_patterns') || '{}'),
-  
-  register: function(ref, afsArr) {
-    if (!ref) return;
-    if (!this.clients[ref]) this.clients[ref] = { count: 0 };
-    this.clients[ref].count += 1;
-    this.recent = [ref, ...this.recent.filter(r => r !== ref)].slice(0, 8);
-    if (afsArr && afsArr.length > 0) {
-      if (!this.patterns[ref]) this.patterns[ref] = [];
-      afsArr.forEach(a => {
-        if (this.patterns[ref].indexOf(a) < 0) this.patterns[ref].push(a);
-      });
-    }
-    this.save();
-  },
-  
-  save: function() {
-    localStorage.setItem('ai_clients', JSON.stringify(this.clients));
-    localStorage.setItem('ai_recent', JSON.stringify(this.recent));
-    localStorage.setItem('ai_patterns', JSON.stringify(this.patterns));
-  },
-  
-  quickFill: function(ref) {
-    var inp = document.getElementById('inp-ref');
-    if (!inp) return console.log('inp-ref not found');
-    inp.value = ref.toUpperCase();
-    var sugAFS = this.patterns[ref];
-    if (sugAFS && sugAFS.length > 0) {
-      newAFS = sugAFS.slice();
-      renderAFSNew();
-    }
-    inp.focus();
-    renderAI();
-    toggleAI();
-  },
-  
-  render: function() {
-    var html = '';
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📌 Derniers clients</div>';
-    if (this.recent.length > 0) {
-      var self = this;
-      this.recent.slice(0, 5).forEach(function(r) {
-        var data = self.clients[r];
-        var badge = data && data.count > 3 ? '⭐' : '•';
-        html += '<div class="ai-item" onclick="AIHelper.quickFill(\'' + r.replace(/'/g, "\\'") + '\');">' +
-                '<span class="ai-item-name">' + r + '</span>' +
-                '<span class="ai-badge">' + badge + '</span></div>';
-      });
-    } else {
-      html += '<div class="ai-empty">Aucun client encore</div>';
-    }
-    html += '</div>';
-    
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📊 Statistiques</div>';
-    var totalEntries = Object.values(this.clients).reduce(function(sum, c) { return sum + (c.count || 0); }, 0);
-    html += '<div class="ai-stats">' +
-            '<div>👥 ' + Object.keys(this.clients).length + ' clients</div>' +
-            '<div>📦 ' + totalEntries + ' entrées</div>' +
-            '<div>🔖 ' + Object.keys(this.patterns).length + ' patterns</div></div>';
-    html += '</div>';
-    
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">⌨️ Raccourcis</div>';
-    html += '<div class="ai-empty" style="font-size:9px; text-align:left; font-style:normal;">Ctrl+K = Afficher/masquer<br/>Clic client = Auto-remplit</div>';
-    html += '</div>';
-    
-    document.getElementById('ai-content').innerHTML = html;
-  }
-};
-
-function toggleAI() {
-  var w = document.getElementById('ai-widget');
-  w.classList.toggle('hidden');
-  if (!w.classList.contains('hidden')) {
-    AIHelper.render();
-  }
-}
-
-function renderAI() {
-  var w = document.getElementById('ai-widget');
-  if (!w.classList.contains('hidden')) {
-    AIHelper.render();
-  }
-}
-
-// KEYBOARD SHORTCUTS
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    toggleAI();
-  }
-});
+var state = {}, curId = null, newAFS = [], toastTm = null, currentGuideSlide = 1;
 
 function isSpaceEmp(id) { return SPACE_IDS.indexOf(id) >= 0; }
-function isValidObj(v) { return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v); }
 
+function isValidObj(v) {
+  return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
+}
+
+/* ── NAV ── */
 function showOnly(id) {
   ["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
     document.getElementById(v).style.display = v === id ? "block" : "none";
   });
   window.scrollTo(0,0);
 }
-
 function goRack() { renderRack(); showOnly("view-rack"); }
 function goEmp(id) { openEmp(id); showOnly("view-emp"); }
 function goQR() { showOnly("view-qr"); renderQR(); }
 function goGuide() { currentGuideSlide=1; updateGuideSlide(); showOnly("view-guide"); }
-function nextGuide(current) { if(current < 5) { currentGuideSlide = current + 1; updateGuideSlide(); } }
+
+function nextGuide(current) {
+  var next = current + 1;
+  if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
+}
 function updateGuideSlide() {
   for(var i=1; i<=5; i++) {
     var el = document.getElementById("guide-slide-"+i);
@@ -559,12 +543,13 @@ function updateGuideSlide() {
   window.scrollTo(0,0);
 }
 
+/* ── SYNC ── */
 function setDot(s) {
   document.getElementById("sync-dot").className = "sync-dot " + s;
   var t = document.getElementById("sync-time");
   if(s === "ok") {
     var n = new Date();
-    t.textContent = (n.getHours()<10?'0':'')+n.getHours()+":"+(n.getMinutes()<10?'0':'')+n.getMinutes();
+    t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
     t.className = "sync-time ok";
     setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
   } else if(s === "loading") {
@@ -573,6 +558,7 @@ function setDot(s) {
     t.textContent="off"; t.className="sync-time";
   }
 }
+function pad(n){ return n<10?"0"+n:""+n; }
 
 function refresh() {
   setDot("loading");
@@ -587,16 +573,14 @@ function refresh() {
         setDot("ok");
       } catch(e) { state={}; setDot("error"); }
     } else {
-      loadLocal(); setDot("error");
+      loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
     }
-    renderRack();
+    renderRack(); openAssistantAuto();
   };
-  xhr.onerror = function(){ loadLocal(); setDot("error"); renderRack(); };
+  xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); openAssistantAuto(); };
   xhr.send();
 }
-
-function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("rac_bck")||"{}"); }catch(e){ state={}; } }
-
+function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
 function saveData() {
   setDot("loading");
   var body = JSON.stringify(state);
@@ -605,22 +589,21 @@ function saveData() {
   xhr.setRequestHeader("Content-Type","application/json");
   xhr.onreadystatechange = function() {
     if(xhr.readyState !== 4) return;
-    localStorage.setItem("rac_bck", body);
+    localStorage.setItem("att_bck", body);
     setDot(xhr.status === 200 ? "ok" : "error");
   };
-  xhr.onerror = function(){ localStorage.setItem("rac_bck",body); setDot("error"); };
+  xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
   xhr.send(body);
 }
-
 setInterval(function(){ if(document.getElementById("view-rack").style.display!=="none") refresh(); }, 20000);
 
+/* ── RENDER RACK ── */
 function getSpaceLabel(space) {
   if(space === "oui") return "✅ Place dispo";
   if(space === "un-peu") return "⚠️ Un peu";
   if(space === "non") return "❌ Plein";
   return null;
 }
-
 function getSpaceCls(space) {
   if(space === "oui") return "sp-oui";
   if(space === "un-peu") return "sp-un-peu";
@@ -631,7 +614,7 @@ function getSpaceCls(space) {
 function renderRack() {
   var wrap = document.getElementById("rack-grid");
   wrap.innerHTML = "";
-  
+
   for(var ni=0; ni<NIVEAUX.length; ni++) {
     var niv = NIVEAUX[ni];
     var occ = 0;
@@ -639,10 +622,10 @@ function renderRack() {
       var raw = state[niv.id+COLS[ci]];
       if(isValidObj(raw) && raw.ref) occ++;
     }
-    
+
     var block = document.createElement("div");
     block.className = "niv-block " + niv.hcls;
-    
+
     var hdr = document.createElement("div"); hdr.className = "niv-hdr";
     var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
     var info = document.createElement("div"); info.className = "niv-info";
@@ -652,28 +635,28 @@ function renderRack() {
     info.appendChild(name); info.appendChild(desc);
     hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
     block.appendChild(hdr);
-    
+
     var grid = document.createElement("div"); grid.className = "niv-grid";
-    
+
     for(var ci2=0; ci2<COLS.length; ci2++) {
       var col = COLS[ci2], id = niv.id+col;
       var raw2 = state[id];
       var data = isValidObj(raw2) ? raw2 : null;
-      
+
       var cardCls = "vide";
       if(data && data.ref) { cardCls = "occ"; }
       else if(data && data.reserved) { cardCls = "reserv"; }
-      
+
       var card = document.createElement("div"); card.className = "ecard " + cardCls;
       var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
       var refEl = document.createElement("div"); refEl.className = "ecard-ref";
-      
+
       if(data && data.ref) { refEl.textContent = data.ref; }
       else if(data && data.reserved) { refEl.textContent = "🔒 " + data.reserved; }
       else { refEl.textContent = "Libre"; }
-      
+
       card.appendChild(idEl); card.appendChild(refEl);
-      
+
       if(data && data.afs && data.afs.length > 0) {
         var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
         var shown = data.afs.slice(0,3), txt = "";
@@ -681,14 +664,14 @@ function renderRack() {
         if(data.afs.length>3) txt += " +"+(data.afs.length-3);
         afsEl.textContent = txt; card.appendChild(afsEl);
       }
-      
+
       if(isSpaceEmp(id) && data && data.ref && data.space) {
         var spEl = document.createElement("div");
         spEl.className = "ecard-space " + getSpaceCls(data.space);
         spEl.textContent = getSpaceLabel(data.space);
         card.appendChild(spEl);
       }
-      
+
       card.setAttribute("data-empid", id);
       card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
       grid.appendChild(card);
@@ -698,6 +681,7 @@ function renderRack() {
   }
 }
 
+/* ── SEARCH ── */
 function doSearch(q) {
   q = q.trim().toLowerCase();
   document.querySelectorAll(".ecard").forEach(function(c) {
@@ -705,20 +689,21 @@ function doSearch(q) {
   });
 }
 
+/* ── OPEN EMP ── */
 function openEmp(id) {
   curId = id;
   var niv = null;
   for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
   document.getElementById("emp-title").textContent = id;
   document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
-  
+
   var raw = state[id];
   var data = isValidObj(raw) ? raw : null;
-  
+
   document.getElementById("st-occ").style.display = "none";
   document.getElementById("st-reserved").style.display = "none";
   document.getElementById("st-free").style.display = "none";
-  
+
   if(data && data.ref) {
     document.getElementById("st-occ").style.display = "block";
     document.getElementById("occ-ref").textContent = data.ref || "—";
@@ -728,7 +713,7 @@ function openEmp(id) {
     document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
     renderAFSOcc(data.afs||[]);
     document.getElementById("inp-afs-add").value = "";
-    
+
     var spaceOccSec = document.getElementById("space-occ-section");
     if(isSpaceEmp(id)) {
       spaceOccSec.style.display = "block";
@@ -742,16 +727,17 @@ function openEmp(id) {
     } else {
       spaceOccSec.style.display = "none";
     }
-    
+
   } else if(data && data.reserved) {
     document.getElementById("st-reserved").style.display = "block";
     document.getElementById("reserved-company").textContent = data.reserved;
     document.getElementById("inp-ref-reserved").value = "";
     document.getElementById("inp-afs-reserved").value = "";
-    renderAFSReserved_local([]);
+    var reservedAFS_local = [];
+    renderAFSReserved_local(reservedAFS_local);
     document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
     document.getElementById("sel-space-reserved").value = "";
-    
+
   } else {
     document.getElementById("st-free").style.display = "block";
     document.getElementById("inp-ref").value = "";
@@ -763,6 +749,7 @@ function openEmp(id) {
   }
 }
 
+/* ── AFS OCC ── */
 function renderAFSOcc(list) {
   var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
   if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
@@ -774,7 +761,6 @@ function renderAFSOcc(list) {
     tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
   });
 }
-
 function addAFSOcc() {
   var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
   if(!state[curId]||!isValidObj(state[curId])) return;
@@ -782,12 +768,12 @@ function addAFSOcc() {
   raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
   inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
 }
-
 function removeAFSOcc(idx) {
   if(!state[curId]||!state[curId].afs) return;
   state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
 }
 
+/* ── SAVE SPACE OCC ── */
 function saveSpaceOcc() {
   var space = document.getElementById("sel-space-occ").value;
   if(!space) { showToast("Sélectionnez une option","⚠️"); return; }
@@ -799,10 +785,9 @@ function saveSpaceOcc() {
   renderRack(); saveData(); showToast("Place enregistrée","✓");
 }
 
+/* ── AFS RESERVED ── */
 var reservedAFS = [];
-
 function renderAFSReserved_local(list) { reservedAFS = list || []; renderAFSReserved(); }
-
 function renderAFSReserved() {
   var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
   if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
@@ -814,13 +799,11 @@ function renderAFSReserved() {
     tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
   });
 }
-
 function addAFSReserved() {
   var inp=document.getElementById("inp-afs-reserved"), raw=inp.value.trim(); if(!raw) return;
   raw.split(/[,;\s]+/).forEach(function(v){ if(v&&reservedAFS.indexOf(v)<0) reservedAFS.push(v); });
   inp.value=""; renderAFSReserved();
 }
-
 function addPalReserved() {
   var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
   if(!ref){ showToast("Entrez une référence","⚠️"); return; }
@@ -829,12 +812,13 @@ function addPalReserved() {
   if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
   state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
   if(space) state[curId].space = space;
-  AIHelper.register(ref, reservedAFS);
+  AI.register(ref, reservedAFS);
   showToast(ref+" enregistrée","✓");
   if(navigator.vibrate) navigator.vibrate(10);
-  reservedAFS=[]; saveData(); goRack(); renderAI();
+  reservedAFS=[]; saveData(); goRack();
 }
 
+/* ── AFS NEW ── */
 function renderAFSNew() {
   var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
   if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
@@ -846,13 +830,13 @@ function renderAFSNew() {
     tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
   });
 }
-
 function addAFSNew() {
   var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
   raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
   inp.value=""; renderAFSNew();
 }
 
+/* ── ADD / DELETE ── */
 function addPal() {
   var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
   if(!ref){ showToast("Entrez une référence","⚠️"); return; }
@@ -860,12 +844,11 @@ function addPal() {
   if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
   state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
   if(space) state[curId].space = space;
-  AIHelper.register(ref, newAFS);
+  AI.register(ref, newAFS);
   showToast(ref+" enregistrée","✓");
   if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack(); renderAI();
+  saveData(); goRack();
 }
-
 function reserveEmp() {
   var company=document.getElementById("inp-company-reserve").value.trim();
   if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
@@ -874,26 +857,26 @@ function reserveEmp() {
   if(navigator.vibrate) navigator.vibrate(10);
   saveData(); goRack();
 }
-
 function cancelReservation() {
   delete state[curId];
   showToast("Réservation annulée","🔓");
   if(navigator.vibrate) navigator.vibrate(10);
   saveData(); goRack();
 }
-
 function askDel(){ document.getElementById("modal-del").classList.add("open"); }
 function closeModal(){ document.getElementById("modal-del").classList.remove("open"); }
 function closeModalIfBg(e){ if(e.target===document.getElementById("modal-del")) closeModal(); }
-
 function confirmDel() {
   var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
+  var afs=(state[curId]&&state[curId].afs)?state[curId].afs:[];
+  addSortie(ref, afs, curId);
   delete state[curId]; closeModal(); saveData();
   showToast(ref+" sortie","📦");
   if(navigator.vibrate) navigator.vibrate(25);
   goRack();
 }
 
+/* ── QR ── */
 function renderQR() {
   var url=window.location.href.split("?")[0];
   var c=document.getElementById("qr-c");
@@ -903,6 +886,7 @@ function renderQR() {
   img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
 }
 
+/* ── TOAST ── */
 function showToast(msg,ico) {
   document.getElementById("t-i").textContent=ico||"";
   document.getElementById("t-m").textContent=msg;
@@ -910,13 +894,473 @@ function showToast(msg,ico) {
   clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
 }
 
+/* ── KEYBOARD ── */
 document.getElementById("inp-ref").onkeydown=function(e){ if(e.key==="Enter") addPal(); };
 document.getElementById("inp-afs-new").onkeydown=function(e){ if(e.key==="Enter") addAFSNew(); };
 document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter") addAFSOcc(); };
 
+
+/* ══════════════════════════════════════════
+   ASSISTANT IA — Chatbot + Historique
+   ══════════════════════════════════════════ */
+
+/* ── HISTORIQUE DES SORTIES ── */
+var sortieHistory = (function(){
+  try { return JSON.parse(localStorage.getItem('rack_sorties') || '[]'); } catch(e){ return []; }
+})();
+
+function saveSortieHistory(){ localStorage.setItem('rack_sorties', JSON.stringify(sortieHistory)); }
+
+function addSortie(ref, afs, empId) {
+  sortieHistory.unshift({ ref:ref, afs:afs||[], emp:empId||'?', date:new Date().toISOString() });
+  if(sortieHistory.length > 50) sortieHistory.pop();
+  saveSortieHistory();
+}
+
+function renderHist() {
+  var body = document.getElementById('hist-body');
+  if(!body) return;
+  if(sortieHistory.length === 0) {
+    body.innerHTML = '<div class="hist-empty">Aucune sortie enregistrée pour l\'instant.</div>';
+    return;
+  }
+  var html = '';
+  sortieHistory.forEach(function(s) {
+    var d = new Date(s.date);
+    var dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    var afsStr = s.afs && s.afs.length > 0 ? 'AFS : ' + s.afs.join(', ') : 'Aucun AFS';
+    html += '<div class="hist-item">';
+    html += '<span class="hist-ico">📦</span>';
+    html += '<div class="hist-body-txt">';
+    html += '<div class="hist-ref">' + escHtml(s.ref) + '</div>';
+    html += '<div class="hist-meta">' + dateStr + ' · Emp. ' + escHtml(s.emp) + '</div>';
+    html += '<div class="hist-afs">' + escHtml(afsStr) + '</div>';
+    html += '</div>';
+    html += '<span class="hist-badge">SORTI</span>';
+    html += '</div>';
+  });
+  html += '<button class="hist-clear" onclick="clearHist()">🗑 Effacer l\'historique</button>';
+  body.innerHTML = html;
+}
+
+function clearHist() {
+  if(!confirm('Effacer tout l\'historique des sorties ?')) return;
+  sortieHistory = []; saveSortieHistory(); renderHist();
+}
+
+/* ── ONGLETS ── */
+function switchTab(tab) {
+  document.querySelectorAll('.ai-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.ai-tab-content').forEach(function(t){ t.classList.remove('active'); });
+  var idx = tab === 'chat' ? 0 : 1;
+  document.querySelectorAll('.ai-tab')[idx].classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if(tab === 'hist') renderHist();
+}
+
+/* ── CHATBOT ── */
+var chatHistory = [];
+var chatBusy = false;
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getRackContext() {
+  var lines = [];
+  var libre = [], occ = [], reserv = [];
+  NIVEAUX.forEach(function(niv) {
+    for(var c=1; c<=6; c++) {
+      var id = niv.id+c;
+      var d = isValidObj(state[id]) ? state[id] : null;
+      if(d && d.ref) {
+        var info = id + ' : ' + d.ref;
+        if(d.afs && d.afs.length) info += ' (AFS: ' + d.afs.join(', ') + ')';
+        if(isSpaceEmp(id) && d.space) info += ' [place: ' + d.space + ']';
+        var dateStr = d.date ? ' - arrivé le ' + new Date(d.date).toLocaleDateString('fr-FR') : '';
+        occ.push(info + dateStr);
+      } else if(d && d.reserved) {
+        reserv.push(id + ' : réservé pour ' + d.reserved);
+      } else {
+        libre.push(id);
+      }
+    }
+  });
+  lines.push('=== ÉTAT DU RACK EN TEMPS RÉEL ===');
+  lines.push('Emplacements libres (' + libre.length + ') : ' + (libre.join(', ')||'aucun'));
+  lines.push('');
+  lines.push('Emplacements occupés (' + occ.length + ') :');
+  occ.forEach(function(l){ lines.push('  • ' + l); });
+  lines.push('');
+  lines.push('Emplacements réservés (' + reserv.length + ') :');
+  reserv.forEach(function(l){ lines.push('  • ' + l); });
+  lines.push('');
+  lines.push('=== INFOS RACK ===');
+  lines.push('4 niveaux : D (haut, gerbeur obligatoire), C (gerbeur nécessaire), B (accessible à la main), A (bas, niveau sol)');
+  lines.push('6 colonnes par niveau : 1 à 6. Total : 24 emplacements.');
+  lines.push('B4, B5, B6 : emplacements partagés (plusieurs colis possibles sur une palette), on indique s\'il reste de la place (oui/un peu/non).');
+  lines.push('');
+  lines.push('=== GUIDE D\'UTILISATION ===');
+  lines.push('1. Scanner le QR code fixé sur le rack avec l\'appareil photo du téléphone.');
+  lines.push('2. Cliquer sur l\'emplacement souhaité dans l\'appli.');
+  lines.push('3. Saisir le numéro de commande/référence (obligatoire) et les AFS (optionnel).');
+  lines.push('4. Pour B4/B5/B6, indiquer s\'il reste de la place sur la palette.');
+  lines.push('5. Valider. Pour sortir une palette : cliquer sur l\'emplacement → "Marquer comme sortie".');
+  lines.push('6. Un emplacement peut être réservé pour une entreprise (symbole 🔒).');
+  return lines.join('\n');
+}
+
+function chatNow() { return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+
+function appendMsg(role, text, isTyping) {
+  var msgs = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  var bubble = document.createElement('div');
+  bubble.className = 'chat-bubble' + (isTyping ? ' typing' : '');
+  bubble.textContent = text;
+  var time = document.createElement('div');
+  time.className = 'chat-time';
+  time.textContent = chatNow();
+  div.appendChild(bubble);
+  div.appendChild(time);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
+function sendSugg(btn) {
+  var q = btn.textContent;
+  document.getElementById('chat-suggestions').style.display = 'none';
+  document.getElementById('chat-inp').value = q;
+  sendChat();
+}
+
+function sendChat() {
+  if(chatBusy) return;
+  var inp = document.getElementById('chat-inp');
+  var q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+  document.getElementById('chat-suggestions').style.display = 'none';
+
+  appendMsg('user', q);
+  chatHistory.push({ role:'user', content: q });
+
+  chatBusy = true;
+  document.getElementById('chat-send-btn').disabled = true;
+  var typingBubble = appendMsg('bot', '…en train de réfléchir…', true);
+
+  var systemPrompt = 'Tu es un assistant pour opérateurs d\'entrepôt AUEM, spécialisé sur le RACK ATTENTE (rack renvoie colis). '
+    + 'Tu réponds en français, de façon concise et utile. '
+    + 'Tu connais en temps réel l\'état exact du rack (fourni ci-dessous). '
+    + 'Quand on te demande où est une palette, donne l\'emplacement précis. '
+    + 'Quand on te demande les emplacements libres, liste-les clairement. '
+    + 'Pour les questions pratiques sur le fonctionnement, sois pédagogue. '
+    + 'Réponds toujours en moins de 5 phrases sauf si on te demande plus de détails.\n\n'
+    + getRackContext();
+
+  var messages = [];
+  chatHistory.slice(-6).forEach(function(m){ messages.push(m); });
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: messages
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Désolé, je n\'ai pas pu répondre.';
+    typingBubble.classList.remove('typing');
+    typingBubble.textContent = reply;
+    chatHistory.push({ role:'assistant', content: reply });
+    var msgs = document.getElementById('chat-messages');
+    msgs.scrollTop = msgs.scrollHeight;
+  })
+  .catch(function() {
+    typingBubble.classList.remove('typing');
+    typingBubble.textContent = 'Erreur de connexion. Vérifie ta connexion internet.';
+  })
+  .finally(function() {
+    chatBusy = false;
+    document.getElementById('chat-send-btn').disabled = false;
+  });
+}
+
+/* Heure d'init du chat */
+document.addEventListener('DOMContentLoaded', function() {
+  var el = document.getElementById('chat-init-time');
+  if(el) el.textContent = chatNow();
+});
+
+var AI = {
+  register: function(ref, afs) {
+    console.log('[AI] Palette enregistrée :', ref, afs);
+  }
+};
+
+/* ── DEAD CODE SUPPRIMÉ — ancienne analyze/render ── */
+var _UNUSED_AI = {
+  analyze: function() {
+    var totalEmp = 24, occ = 0, libre = 0, reserv = 0;
+    var niveauxData = [];
+    var alertes = [];
+    var spacesB = [];
+    var libresParNiveau = {};
+
+    NIVEAUX.forEach(function(niv) {
+      var nOcc = 0, nLibre = 0, nReserv = 0;
+      var libresIds = [];
+
+      for(var c = 1; c <= 6; c++) {
+        var id = niv.id + c;
+        var d = isValidObj(state[id]) ? state[id] : null;
+
+        if(d && d.ref) {
+          nOcc++; occ++;
+          if(['B4','B5','B6'].indexOf(id) >= 0) {
+            spacesB.push({ id:id, ref:d.ref, space: d.space || null });
+            if(!d.space) {
+              alertes.push({ type:'warn', prio:2, msg:'Place non renseignée sur <strong>' + id + '</strong> (' + d.ref + ')' });
+            } else if(d.space === 'non') {
+              alertes.push({ type:'info', prio:3, msg:'<strong>' + id + '</strong> plein — ' + d.ref });
+            }
+          }
+        } else if(d && d.reserved) {
+          nReserv++; reserv++;
+          alertes.push({ type:'info', prio:4, msg:'<strong>' + id + '</strong> réservé ' + d.reserved + ' — vide' });
+        } else {
+          nLibre++; libre++;
+          libresIds.push(id);
+        }
+      }
+
+      libresParNiveau[niv.id] = libresIds;
+      niveauxData.push({ id:niv.id, label:niv.label, desc:niv.desc, occ:nOcc, libre:nLibre, reserv:nReserv });
+    });
+
+    var pct = Math.round(occ / totalEmp * 100);
+    if(pct >= 90) alertes.push({ type:'err', prio:0, msg:'🔴 Rack quasi plein — ' + pct + '% occupé !' });
+    else if(pct >= 75) alertes.push({ type:'warn', prio:1, msg:'Rack chargé — ' + pct + '% occupé' });
+
+    alertes.sort(function(a,b){ return a.prio - b.prio; });
+
+    var suggMain = null, suggGerbeur = null;
+    niveauxData.forEach(function(niv) {
+      if(niv.libre > 0) {
+        if(niv.id === 'B' || niv.id === 'A') {
+          if(!suggMain || niv.libre > suggMain.libre) suggMain = niv;
+        } else {
+          if(!suggGerbeur || niv.libre > suggGerbeur.libre) suggGerbeur = niv;
+        }
+      }
+    });
+
+    return {
+      totalEmp:totalEmp, occ:occ, libre:libre, reserv:reserv, pct:pct,
+      niveauxData:niveauxData, alertes:alertes, spacesB:spacesB,
+      libresParNiveau:libresParNiveau, suggMain:suggMain, suggGerbeur:suggGerbeur
+    };
+  },
+
+  /* ── Rendu du panneau ── */
+  render: function() {
+    var body = document.getElementById('ai-body');
+    if(!body) return;
+    var A = this.analyze();
+    var html = '';
+
+    /* ─ SECTION 1 : Alertes ─ */
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">⚡ Alertes</div>';
+    if(A.alertes.length > 0) {
+      A.alertes.slice(0,5).forEach(function(al) {
+        var ico = al.type === 'err' ? '🔴' : al.type === 'warn' ? '🟡' : 'ℹ️';
+        html += '<div class="ai-alert ' + al.type + '"><span class="ai-alert-ico">' + ico + '</span><span>' + al.msg + '</span></div>';
+      });
+    } else {
+      html += '<div class="ai-alert ok"><span class="ai-alert-ico">✅</span><span>Aucune alerte — rack OK</span></div>';
+    }
+    html += '</div>';
+
+    /* ─ SECTION 2 : Suggestion emplacement ─ */
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">🎯 Où poser ?</div>';
+    if(A.libre === 0) {
+      html += '<div class="ai-alert err"><span class="ai-alert-ico">🔴</span><span>Aucun emplacement libre !</span></div>';
+    } else {
+      if(A.suggMain) {
+        /* FIX 2 : guillemets correctement échappés dans onclick */
+        var ids = A.libresParNiveau[A.suggMain.id] || [];
+        html += '<div class="ai-sugg" onclick="goEmp(\'' + ids[0] + '\'); toggleAssistant();">';
+        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggMain.id + '</span>';
+        html += '<span class="ai-sugg-label">À la main</span>';
+        html += '<span class="ai-badge green">' + A.suggMain.libre + ' libre' + (A.suggMain.libre > 1 ? 's' : '') + '</span></div>';
+        html += '<div class="ai-sugg-ids">';
+        ids.slice(0,4).forEach(function(id) {
+          html += '<span class="ai-sugg-id">' + id + '</span>';
+        });
+        if(ids.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (ids.length-4) + '</span>';
+        html += '</div></div>';
+      }
+      if(A.suggGerbeur) {
+        /* FIX 2 : guillemets correctement échappés dans onclick */
+        var idsG = A.libresParNiveau[A.suggGerbeur.id] || [];
+        html += '<div class="ai-sugg" onclick="goEmp(\'' + idsG[0] + '\'); toggleAssistant();">';
+        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggGerbeur.id + '</span>';
+        html += '<span class="ai-sugg-label">Gerbeur</span>';
+        html += '<span class="ai-badge gray">' + A.suggGerbeur.libre + ' libre' + (A.suggGerbeur.libre > 1 ? 's' : '') + '</span></div>';
+        html += '<div class="ai-sugg-ids">';
+        idsG.slice(0,4).forEach(function(id) {
+          html += '<span class="ai-sugg-id">' + id + '</span>';
+        });
+        if(idsG.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (idsG.length-4) + '</span>';
+        html += '</div></div>';
+      }
+      if(!A.suggMain && !A.suggGerbeur) {
+        html += '<div class="ai-empty">Aucune suggestion disponible</div>';
+      }
+    }
+    html += '</div>';
+
+    /* ─ SECTION 3 : Occupation par niveau ─ */
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">📊 Occupation</div>';
+    html += '<div class="ai-stats-grid">';
+    html += '<div class="ai-stat-box highlight"><div class="ai-stat-num">' + A.libre + '</div><div class="ai-stat-lbl">Libres</div></div>';
+    html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.occ + '</div><div class="ai-stat-lbl">Occupés</div></div>';
+    html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.reserv + '</div><div class="ai-stat-lbl">Réservés</div></div>';
+    html += '<div class="ai-stat-box ' + (A.pct >= 75 ? 'danger' : '') + '"><div class="ai-stat-num">' + A.pct + '%</div><div class="ai-stat-lbl">Remplissage</div></div>';
+    html += '</div>';
+    A.niveauxData.forEach(function(niv) {
+      var fillPct = Math.round(niv.occ / 6 * 100);
+      var fillColor = fillPct >= 83 ? '#f87171' : fillPct >= 50 ? '#fcd34d' : '#4ade80';
+      html += '<div class="ai-dispo-row">';
+      html += '<span class="ai-dispo-id">' + niv.id + '</span>';
+      html += '<div class="ai-dispo-bar"><div class="ai-dispo-fill" style="width:' + fillPct + '%;background:' + fillColor + '"></div></div>';
+      html += '<span class="ai-dispo-cnt">' + niv.libre + ' libre</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+
+    /* ─ SECTION 4 : État B4/B5/B6 ─ */
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">🗄️ Places partagées B4 · B5 · B6</div>';
+    var bIds = ['B4','B5','B6'];
+    bIds.forEach(function(bid) {
+      var d = isValidObj(state[bid]) ? state[bid] : null;
+      if(d && d.ref) {
+        var spLabel = d.space === 'oui' ? '✅ Place dispo' : d.space === 'un-peu' ? '⚠️ Un peu' : d.space === 'non' ? '❌ Plein' : '❓ Non renseigné';
+        var spCls = d.space ? d.space : 'none';
+        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref">' + d.ref + '</span>';
+        html += '<span class="ai-space-badge ' + spCls + '">' + spLabel + '</span>';
+        html += '</div>';
+      } else if(d && d.reserved) {
+        html += '<div class="ai-b-row">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.35);">🔒 ' + d.reserved + '</span>';
+        html += '<span class="ai-space-badge none">—</span>';
+        html += '</div>';
+      } else {
+        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.3);">Libre</span>';
+        html += '<span class="ai-space-badge none" style="background:rgba(74,222,128,.12);color:#4ade80;">✅ Libre</span>';
+        html += '</div>';
+      }
+    });
+    html += '</div>';
+
+    body.innerHTML = html;
+  },
+
+  clickEmp: function(el) {
+    var empId = el.getAttribute('data-empid');
+    if(empId) { goEmp(empId); toggleAssistant(); }
+  },
+
+  countAlerts: function() { return 0; }
+}; /* fin _UNUSED_AI */
+
+function toggleAssistant() {
+  var panel = document.getElementById('ai-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')) {
+    document.getElementById('ai-notif').style.display = 'none';
+  }
+}
+
+function openAssistantAuto() { /* plus d'auto-open */ }
+
+document.addEventListener('keydown', function(e) {
+  if((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    toggleAssistant();
+  }
+});
+
 showOnly("view-rack");
 refresh();
-console.log('✅ App loaded! Ctrl+K pour assistant');
+
+async function appelIA() {
+    const input = document.getElementById('chat-inp');
+    const container = document.getElementById('chat-messages');
+    const val = input.value.trim();
+    if(!val) return;
+
+    // Affichage utilisateur
+    const u = document.createElement('div');
+    u.className = 'chat-msg user';
+    u.innerHTML = `<div class="chat-bubble">${val}</div>`;
+    container.appendChild(u);
+    input.value = "";
+
+    // Affichage attente
+    const b = document.createElement('div');
+    b.className = 'chat-msg bot';
+    b.id = "loading-ia";
+    b.innerHTML = `<div class="chat-bubble">Je cherche...</div>`;
+    container.appendChild(b);
+    container.scrollTop = container.scrollHeight;
+
+    try {
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + MA_CLE_GEMINI, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: val }] }]
+            })
+        });
+
+        const data = await response.json();
+        document.getElementById("loading-ia").remove();
+
+        if (data.candidates && data.candidates[0].content) {
+            const txt = data.candidates[0].content.parts[0].text;
+            const res = document.createElement('div');
+            res.className = 'chat-msg bot';
+            res.innerHTML = `<div class="chat-bubble">${txt.replace(/\n/g, '<br>')}</div>`;
+            container.appendChild(res);
+        } else {
+            // ICI ON VOIT LA VRAIE ERREUR
+            const err = data.error ? data.error.message : "Erreur inconnue (Vérifie ta clé API)";
+            const res = document.createElement('div');
+            res.className = 'chat-msg bot';
+            res.innerHTML = `<div class="chat-bubble" style="color:#ff6b6b">⚠️ ${err}</div>`;
+            container.appendChild(res);
+        }
+    } catch (e) {
+        document.getElementById("loading-ia").innerHTML = `<div class="chat-bubble">Panne réseau.</div>`;
+    }
+    container.scrollTop = container.scrollHeight;
+}
 </script>
 </body>
 </html>
