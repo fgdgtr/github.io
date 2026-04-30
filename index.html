@@ -159,76 +159,70 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .spinner{width:22px;height:22px;border:2px solid var(--border2);border-top-color:var(--text);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;}
-/* ── ASSISTANT IA ── */
+/* ── CHATBOT IA ── */
 #ai-panel{
-  position:fixed;top:58px;right:10px;width:290px;max-height:calc(100vh - 80px);
+  position:fixed;top:58px;right:10px;width:310px;height:calc(100vh - 78px);
   background:var(--hdr);border:1.5px solid rgba(255,255,255,.13);border-radius:16px;
-  box-shadow:0 16px 48px rgba(0,0,0,.35);z-index:150;overflow:hidden;
+  box-shadow:0 16px 48px rgba(0,0,0,.4);z-index:150;overflow:hidden;
   display:none;flex-direction:column;font-family:'DM Sans',sans-serif;
   animation:aiIn .2s cubic-bezier(.34,1.4,.64,1);
 }
 #ai-panel.open{display:flex;}
 @keyframes aiIn{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
-.ai-hdr{padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
-.ai-hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
-.ai-hdr-ico{font-size:16px;}
+.ai-hdr{padding:11px 13px 9px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
+.ai-hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:1px;}
+.ai-hdr-ico{font-size:15px;}
 .ai-hdr-title{font-size:12px;font-weight:800;color:#fbbf24;letter-spacing:.5px;flex:1;}
-.ai-hdr-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
+.ai-hdr-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;padding:0;line-height:1;}
 .ai-hdr-close:active{color:#fff;}
-.ai-hdr-sub{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.3px;}
-.ai-body{overflow-y:auto;padding:10px;flex:1;scrollbar-width:thin;}
-.ai-body::-webkit-scrollbar{width:2px;}
-.ai-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px;}
-.ai-section{margin-bottom:12px;}
-.ai-section:last-child{margin-bottom:0;}
-.ai-lbl{font-size:9px;font-weight:800;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
-.ai-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:8px 10px;margin-bottom:5px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s;}
-.ai-item:active{transform:scale(.96);}
-.ai-item:hover{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.25);}
-.ai-item-ico{font-size:14px;flex-shrink:0;}
-.ai-item-body{flex:1;min-width:0;}
-.ai-item-name{font-size:12px;font-weight:700;color:#f3efe9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ai-item-sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ai-badge{background:rgba(251,191,36,.18);color:#fbbf24;border-radius:5px;padding:2px 6px;font-size:9px;font-weight:800;flex-shrink:0;font-family:'DM Mono',monospace;}
-.ai-badge.red{background:rgba(239,68,68,.18);color:#f87171;}
-.ai-badge.green{background:rgba(34,197,94,.15);color:#4ade80;}
-.ai-badge.gray{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);}
-.ai-alert{border-radius:9px;padding:8px 10px;margin-bottom:5px;font-size:11px;font-weight:600;line-height:1.4;display:flex;align-items:flex-start;gap:7px;}
-.ai-alert.warn{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#fcd34d;}
-.ai-alert.err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
-.ai-alert.info{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);color:#93c5fd;}
-.ai-alert.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#4ade80;}
-.ai-alert-ico{font-size:13px;flex-shrink:0;margin-top:1px;}
-.ai-empty{text-align:center;padding:10px 8px;font-size:10px;color:rgba(255,255,255,.25);font-style:italic;}
-.ai-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.ai-stat-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:8px 10px;text-align:center;}
-.ai-stat-num{font-size:20px;font-weight:800;font-family:'DM Mono',monospace;line-height:1;color:#f3efe9;}
-.ai-stat-lbl{font-size:8px;color:rgba(255,255,255,.3);margin-top:3px;letter-spacing:.5px;text-transform:uppercase;}
-.ai-stat-box.highlight .ai-stat-num{color:#fbbf24;}
-.ai-dispo-row{display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.04);border-radius:8px;margin-bottom:4px;font-size:10px;}
-.ai-dispo-id{font-family:'DM Mono',monospace;font-weight:800;color:#f3efe9;min-width:28px;}
-.ai-dispo-bar{flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;}
-.ai-dispo-fill{height:100%;border-radius:3px;transition:width .3s;}
-.ai-dispo-cnt{font-size:9px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;min-width:28px;text-align:right;}
-.ai-space-badge{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;flex-shrink:0;}
-.ai-space-badge.oui{background:rgba(34,197,94,.15);color:#4ade80;}
-.ai-space-badge.un-peu{background:rgba(245,158,11,.15);color:#fcd34d;}
-.ai-space-badge.non{background:rgba(239,68,68,.15);color:#f87171;}
-.ai-space-badge.none{background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);}
-.ai-stat-box.danger .ai-stat-num{color:#f87171;}
-.ai-sugg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;margin-bottom:6px;cursor:pointer;transition:all .15s;}
-.ai-sugg:active{transform:scale(.97);}
-.ai-sugg:hover{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.25);}
-.ai-sugg-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.ai-sugg-niv{font-size:22px;font-weight:900;font-family:"DM Mono",monospace;color:#f3efe9;letter-spacing:-1px;line-height:1;}
-.ai-sugg-label{font-size:10px;color:rgba(255,255,255,.4);flex:1;}
-.ai-sugg-ids{display:flex;flex-wrap:wrap;gap:4px;}
-.ai-sugg-id{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 7px;font-size:10px;font-weight:700;font-family:"DM Mono",monospace;color:#f3efe9;}
-.ai-b-row{display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(255,255,255,.04);border-radius:9px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
-.ai-b-row:active{transform:scale(.97);}
-.ai-b-row:hover{background:rgba(255,255,255,.08);}
-.ai-b-id{font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#f3efe9;min-width:28px;}
-.ai-b-ref{font-size:11px;font-weight:600;color:#f3efe9;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ai-hdr-sub{font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.3px;}
+
+/* Onglets */
+.ai-tabs{display:flex;gap:4px;padding:8px 10px 0;flex-shrink:0;}
+.ai-tab{flex:1;padding:6px 4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px 8px 0 0;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;letter-spacing:.3px;}
+.ai-tab.active{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.35);color:#fbbf24;}
+.ai-tab:active{opacity:.7;}
+
+/* Zone de contenu */
+.ai-tab-content{display:none;flex:1;overflow:hidden;flex-direction:column;}
+.ai-tab-content.active{display:flex;}
+
+/* ── CHAT ── */
+.chat-messages{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;}
+.chat-messages::-webkit-scrollbar{width:2px;}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);}
+.chat-msg{max-width:88%;display:flex;flex-direction:column;gap:2px;}
+.chat-msg.user{align-self:flex-end;align-items:flex-end;}
+.chat-msg.bot{align-self:flex-start;align-items:flex-start;}
+.chat-bubble{padding:9px 12px;border-radius:14px;font-size:12px;line-height:1.5;font-weight:500;}
+.chat-msg.user .chat-bubble{background:#fbbf24;color:#1c1814;border-bottom-right-radius:4px;}
+.chat-msg.bot .chat-bubble{background:rgba(255,255,255,.1);color:#f3efe9;border-bottom-left-radius:4px;}
+.chat-msg.bot .chat-bubble.typing{color:rgba(255,255,255,.4);font-style:italic;}
+.chat-time{font-size:8px;color:rgba(255,255,255,.2);font-family:'DM Mono',monospace;padding:0 3px;}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:6px 10px;flex-shrink:0;}
+.chat-sugg-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;color:rgba(255,255,255,.6);font-size:10px;font-weight:600;padding:5px 10px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.chat-sugg-btn:active{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.3);color:#fbbf24;}
+.chat-input-row{display:flex;gap:6px;padding:8px 10px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.chat-inp{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:22px;color:#f3efe9;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 13px;outline:none;}
+.chat-inp:focus{border-color:rgba(251,191,36,.5);}
+.chat-inp::placeholder{color:rgba(255,255,255,.25);}
+.chat-send{width:34px;height:34px;background:#fbbf24;border:none;border-radius:50%;color:#1c1814;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.chat-send:active{opacity:.8;}
+.chat-send:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.2);cursor:not-allowed;}
+
+/* ── HISTORIQUE ── */
+.hist-body{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;}
+.hist-body::-webkit-scrollbar{width:2px;}
+.hist-empty{text-align:center;padding:30px 10px;font-size:11px;color:rgba(255,255,255,.25);font-style:italic;}
+.hist-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;margin-bottom:6px;display:flex;align-items:flex-start;gap:9px;}
+.hist-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.hist-body-txt{flex:1;min-width:0;}
+.hist-ref{font-size:13px;font-weight:800;color:#f3efe9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-meta{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;font-family:'DM Mono',monospace;}
+.hist-afs{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;flex-shrink:0;font-family:'DM Mono',monospace;background:rgba(239,68,68,.15);color:#fca5a5;}
+.hist-clear{width:100%;padding:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.35);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:4px;}
+.hist-clear:active{background:rgba(239,68,68,.1);color:#fca5a5;}
 </style>
 </head>
 <body>
@@ -461,9 +455,37 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <span class="ai-hdr-title">ASSISTANT RACK</span>
       <button class="ai-hdr-close" onclick="toggleAssistant()">×</button>
     </div>
-    <div class="ai-hdr-sub">Aide opérateur · mis à jour en temps réel</div>
+    <div class="ai-hdr-sub">Pose-moi n'importe quelle question sur le rack</div>
   </div>
-  <div class="ai-body" id="ai-body"></div>
+  <div class="ai-tabs">
+    <div class="ai-tab active" onclick="switchTab('chat')">💬 Chat</div>
+    <div class="ai-tab" onclick="switchTab('hist')">📦 Sorties</div>
+  </div>
+
+  <!-- TAB CHAT -->
+  <div class="ai-tab-content active" id="tab-chat">
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg bot">
+        <div class="chat-bubble">Bonjour ! Je connais l'état du rack en temps réel. Pose-moi une question !</div>
+        <div class="chat-time" id="chat-init-time"></div>
+      </div>
+    </div>
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Quels emplacements sont libres ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Y a-t-il de la place sur B4/B5/B6 ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Comment utiliser le rack ?</button>
+      <button class="chat-sugg-btn" onclick="sendSugg(this)">Quelles palettes sont présentes ?</button>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-inp" id="chat-inp" placeholder="Tape ta question…" onkeydown="if(event.key==='Enter') sendChat()"/>
+      <button class="chat-send" id="chat-send-btn" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+
+  <!-- TAB HISTORIQUE -->
+  <div class="ai-tab-content" id="tab-hist">
+    <div class="hist-body" id="hist-body"></div>
+  </div>
 </div>
 
 <div class="modal-ov" id="modal-del" onclick="closeModalIfBg(event)">
@@ -846,6 +868,8 @@ function closeModal(){ document.getElementById("modal-del").classList.remove("op
 function closeModalIfBg(e){ if(e.target===document.getElementById("modal-del")) closeModal(); }
 function confirmDel() {
   var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
+  var afs=(state[curId]&&state[curId].afs)?state[curId].afs:[];
+  addSortie(ref, afs, curId);
   delete state[curId]; closeModal(); saveData();
   showToast(ref+" sortie","📦");
   if(navigator.vibrate) navigator.vibrate(25);
@@ -877,18 +901,211 @@ document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter"
 
 
 /* ══════════════════════════════════════════
-   ASSISTANT IA — Rack Renvoie Colis
+   ASSISTANT IA — Chatbot + Historique
    ══════════════════════════════════════════ */
 
+/* ── HISTORIQUE DES SORTIES ── */
+var sortieHistory = (function(){
+  try { return JSON.parse(localStorage.getItem('rack_sorties') || '[]'); } catch(e){ return []; }
+})();
+
+function saveSortieHistory(){ localStorage.setItem('rack_sorties', JSON.stringify(sortieHistory)); }
+
+function addSortie(ref, afs, empId) {
+  sortieHistory.unshift({ ref:ref, afs:afs||[], emp:empId||'?', date:new Date().toISOString() });
+  if(sortieHistory.length > 50) sortieHistory.pop();
+  saveSortieHistory();
+}
+
+function renderHist() {
+  var body = document.getElementById('hist-body');
+  if(!body) return;
+  if(sortieHistory.length === 0) {
+    body.innerHTML = '<div class="hist-empty">Aucune sortie enregistrée pour l\'instant.</div>';
+    return;
+  }
+  var html = '';
+  sortieHistory.forEach(function(s) {
+    var d = new Date(s.date);
+    var dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    var afsStr = s.afs && s.afs.length > 0 ? 'AFS : ' + s.afs.join(', ') : 'Aucun AFS';
+    html += '<div class="hist-item">';
+    html += '<span class="hist-ico">📦</span>';
+    html += '<div class="hist-body-txt">';
+    html += '<div class="hist-ref">' + escHtml(s.ref) + '</div>';
+    html += '<div class="hist-meta">' + dateStr + ' · Emp. ' + escHtml(s.emp) + '</div>';
+    html += '<div class="hist-afs">' + escHtml(afsStr) + '</div>';
+    html += '</div>';
+    html += '<span class="hist-badge">SORTI</span>';
+    html += '</div>';
+  });
+  html += '<button class="hist-clear" onclick="clearHist()">🗑 Effacer l\'historique</button>';
+  body.innerHTML = html;
+}
+
+function clearHist() {
+  if(!confirm('Effacer tout l\'historique des sorties ?')) return;
+  sortieHistory = []; saveSortieHistory(); renderHist();
+}
+
+/* ── ONGLETS ── */
+function switchTab(tab) {
+  document.querySelectorAll('.ai-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.ai-tab-content').forEach(function(t){ t.classList.remove('active'); });
+  var idx = tab === 'chat' ? 0 : 1;
+  document.querySelectorAll('.ai-tab')[idx].classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if(tab === 'hist') renderHist();
+}
+
+/* ── CHATBOT ── */
+var chatHistory = [];
+var chatBusy = false;
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getRackContext() {
+  var lines = [];
+  var libre = [], occ = [], reserv = [];
+  NIVEAUX.forEach(function(niv) {
+    for(var c=1; c<=6; c++) {
+      var id = niv.id+c;
+      var d = isValidObj(state[id]) ? state[id] : null;
+      if(d && d.ref) {
+        var info = id + ' : ' + d.ref;
+        if(d.afs && d.afs.length) info += ' (AFS: ' + d.afs.join(', ') + ')';
+        if(isSpaceEmp(id) && d.space) info += ' [place: ' + d.space + ']';
+        var dateStr = d.date ? ' - arrivé le ' + new Date(d.date).toLocaleDateString('fr-FR') : '';
+        occ.push(info + dateStr);
+      } else if(d && d.reserved) {
+        reserv.push(id + ' : réservé pour ' + d.reserved);
+      } else {
+        libre.push(id);
+      }
+    }
+  });
+  lines.push('=== ÉTAT DU RACK EN TEMPS RÉEL ===');
+  lines.push('Emplacements libres (' + libre.length + ') : ' + (libre.join(', ')||'aucun'));
+  lines.push('');
+  lines.push('Emplacements occupés (' + occ.length + ') :');
+  occ.forEach(function(l){ lines.push('  • ' + l); });
+  lines.push('');
+  lines.push('Emplacements réservés (' + reserv.length + ') :');
+  reserv.forEach(function(l){ lines.push('  • ' + l); });
+  lines.push('');
+  lines.push('=== INFOS RACK ===');
+  lines.push('4 niveaux : D (haut, gerbeur obligatoire), C (gerbeur nécessaire), B (accessible à la main), A (bas, niveau sol)');
+  lines.push('6 colonnes par niveau : 1 à 6. Total : 24 emplacements.');
+  lines.push('B4, B5, B6 : emplacements partagés (plusieurs colis possibles sur une palette), on indique s\'il reste de la place (oui/un peu/non).');
+  lines.push('');
+  lines.push('=== GUIDE D\'UTILISATION ===');
+  lines.push('1. Scanner le QR code fixé sur le rack avec l\'appareil photo du téléphone.');
+  lines.push('2. Cliquer sur l\'emplacement souhaité dans l\'appli.');
+  lines.push('3. Saisir le numéro de commande/référence (obligatoire) et les AFS (optionnel).');
+  lines.push('4. Pour B4/B5/B6, indiquer s\'il reste de la place sur la palette.');
+  lines.push('5. Valider. Pour sortir une palette : cliquer sur l\'emplacement → "Marquer comme sortie".');
+  lines.push('6. Un emplacement peut être réservé pour une entreprise (symbole 🔒).');
+  return lines.join('\n');
+}
+
+function chatNow() { return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+
+function appendMsg(role, text, isTyping) {
+  var msgs = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  var bubble = document.createElement('div');
+  bubble.className = 'chat-bubble' + (isTyping ? ' typing' : '');
+  bubble.textContent = text;
+  var time = document.createElement('div');
+  time.className = 'chat-time';
+  time.textContent = chatNow();
+  div.appendChild(bubble);
+  div.appendChild(time);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
+function sendSugg(btn) {
+  var q = btn.textContent;
+  document.getElementById('chat-suggestions').style.display = 'none';
+  document.getElementById('chat-inp').value = q;
+  sendChat();
+}
+
+function sendChat() {
+  if(chatBusy) return;
+  var inp = document.getElementById('chat-inp');
+  var q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+  document.getElementById('chat-suggestions').style.display = 'none';
+
+  appendMsg('user', q);
+  chatHistory.push({ role:'user', content: q });
+
+  chatBusy = true;
+  document.getElementById('chat-send-btn').disabled = true;
+  var typingBubble = appendMsg('bot', '…en train de réfléchir…', true);
+
+  var systemPrompt = 'Tu es un assistant pour opérateurs d\'entrepôt AUEM, spécialisé sur le RACK ATTENTE (rack renvoie colis). '
+    + 'Tu réponds en français, de façon concise et utile. '
+    + 'Tu connais en temps réel l\'état exact du rack (fourni ci-dessous). '
+    + 'Quand on te demande où est une palette, donne l\'emplacement précis. '
+    + 'Quand on te demande les emplacements libres, liste-les clairement. '
+    + 'Pour les questions pratiques sur le fonctionnement, sois pédagogue. '
+    + 'Réponds toujours en moins de 5 phrases sauf si on te demande plus de détails.\n\n'
+    + getRackContext();
+
+  var messages = [];
+  chatHistory.slice(-6).forEach(function(m){ messages.push(m); });
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: messages
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Désolé, je n\'ai pas pu répondre.';
+    typingBubble.classList.remove('typing');
+    typingBubble.textContent = reply;
+    chatHistory.push({ role:'assistant', content: reply });
+    var msgs = document.getElementById('chat-messages');
+    msgs.scrollTop = msgs.scrollHeight;
+  })
+  .catch(function() {
+    typingBubble.classList.remove('typing');
+    typingBubble.textContent = 'Erreur de connexion. Vérifie ta connexion internet.';
+  })
+  .finally(function() {
+    chatBusy = false;
+    document.getElementById('chat-send-btn').disabled = false;
+  });
+}
+
+/* Heure d'init du chat */
+document.addEventListener('DOMContentLoaded', function() {
+  var el = document.getElementById('chat-init-time');
+  if(el) el.textContent = chatNow();
+});
+
 var AI = {
-
-  /* ── FIX 1 : méthode register manquante ── */
   register: function(ref, afs) {
-    // Trace interne lors de l'enregistrement d'une palette
     console.log('[AI] Palette enregistrée :', ref, afs);
-  },
+  }
+};
 
-  /* ── Analyse complète du rack ── */
+/* ── DEAD CODE SUPPRIMÉ — ancienne analyze/render ── */
+var _UNUSED_AI = {
   analyze: function() {
     var totalEmp = 24, occ = 0, libre = 0, reserv = 0;
     var niveauxData = [];
@@ -1069,31 +1286,18 @@ var AI = {
     if(empId) { goEmp(empId); toggleAssistant(); }
   },
 
-  countAlerts: function() {
-    var A = this.analyze();
-    return A.alertes.length;
-  }
-};
+  countAlerts: function() { return 0; }
+}; /* fin _UNUSED_AI */
 
 function toggleAssistant() {
   var panel = document.getElementById('ai-panel');
   panel.classList.toggle('open');
   if(panel.classList.contains('open')) {
-    AI.render();
     document.getElementById('ai-notif').style.display = 'none';
   }
 }
 
-function openAssistantAuto() {
-  var n = AI.countAlerts();
-  if(n > 0) {
-    var panel = document.getElementById('ai-panel');
-    if(!panel.classList.contains('open')) {
-      document.getElementById('ai-notif').style.display = 'block';
-      document.getElementById('ai-notif-count').textContent = n > 9 ? '9+' : String(n);
-    }
-  }
-}
+function openAssistantAuto() { /* plus d'auto-open */ }
 
 document.addEventListener('keydown', function(e) {
   if((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -1104,7 +1308,7 @@ document.addEventListener('keydown', function(e) {
 
 showOnly("view-rack");
 refresh();
-setTimeout(function(){ openAssistantAuto(); }, 1800);
+
 </script>
 </body>
 </html>
