@@ -1309,102 +1309,99 @@ document.addEventListener('keydown', function(e) {
 showOnly("view-rack");
 refresh();
 
-// Initialisation de l'heure au lancement
-if(document.getElementById('chat-init-time')) {
-    document.getElementById('chat-init-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-}
-
-function toggleAssistant() {
-    const panel = document.getElementById('ai-panel');
-    panel.classList.toggle('open');
-}
-
-function switchTab(tab) {
-    document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.ai-tab-content').forEach(c => c.classList.remove('active'));
-    
-    if(tab === 'chat') {
-        document.querySelector('.ai-tab:nth-child(1)').classList.add('active');
-        document.getElementById('tab-chat').classList.add('active');
-    } else {
-        document.querySelector('.ai-tab:nth-child(2)').classList.add('active');
-        document.getElementById('tab-hist').classList.add('active');
-        renderHistory(); // On rafraîchit l'historique si on clique sur l'onglet
-    }
-}
-
-function sendSugg(btn) {
-    document.getElementById('chat-inp').value = btn.innerText;
-    sendChat();
-}
+/ --- CONFIGURATION GEMINI ---
+const GEMINI_API_KEY = "AIzaSyA8S_osqP7K_V2e7WSqc8qtWMiB0DZJczc";
+const MODEL_NAME = "gemini-1.5-flash"; // Modèle rapide et efficace
 
 async function sendChat() {
     const input = document.getElementById('chat-inp');
-    const container = document.getElementById('chat-messages');
     const text = input.value.trim();
     
     if(!text) return;
 
-    // Afficher message utilisateur
+    // 1. Afficher message utilisateur
     addMessage(text, 'user');
     input.value = '';
 
-    // Simulation de réflexion
+    // 2. Afficher l'indicateur de chargement
     const typingId = 'typing-' + Date.now();
-    addMessage('Réflexion...', 'bot', typingId);
+    addMessage('Réflexion en cours...', 'bot', typingId);
 
-    setTimeout(() => {
+    // 3. Préparer le contexte du Rack (ce que l'IA sait de tes données)
+    let rackStatus = "Voici l'inventaire actuel du rack AUEM en temps réel :\n";
+    let foundAny = false;
+    
+    // On parcourt la variable 'state' qui contient tes données Firebase
+    for(let id in state) {
+        if(state[id] && state[id].ref) {
+            foundAny = true;
+            let spaceInfo = state[id].space ? ` (Place restante: ${state[id].space})` : "";
+            let afsInfo = state[id].afs ? ` (AFS: ${state[id].afs.join(', ')})` : "";
+            rackStatus += `- Emplacement ${id} : Palette ${state[id].ref}${spaceInfo}${afsInfo}\n`;
+        }
+    }
+    if(!foundAny) rackStatus = "Le rack est actuellement complètement vide.";
+
+    // 4. Appel à l'API Gemini
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `Tu es l'assistant intelligent du Rack de renvoie colis AUEM. 
+                        Tes consignes :
+                        1. Réponds de façon concise et polie aux magasiniers.
+                        2. Utilise les données suivantes pour répondre aux questions sur les colis : ${rackStatus}
+                        3. Si on te demande de l'aide générale, explique comment scanner un colis.
+                        4. Tu peux aussi discuter de tout (comme ChatGPT/Gemini classique).
+                        
+                        Question de l'utilisateur : ${text}`
+                    }]
+                }]
+            })
+        });
+
+        const data = await response.json();
+        
+        // Supprimer l'indicateur "Réflexion..."
         const typingElem = document.getElementById(typingId);
         if(typingElem) typingElem.remove();
-        
-        // Ici, l'IA regarde les données réelles du rack (state)
-        const response = generateAIResponse(text);
-        addMessage(response, 'bot');
-    }, 600);
+
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            let aiText = data.candidates[0].content.parts[0].text;
+            addMessage(aiText, 'bot');
+        } else {
+            addMessage("Désolé, j'ai eu un petit bug de connexion.", 'bot');
+        }
+
+    } catch (error) {
+        if(document.getElementById(typingId)) document.getElementById(typingId).remove();
+        addMessage("Erreur : Impossible de contacter l'IA. Vérifie ta connexion.", 'bot');
+        console.error(error);
+    }
 }
 
+// Fonction pour afficher les messages dans la bulle
 function addMessage(text, side, id = null) {
     const container = document.getElementById('chat-messages');
     const div = document.createElement('div');
     div.className = `chat-msg ${side}`;
     if(id) div.id = id;
+    
     const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    div.innerHTML = `<div class="chat-bubble ${id ? 'typing' : ''}">${text}</div><div class="chat-time">${time}</div>`;
+    
+    // Remplacer les retours à la ligne par des <br> pour l'affichage HTML
+    let formattedText = text.replace(/\n/g, '<br>');
+
+    div.innerHTML = `
+        <div class="chat-bubble ${id ? 'typing' : ''}">${formattedText}</div>
+        <div class="chat-time">${time}</div>
+    `;
+    
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
-}
-
-// L'IA analyse maintenant tes données Firebase (variable 'state')
-function generateAIResponse(input) {
-    const msg = input.toLowerCase();
-    
-    // Compter les places libres
-    let libres = 0;
-    let occupees = [];
-    for(let id in state) {
-        if(state[id] && state[id].ref) occupees.push(id);
-    }
-    libres = 24 - occupees.length;
-
-    if(msg.includes("libre") || msg.includes("disponible")) {
-        return `Il reste actuellement **${libres} emplacements libres** sur 24.`;
-    }
-    
-    if(msg.includes("b4") || msg.includes("b5") || msg.includes("b6")) {
-        let info = "État des palettes partagées : \n";
-        ["B4","B5","B6"].forEach(id => {
-            let s = state[id] && state[id].space ? state[id].space : "Inconnu";
-            info += `- **${id}** : ${s}\n`;
-        });
-        return info;
-    }
-
-    if(msg.includes("quel") || msg.includes("liste") || msg.includes("palette")) {
-        if(occupees.length === 0) return "Le rack est totalement vide.";
-        return `Il y a ${occupees.length} palettes. Voici les premières : ` + occupees.slice(0,5).join(", ") + "...";
-    }
-
-    return "Je suis l'assistant du rack. Je peux te dire combien de places sont libres ou vérifier les niveaux B4/B5/B6. Que veux-tu savoir ?";
 }
 </script>
 </body>
