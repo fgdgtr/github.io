@@ -889,7 +889,7 @@ var AI = {
     if(!this.clients[ref]) this.clients[ref] = { count:0, lastSeen:null };
     this.clients[ref].count++;
     this.clients[ref].lastSeen = new Date().toISOString();
-    this.recent = [ref, ...this.recent.filter(function(r){ return r!==ref; })].slice(0,10);
+    this.recent = [ref].concat(this.recent.filter(function(r){ return r!==ref; })).slice(0,10);
     var self = this;
     (afsArr||[]).forEach(function(a) {
       if(!self.afsMap[ref]) self.afsMap[ref] = [];
@@ -905,7 +905,7 @@ var AI = {
     // AFS mémorisés
     var knownAFS = this.afsMap[ref];
     if(knownAFS && knownAFS.length) {
-      newAFS = knownAFS.slice();
+      newAFS = knownAFS ? knownAFS.slice() : [];
       renderAFSNew();
       showToast('AFS ' + knownAFS.join(', ') + ' pré-remplis', '🔖');
     }
@@ -951,7 +951,8 @@ var AI = {
     else if(pct >= 65) alertes.push({ type:'warn', msg: 'Rack chargé — ' + pct + '% occupé' });
 
     // Meilleur niveau à recommander
-    var best = niveauxData.slice().sort(function(a,b){ return b.libre - a.libre; })[0];
+    var sortedNiv = niveauxData.slice().sort(function(a,b){ return b.libre - a.libre; });
+var best = sortedNiv[0];
 
     return { totalEmp:totalEmp, occ:occ, libre:libre, reserv:reserv, pct:pct,
              niveauxData:niveauxData, alertes:alertes, spacesB:spacesB, best:best };
@@ -972,7 +973,8 @@ var AI = {
         var d = self.clients[ref] || {};
         var afsHint = (self.afsMap[ref] && self.afsMap[ref].length) ? self.afsMap[ref].slice(0,2).join(', ') : '';
         var star = (d.count || 0) >= 5 ? '⭐' : '';
-        html += '<div class="ai-item" onclick="AI.quickFill('' + ref + '')">';
+        var safeRef = ref.replace(/'/g,"APOS");
+        html += '<div class="ai-item" data-ref="' + safeRef + '" onclick="AI.clickFill(this)">'; 
         html += '<span class="ai-item-ico">📦</span>';
         html += '<div class="ai-item-body">';
         html += '<div class="ai-item-name">' + ref + ' ' + star + '</div>';
@@ -1021,7 +1023,7 @@ var AI = {
       A.spacesB.forEach(function(s) {
         var spLabel = s.space === 'oui' ? '✅ Dispo' : s.space === 'un-peu' ? '⚠️ Un peu' : s.space === 'non' ? '❌ Plein' : '? Non renseigné';
         var spCls = s.space || 'un-peu';
-        html += '<div class="ai-item" onclick="goEmp('' + s.id + ''); toggleAssistant();">';
+        html += '<div class="ai-item" data-empid="' + s.id + '" onclick="AI.clickEmp(this)">'; 
         html += '<span class="ai-item-ico">🗄️</span>';
         html += '<div class="ai-item-body"><div class="ai-item-name">' + s.id + ' — ' + s.ref + '</div></div>';
         html += '<span class="ai-space-badge ' + spCls + '">' + spLabel + '</span>';
@@ -1044,6 +1046,17 @@ var AI = {
     }
 
     body.innerHTML = html;
+  },
+
+  clickFill: function(el) {
+    var ref = el.getAttribute('data-ref').replace(/APOS/g,"'");
+    this.quickFill(ref);
+  },
+
+  clickEmp: function(el) {
+    var empId = el.getAttribute('data-empid');
+    goEmp(empId);
+    toggleAssistant();
   }
 };
 
