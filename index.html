@@ -214,6 +214,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ai-space-badge.oui{background:rgba(34,197,94,.15);color:#4ade80;}
 .ai-space-badge.un-peu{background:rgba(245,158,11,.15);color:#fcd34d;}
 .ai-space-badge.non{background:rgba(239,68,68,.15);color:#f87171;}
+.ai-space-badge.none{background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);}
+.ai-stat-box.danger .ai-stat-num{color:#f87171;}
+.ai-sugg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;margin-bottom:6px;cursor:pointer;transition:all .15s;}
+.ai-sugg:active{transform:scale(.97);}
+.ai-sugg:hover{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.25);}
+.ai-sugg-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ai-sugg-niv{font-size:22px;font-weight:900;font-family:"DM Mono",monospace;color:#f3efe9;letter-spacing:-1px;line-height:1;}
+.ai-sugg-label{font-size:10px;color:rgba(255,255,255,.4);flex:1;}
+.ai-sugg-ids{display:flex;flex-wrap:wrap;gap:4px;}
+.ai-sugg-id{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 7px;font-size:10px;font-weight:700;font-family:"DM Mono",monospace;color:#f3efe9;}
+.ai-b-row{display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(255,255,255,.04);border-radius:9px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.ai-b-row:active{transform:scale(.97);}
+.ai-b-row:hover{background:rgba(255,255,255,.08);}
+.ai-b-id{font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#f3efe9;min-width:28px;}
+.ai-b-ref{font-size:11px;font-weight:600;color:#f3efe9;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
 </style>
 </head>
@@ -230,7 +245,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="hdr-r">
 <div class="sync-dot loading" id="sync-dot"></div>
 <div class="sync-time" id="sync-time">…</div>
-<button class="btn-hdr" onclick="toggleAssistant()" id="btn-ai" title="Assistant (Ctrl+K)" style="position:relative;">🤖<span id="ai-notif" style="display:none;position:absolute;top:3px;right:3px;width:7px;height:7px;background:#ef4444;border-radius:50%;"></span></button>
+<button class="btn-hdr" onclick="toggleAssistant()" id="btn-ai" title="Assistant (Ctrl+K)" style="position:relative;">🤖<span id="ai-notif" style="display:none;position:absolute;top:1px;right:1px;min-width:15px;height:15px;background:#ef4444;border-radius:8px;font-size:8px;font-weight:800;color:#fff;font-family:monospace;line-height:15px;text-align:center;padding:0 3px;"><span id="ai-notif-count"></span></span></button>
 <button class="btn-hdr" onclick="goGuide()">❓</button>
 <button class="btn-hdr" onclick="goQR()">📱</button>
 </div>
@@ -543,9 +558,9 @@ setDot("ok");
 } else {
 loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
 }
-renderRack();
+renderRack(); openAssistantAuto();
 };
-xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); };
+xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); openAssistantAuto(); };
 xhr.send();
 }
 function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
@@ -872,191 +887,204 @@ document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter"
 
 /* ══════════════════════════════════════════
    ASSISTANT IA — Rack Renvoie Colis
+   Fonctionnalités utiles pour l'opérateur
    ══════════════════════════════════════════ */
+
 var AI = {
-  clients: JSON.parse(localStorage.getItem('ai_rc_clients') || '{}'),
-  recent:  JSON.parse(localStorage.getItem('ai_rc_recent')  || '[]'),
-  afsMap:  JSON.parse(localStorage.getItem('ai_rc_afs')     || '{}'),
 
-  save: function() {
-    localStorage.setItem('ai_rc_clients', JSON.stringify(this.clients));
-    localStorage.setItem('ai_rc_recent',  JSON.stringify(this.recent));
-    localStorage.setItem('ai_rc_afs',     JSON.stringify(this.afsMap));
-  },
-
-  register: function(ref, afsArr) {
-    if(!ref) return;
-    if(!this.clients[ref]) this.clients[ref] = { count:0, lastSeen:null };
-    this.clients[ref].count++;
-    this.clients[ref].lastSeen = new Date().toISOString();
-    this.recent = [ref].concat(this.recent.filter(function(r){ return r!==ref; })).slice(0,10);
-    var self = this;
-    (afsArr||[]).forEach(function(a) {
-      if(!self.afsMap[ref]) self.afsMap[ref] = [];
-      if(self.afsMap[ref].indexOf(a) < 0) self.afsMap[ref].push(a);
-    });
-    this.save();
-    updateAINotif();
-  },
-
-  quickFill: function(ref) {
-    var inp = document.getElementById('inp-ref');
-    if(inp) { inp.value = ref; inp.focus(); }
-    // AFS mémorisés
-    var knownAFS = this.afsMap[ref];
-    if(knownAFS && knownAFS.length) {
-      newAFS = knownAFS ? knownAFS.slice() : [];
-      renderAFSNew();
-      showToast('AFS ' + knownAFS.join(', ') + ' pré-remplis', '🔖');
-    }
-    toggleAssistant();
-  },
-
-  /* Analyse du rack en temps réel */
+  /* ── Analyse complète du rack ── */
   analyze: function() {
     var totalEmp = 24, occ = 0, libre = 0, reserv = 0;
     var niveauxData = [];
     var alertes = [];
     var spacesB = [];
+    var libresParNiveau = {};
 
     NIVEAUX.forEach(function(niv) {
       var nOcc = 0, nLibre = 0, nReserv = 0;
-      for(var c=1; c<=6; c++) {
+      var libresIds = [];
+
+      for(var c = 1; c <= 6; c++) {
         var id = niv.id + c;
         var d = isValidObj(state[id]) ? state[id] : null;
-        if(d && d.ref) { nOcc++; occ++; }
-        else if(d && d.reserved) { nReserv++; reserv++; }
-        else { nLibre++; libre++; }
 
-        // Réservations sans palette
-        if(d && d.reserved && !d.ref) {
-          alertes.push({ type:'info', msg: id + ' réservé (' + d.reserved + ') sans palette' });
-        }
-
-        // Palettes B4/B5/B6 avec place
-        if(['B4','B5','B6'].indexOf(id) >= 0 && d && d.ref) {
-          spacesB.push({ id:id, ref:d.ref, space: d.space || null });
-          // Alerte si plein
-          if(d.space === 'non') {
-            alertes.push({ type:'warn', msg: id + ' (' + d.ref + ') : palette pleine ❌' });
+        if(d && d.ref) {
+          nOcc++; occ++;
+          // Palette B4/B5/B6 : vérif espace
+          if(['B4','B5','B6'].indexOf(id) >= 0) {
+            spacesB.push({ id:id, ref:d.ref, space: d.space || null });
+            if(!d.space) {
+              alertes.push({ type:'warn', prio:2, msg:'Place non renseignée sur <strong>' + id + '</strong> (' + d.ref + ')' });
+            } else if(d.space === 'non') {
+              alertes.push({ type:'info', prio:3, msg:'<strong>' + id + '</strong> plein — ' + d.ref });
+            }
           }
+        } else if(d && d.reserved) {
+          nReserv++; reserv++;
+          // Réservation sans palette = signaler
+          alertes.push({ type:'info', prio:4, msg:'<strong>' + id + '</strong> réservé ' + d.reserved + ' — vide' });
+        } else {
+          nLibre++; libre++;
+          libresIds.push(id);
         }
       }
-      niveauxData.push({ id:niv.id, label:niv.label, occ:nOcc, libre:nLibre, reserv:nReserv });
+
+      libresParNiveau[niv.id] = libresIds;
+      niveauxData.push({ id:niv.id, label:niv.label, desc:niv.desc, occ:nOcc, libre:nLibre, reserv:nReserv });
     });
 
-    // Alerte si rack presque plein
+    // Alerte taux global
     var pct = Math.round(occ / totalEmp * 100);
-    if(pct >= 85) alertes.push({ type:'err', msg: 'Rack quasi plein — ' + pct + '% occupé !' });
-    else if(pct >= 65) alertes.push({ type:'warn', msg: 'Rack chargé — ' + pct + '% occupé' });
+    if(pct >= 90) alertes.push({ type:'err', prio:0, msg:'🔴 Rack quasi plein — ' + pct + '% occupé !' });
+    else if(pct >= 75) alertes.push({ type:'warn', prio:1, msg:'Rack chargé — ' + pct + '% occupé' });
 
-    // Meilleur niveau à recommander
-    var sortedNiv = niveauxData.slice().sort(function(a,b){ return b.libre - a.libre; });
-var best = sortedNiv[0];
+    // Trier alertes par priorité
+    alertes.sort(function(a,b){ return a.prio - b.prio; });
 
-    return { totalEmp:totalEmp, occ:occ, libre:libre, reserv:reserv, pct:pct,
-             niveauxData:niveauxData, alertes:alertes, spacesB:spacesB, best:best };
+    // Meilleure suggestion d'emplacement : niveau le plus libre
+    // Sépare gerbeur (D,C) et main (B,A)
+    var suggMain = null, suggGerbeur = null;
+    niveauxData.forEach(function(niv) {
+      if(niv.libre > 0) {
+        if(niv.id === 'B' || niv.id === 'A') {
+          if(!suggMain || niv.libre > suggMain.libre) suggMain = niv;
+        } else {
+          if(!suggGerbeur || niv.libre > suggGerbeur.libre) suggGerbeur = niv;
+        }
+      }
+    });
+
+    return {
+      totalEmp:totalEmp, occ:occ, libre:libre, reserv:reserv, pct:pct,
+      niveauxData:niveauxData, alertes:alertes, spacesB:spacesB,
+      libresParNiveau:libresParNiveau, suggMain:suggMain, suggGerbeur:suggGerbeur
+    };
   },
 
+  /* ── Rendu du panneau ── */
   render: function() {
     var body = document.getElementById('ai-body');
     if(!body) return;
     var A = this.analyze();
     var html = '';
 
-    /* ── SECTION 1 : Clients récents ── */
+    /* ─ SECTION 1 : Alertes ─ */
     html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📌 Clients récents <span style="color:rgba(255,255,255,.2);font-size:8px;">clic = auto-remplir</span></div>';
-    if(this.recent.length > 0) {
-      var self = this;
-      this.recent.slice(0,5).forEach(function(ref) {
-        var d = self.clients[ref] || {};
-        var afsHint = (self.afsMap[ref] && self.afsMap[ref].length) ? self.afsMap[ref].slice(0,2).join(', ') : '';
-        var star = (d.count || 0) >= 5 ? '⭐' : '';
-        var safeRef = ref.replace(/'/g,"APOS");
-        html += '<div class="ai-item" data-ref="' + safeRef + '" onclick="AI.clickFill(this)">'; 
-        html += '<span class="ai-item-ico">📦</span>';
-        html += '<div class="ai-item-body">';
-        html += '<div class="ai-item-name">' + ref + ' ' + star + '</div>';
-        if(afsHint) html += '<div class="ai-item-sub">AFS: ' + afsHint + (self.afsMap[ref].length > 2 ? '…' : '') + '</div>';
-        html += '</div>';
-        html += '<span class="ai-badge gray">×' + (d.count || 1) + '</span>';
-        html += '</div>';
+    html += '<div class="ai-lbl">⚡ Alertes</div>';
+    if(A.alertes.length > 0) {
+      A.alertes.slice(0,5).forEach(function(al) {
+        var ico = al.type === 'err' ? '🔴' : al.type === 'warn' ? '🟡' : 'ℹ️';
+        html += '<div class="ai-alert ' + al.type + '"><span class="ai-alert-ico">' + ico + '</span><span>' + al.msg + '</span></div>';
       });
     } else {
-      html += '<div class="ai-empty">Aucun client encore<br>Ils apparaîtront ici après chaque entrée</div>';
+      html += '<div class="ai-alert ok"><span class="ai-alert-ico">✅</span><span>Aucune alerte — rack OK</span></div>';
     }
     html += '</div>';
 
-    /* ── SECTION 2 : Tableau de bord ── */
+    /* ─ SECTION 2 : Suggestion emplacement ─ */
     html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📊 Vue globale</div>';
+    html += '<div class="ai-lbl">🎯 Où poser ?</div>';
+    if(A.libre === 0) {
+      html += '<div class="ai-alert err"><span class="ai-alert-ico">🔴</span><span>Aucun emplacement libre !</span></div>';
+    } else {
+      if(A.suggMain) {
+        var ids = A.libresParNiveau[A.suggMain.id] || [];
+        html += '<div class="ai-sugg" onclick="goEmp('' + ids[0] + ''); toggleAssistant();">';
+        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggMain.id + '</span>';
+        html += '<span class="ai-sugg-label">À la main</span>';
+        html += '<span class="ai-badge green">' + A.suggMain.libre + ' libre' + (A.suggMain.libre > 1 ? 's' : '') + '</span></div>';
+        html += '<div class="ai-sugg-ids">';
+        ids.slice(0,4).forEach(function(id) {
+          html += '<span class="ai-sugg-id">' + id + '</span>';
+        });
+        if(ids.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (ids.length-4) + '</span>';
+        html += '</div></div>';
+      }
+      if(A.suggGerbeur) {
+        var idsG = A.libresParNiveau[A.suggGerbeur.id] || [];
+        html += '<div class="ai-sugg" onclick="goEmp('' + idsG[0] + ''); toggleAssistant();">';
+        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggGerbeur.id + '</span>';
+        html += '<span class="ai-sugg-label">Gerbeur</span>';
+        html += '<span class="ai-badge gray">' + A.suggGerbeur.libre + ' libre' + (A.suggGerbeur.libre > 1 ? 's' : '') + '</span></div>';
+        html += '<div class="ai-sugg-ids">';
+        idsG.slice(0,4).forEach(function(id) {
+          html += '<span class="ai-sugg-id">' + id + '</span>';
+        });
+        if(idsG.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (idsG.length-4) + '</span>';
+        html += '</div></div>';
+      }
+      if(!A.suggMain && !A.suggGerbeur) {
+        html += '<div class="ai-empty">Aucune suggestion disponible</div>';
+      }
+    }
+    html += '</div>';
+
+    /* ─ SECTION 3 : Occupation par niveau ─ */
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">📊 Occupation</div>';
     html += '<div class="ai-stats-grid">';
     html += '<div class="ai-stat-box highlight"><div class="ai-stat-num">' + A.libre + '</div><div class="ai-stat-lbl">Libres</div></div>';
     html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.occ + '</div><div class="ai-stat-lbl">Occupés</div></div>';
     html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.reserv + '</div><div class="ai-stat-lbl">Réservés</div></div>';
-    html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.pct + '%</div><div class="ai-stat-lbl">Taux remplissage</div></div>';
+    html += '<div class="ai-stat-box ' + (A.pct >= 75 ? 'danger' : '') + '"><div class="ai-stat-num">' + A.pct + '%</div><div class="ai-stat-lbl">Remplissage</div></div>';
     html += '</div>';
-    html += '</div>';
-
-    /* ── SECTION 3 : Occupation par niveau ── */
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📐 Niveaux</div>';
     A.niveauxData.forEach(function(niv) {
       var fillPct = Math.round(niv.occ / 6 * 100);
       var fillColor = fillPct >= 83 ? '#f87171' : fillPct >= 50 ? '#fcd34d' : '#4ade80';
       html += '<div class="ai-dispo-row">';
       html += '<span class="ai-dispo-id">' + niv.id + '</span>';
       html += '<div class="ai-dispo-bar"><div class="ai-dispo-fill" style="width:' + fillPct + '%;background:' + fillColor + '"></div></div>';
-      html += '<span class="ai-dispo-cnt">' + niv.occ + '/6</span>';
+      html += '<span class="ai-dispo-cnt">' + niv.libre + ' libre</span>';
       html += '</div>';
     });
-    if(A.best && A.best.libre > 0) {
-      html += '<div class="ai-alert info" style="margin-top:6px;"><span class="ai-alert-ico">💡</span>Niveau <strong>' + A.best.id + '</strong> le plus libre (' + A.best.libre + ' places)</div>';
-    }
     html += '</div>';
 
-    /* ── SECTION 4 : Palettes B4/B5/B6 ── */
+    /* ─ SECTION 4 : État B4/B5/B6 ─ */
     html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📐 Places B4 · B5 · B6</div>';
-    if(A.spacesB.length > 0) {
-      A.spacesB.forEach(function(s) {
-        var spLabel = s.space === 'oui' ? '✅ Dispo' : s.space === 'un-peu' ? '⚠️ Un peu' : s.space === 'non' ? '❌ Plein' : '? Non renseigné';
-        var spCls = s.space || 'un-peu';
-        html += '<div class="ai-item" data-empid="' + s.id + '" onclick="AI.clickEmp(this)">'; 
-        html += '<span class="ai-item-ico">🗄️</span>';
-        html += '<div class="ai-item-body"><div class="ai-item-name">' + s.id + ' — ' + s.ref + '</div></div>';
+    html += '<div class="ai-lbl">🗄️ Places partagées B4 · B5 · B6</div>';
+    var bIds = ['B4','B5','B6'];
+    var anyB = false;
+    bIds.forEach(function(bid) {
+      var d = isValidObj(state[bid]) ? state[bid] : null;
+      if(d && d.ref) {
+        anyB = true;
+        var spLabel = d.space === 'oui' ? '✅ Place dispo' : d.space === 'un-peu' ? '⚠️ Un peu' : d.space === 'non' ? '❌ Plein' : '❓ Non renseigné';
+        var spCls = d.space ? d.space : 'none';
+        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref">' + d.ref + '</span>';
         html += '<span class="ai-space-badge ' + spCls + '">' + spLabel + '</span>';
         html += '</div>';
-      });
-    } else {
-      html += '<div class="ai-empty">B4, B5, B6 vides</div>';
-    }
+      } else if(d && d.reserved) {
+        anyB = true;
+        html += '<div class="ai-b-row">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.35);">🔒 ' + d.reserved + '</span>';
+        html += '<span class="ai-space-badge none">—</span>';
+        html += '</div>';
+      } else {
+        anyB = true;
+        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
+        html += '<span class="ai-b-id">' + bid + '</span>';
+        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.3);">Libre</span>';
+        html += '<span class="ai-space-badge none" style="background:rgba(74,222,128,.12);color:#4ade80;">✅ Libre</span>';
+        html += '</div>';
+      }
+    });
     html += '</div>';
-
-    /* ── SECTION 5 : Alertes ── */
-    if(A.alertes.length > 0) {
-      html += '<div class="ai-section">';
-      html += '<div class="ai-lbl">⚠️ Alertes</div>';
-      A.alertes.slice(0,4).forEach(function(al) {
-        var ico = al.type === 'err' ? '🔴' : al.type === 'warn' ? '🟡' : 'ℹ️';
-        html += '<div class="ai-alert ' + al.type + '"><span class="ai-alert-ico">' + ico + '</span>' + al.msg + '</div>';
-      });
-      html += '</div>';
-    }
 
     body.innerHTML = html;
   },
 
-  clickFill: function(el) {
-    var ref = el.getAttribute('data-ref').replace(/APOS/g,"'");
-    this.quickFill(ref);
-  },
-
   clickEmp: function(el) {
     var empId = el.getAttribute('data-empid');
-    goEmp(empId);
-    toggleAssistant();
+    if(empId) { goEmp(empId); toggleAssistant(); }
+  },
+
+  /* Compte le nombre d'alertes actives */
+  countAlerts: function() {
+    var A = this.analyze();
+    return A.alertes.length;
   }
 };
 
@@ -1065,16 +1093,19 @@ function toggleAssistant() {
   panel.classList.toggle('open');
   if(panel.classList.contains('open')) {
     AI.render();
-    // Reset notif
     document.getElementById('ai-notif').style.display = 'none';
   }
 }
 
-function updateAINotif() {
-  // Affiche un point rouge si le panel est fermé
-  var panel = document.getElementById('ai-panel');
-  if(!panel.classList.contains('open')) {
-    document.getElementById('ai-notif').style.display = 'block';
+function openAssistantAuto() {
+  // S'ouvre automatiquement si alertes importantes
+  var n = AI.countAlerts();
+  if(n > 0) {
+    var panel = document.getElementById('ai-panel');
+    if(!panel.classList.contains('open')) {
+      document.getElementById('ai-notif').style.display = 'block';
+      document.getElementById('ai-notif-count').textContent = n > 9 ? '9+' : String(n);
+    }
   }
 }
 
@@ -1086,8 +1117,11 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+
 showOnly("view-rack");
 refresh();
+// Auto-check alertes après le 1er chargement
+setTimeout(function(){ openAssistantAuto(); }, 1800);
 </script>
 </body>
 </html>
