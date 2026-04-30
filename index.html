@@ -1309,53 +1309,75 @@ document.addEventListener('keydown', function(e) {
 showOnly("view-rack");
 refresh();
 
-async function sendChat() {
-    console.log("Tentative d'envoi...");
-    const inp = document.getElementById('chat-inp');
-    const msgContainer = document.getElementById('chat-messages');
+/* --- MODULE IA FINAL --- */
+const MA_CLE_GEMINI = "AIzaSyA8S_osqP7K_V2e7WSqc8qtWMiB0DZJczc";
+
+async function appelIA() {
+    const input = document.getElementById('chat-inp');
+    const container = document.getElementById('chat-messages');
     
-    if(!inp || !msgContainer) return;
-    const val = inp.value.trim();
-    if(!val) return;
+    // Vérification si les éléments existent
+    if(!input || !container) {
+        alert("Erreur : Champ de saisie introuvable dans le HTML");
+        return;
+    }
 
-    addMsgUI(val, 'user');
-    inp.value = "";
+    const message = input.value.trim();
+    if(!message) return;
 
-    const tempId = "temp-" + Date.now();
-    addMsgUI("Réflexion...", "bot", tempId);
+    // 1. Afficher le message de l'utilisateur immédiatement
+    const userDiv = document.createElement('div');
+    userDiv.className = 'chat-msg user';
+    userDiv.innerHTML = `<div class="chat-bubble">${message}</div>`;
+    container.appendChild(userDiv);
+    
+    // Vider l'input et scroller
+    input.value = "";
+    container.scrollTop = container.scrollHeight;
+
+    // 2. Afficher la bulle de chargement
+    const botDiv = document.createElement('div');
+    botDiv.className = 'chat-msg bot';
+    const loaderId = "loader-" + Date.now();
+    botDiv.id = loaderId;
+    botDiv.innerHTML = `<div class="chat-bubble">Réflexion...</div>`;
+    container.appendChild(botDiv);
 
     try {
-        // CHANGEMENT ICI : Passage en v1 (au lieu de v1beta)
-        const url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + GEMINI_API_KEY;
+        const url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + MA_CLE_GEMINI;
         
-        const res = await fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: val }] }]
+                contents: [{ parts: [{ text: message }] }]
             })
         });
 
-        const data = await res.json();
+        const data = await response.json();
         
-        const tempElem = document.getElementById(tempId);
-        if(tempElem) tempElem.remove();
+        // Supprimer le "Réflexion..."
+        const loader = document.getElementById(loaderId);
+        if(loader) loader.remove();
 
         if(data.candidates && data.candidates[0].content) {
-            const txt = data.candidates[0].content.parts[0].text;
-            addMsgUI(txt, "bot");
+            const reponseIA = data.candidates[0].content.parts[0].text;
+            
+            // Afficher la réponse finale
+            const finalDiv = document.createElement('div');
+            finalDiv.className = 'chat-msg bot';
+            finalDiv.innerHTML = `<div class="chat-bubble">${reponseIA.replace(/\n/g, '<br>')}</div>`;
+            container.appendChild(finalDiv);
         } else {
-            // Si Google renvoie encore une erreur de modèle, on essaie de l'afficher
-            const errMsg = data.error ? data.error.message : "Erreur de configuration";
-            addMsgUI("Désolé, il y a un souci : " + errMsg, "bot");
-            console.log("Détail erreur:", data);
+            throw new Error(data.error ? data.error.message : "Erreur inconnue");
         }
-    } catch (e) {
-        console.error(e);
-        const tempElem = document.getElementById(tempId);
-        if(tempElem) tempElem.remove();
-        addMsgUI("Erreur de connexion au serveur Google.", "bot");
+    } catch (err) {
+        console.error(err);
+        const loader = document.getElementById(loaderId);
+        if(loader) loader.innerHTML = `<div class="chat-bubble" style="color:red">Erreur : ${err.message}</div>`;
     }
+    
+    container.scrollTop = container.scrollHeight;
 }
 </script>
 </body>
