@@ -159,6 +159,134 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .spinner{width:22px;height:22px;border:2px solid var(--border2);border-top-color:var(--text);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+/* ASSISTANT STYLES */
+#ai-widget {
+  position: fixed;
+  bottom: 80px;
+  right: 14px;
+  z-index: 99;
+  background: rgba(28,24,20,.97);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(0,0,0,.15);
+  border-radius: 14px;
+  padding: 12px;
+  width: 290px;
+  max-height: 380px;
+  overflow-y: auto;
+  font-family: 'DM Sans', sans-serif;
+  color: #f3efe9;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+}
+#ai-widget.hidden { display: none; }
+.ai-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #f59e0b;
+}
+.ai-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #f59e0b;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ai-close:active { opacity: 0.6; }
+.ai-section {
+  margin-bottom: 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.ai-section:last-child { border-bottom: none; }
+.ai-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,255,255,.35);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.ai-item {
+  background: rgba(0,0,0,.2);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-item:hover {
+  background: rgba(245,158,11,.15);
+  border-color: rgba(245,158,11,.3);
+  transform: translateX(2px);
+}
+.ai-item:active { transform: scale(0.95); }
+.ai-item-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ai-badge {
+  background: rgba(245,158,11,.2);
+  color: #fbbf24;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 8px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-left: 5px;
+}
+.ai-alert {
+  background: rgba(239,68,68,.1);
+  border: 1px solid rgba(239,68,68,.3);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+  font-size: 10px;
+  color: #fca5a5;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.ai-alert.info {
+  background: rgba(96,165,250,.1);
+  border-color: rgba(96,165,250,.3);
+  color: #93c5fd;
+}
+.ai-empty {
+  font-size: 10px;
+  color: rgba(255,255,255,.25);
+  font-style: italic;
+  padding: 8px;
+  text-align: center;
+}
+.ai-stats {
+  font-size: 9px;
+  color: rgba(255,255,255,.3);
+  line-height: 1.6;
+}
+.ai-stats div {
+  margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -385,6 +513,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
+<!-- AI WIDGET -->
+<div id="ai-widget" class="hidden">
+  <div class="ai-title">
+    🤖 ASSISTANT IA
+    <button class="ai-close" onclick="toggleAI()">×</button>
+  </div>
+  <div id="ai-content"></div>
+</div>
+
 <div class="modal-ov" id="modal-del" onclick="closeModalIfBg(event)">
 <div class="modal-box">
 <div class="modal-title">Libérer l'emplacement ?</div>
@@ -409,6 +546,104 @@ var NIVEAUX = [
 var COLS=[1,2,3,4,5,6];
 var SPACE_IDS = ["B4","B5","B6"];
 var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
+
+// ====== ASSISTANT IA ======
+var AIHelper = {
+  clients: JSON.parse(localStorage.getItem('ai_clients') || '{}'),
+  recent: JSON.parse(localStorage.getItem('ai_recent') || '[]'),
+  patterns: JSON.parse(localStorage.getItem('ai_patterns') || '{}'),
+  
+  register: function(ref, afsArr) {
+    if (!ref) return;
+    if (!this.clients[ref]) this.clients[ref] = { count: 0 };
+    this.clients[ref].count += 1;
+    this.recent = [ref, ...this.recent.filter(r => r !== ref)].slice(0, 8);
+    if (afsArr && afsArr.length > 0) {
+      if (!this.patterns[ref]) this.patterns[ref] = [];
+      afsArr.forEach(a => {
+        if (this.patterns[ref].indexOf(a) < 0) this.patterns[ref].push(a);
+      });
+    }
+    this.save();
+  },
+  
+  save: function() {
+    localStorage.setItem('ai_clients', JSON.stringify(this.clients));
+    localStorage.setItem('ai_recent', JSON.stringify(this.recent));
+    localStorage.setItem('ai_patterns', JSON.stringify(this.patterns));
+  },
+  
+  quickFill: function(ref) {
+    document.getElementById('inp-ref').value = ref.toUpperCase();
+    var sugAFS = this.patterns[ref];
+    if (sugAFS && sugAFS.length > 0) {
+      newAFS = sugAFS.slice();
+      renderAFSNew();
+    }
+    document.getElementById('inp-ref').focus();
+    renderAI();
+  },
+  
+  render: function() {
+    var html = '';
+    
+    // Section: Récents
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">📌 Derniers clients</div>';
+    if (this.recent.length > 0) {
+      this.recent.slice(0, 5).forEach(function(r) {
+        var data = AIHelper.clients[r];
+        var badge = data && data.count > 3 ? '⭐' : '•';
+        html += '<div class="ai-item" onclick="AIHelper.quickFill(\'' + r + '\'); toggleAI();">' +
+                '<span class="ai-item-name">' + r + '</span>' +
+                '<span class="ai-badge">' + badge + '</span></div>';
+      });
+    } else {
+      html += '<div class="ai-empty">Aucun client encore</div>';
+    }
+    html += '</div>';
+    
+    // Section: Stats
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">📊 Statistiques</div>';
+    var totalEntries = Object.values(this.clients).reduce((sum, c) => sum + (c.count || 0), 0);
+    html += '<div class="ai-stats">' +
+            '<div>👥 ' + Object.keys(this.clients).length + ' clients</div>' +
+            '<div>📦 ' + totalEntries + ' entrées</div>' +
+            '<div>🔖 ' + Object.keys(this.patterns).length + ' patterns</div></div>';
+    html += '</div>';
+    
+    // Section: Infos
+    html += '<div class="ai-section">';
+    html += '<div class="ai-lbl">⌨️ Raccourcis</div>';
+    html += '<div class="ai-empty" style="font-size:9px; text-align:left; font-style:normal;">Ctrl+K : Afficher/masquer<br/>Clique un client = Auto-remplit</div>';
+    html += '</div>';
+    
+    document.getElementById('ai-content').innerHTML = html;
+  }
+};
+
+function toggleAI() {
+  var w = document.getElementById('ai-widget');
+  w.classList.toggle('hidden');
+  if (!w.classList.contains('hidden')) {
+    AIHelper.render();
+  }
+}
+
+function renderAI() {
+  if (!document.getElementById('ai-widget').classList.contains('hidden')) {
+    AIHelper.render();
+  }
+}
+
+// Raccourcis clavier
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    toggleAI();
+  }
+});
 
 function isSpaceEmp(id) { return SPACE_IDS.indexOf(id) >= 0; }
 
@@ -470,11 +705,11 @@ state = isValidObj(raw) ? raw : {};
 setDot("ok");
 } catch(e) { state={}; setDot("error"); }
 } else {
-loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
+loadLocal(); setDot("error");
 }
 renderRack();
 };
-xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); };
+xhr.onerror = function(){ loadLocal(); setDot("error"); renderRack(); };
 xhr.send();
 }
 function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
@@ -562,7 +797,6 @@ if(data.afs.length>3) txt += " +"+(data.afs.length-3);
 afsEl.textContent = txt; card.appendChild(afsEl);
 }
 
-// Affichage place disponible sur B4/B5/B6
 if(isSpaceEmp(id) && data && data.ref && data.space) {
 var spEl = document.createElement("div");
 spEl.className = "ecard-space " + getSpaceCls(data.space);
@@ -612,7 +846,6 @@ document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+
 renderAFSOcc(data.afs||[]);
 document.getElementById("inp-afs-add").value = "";
 
-// Section espace pour B4/B5/B6
 var spaceOccSec = document.getElementById("space-occ-section");
 if(isSpaceEmp(id)) {
 spaceOccSec.style.display = "block";
@@ -634,7 +867,6 @@ document.getElementById("inp-ref-reserved").value = "";
 document.getElementById("inp-afs-reserved").value = "";
 var reservedAFS_local = [];
 renderAFSReserved_local(reservedAFS_local);
-// Section espace pour B4/B5/B6
 document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
 document.getElementById("sel-space-reserved").value = "";
 
@@ -644,7 +876,6 @@ document.getElementById("inp-ref").value = "";
 document.getElementById("inp-afs-new").value = "";
 document.getElementById("inp-company-reserve").value = "";
 newAFS = []; renderAFSNew();
-// Section espace pour B4/B5/B6
 document.getElementById("space-free-section").style.display = isSpaceEmp(id) ? "block" : "none";
 document.getElementById("sel-space-free").value = "";
 }
@@ -713,9 +944,10 @@ var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").va
 if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
 state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
 if(space) state[curId].space = space;
+AIHelper.register(ref, reservedAFS);
 showToast(ref+" enregistrée","✓");
 if(navigator.vibrate) navigator.vibrate(10);
-reservedAFS=[]; saveData(); goRack();
+reservedAFS=[]; saveData(); goRack(); renderAI();
 }
 
 /* ── AFS NEW ── */
@@ -744,9 +976,10 @@ var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value 
 if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
 state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
 if(space) state[curId].space = space;
+AIHelper.register(ref, newAFS);
 showToast(ref+" enregistrée","✓");
 if(navigator.vibrate) navigator.vibrate(10);
-saveData(); goRack();
+saveData(); goRack(); renderAI();
 }
 function reserveEmp() {
 var company=document.getElementById("inp-company-reserve").value.trim();
@@ -799,6 +1032,6 @@ document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter"
 showOnly("view-rack");
 refresh();
 </script>
-  <script src="rack-assistant.js"></script>
- </body>
+</body>
 </html>
+
