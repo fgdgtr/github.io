@@ -1309,68 +1309,72 @@ document.addEventListener('keydown', function(e) {
 showOnly("view-rack");
 refresh();
 
+/* --- MODULE IA GEMINI --- */
+const GEMINI_API_KEY = "AIzaSyA8S_osqP7K_V2e7WSqc8qtWMiB0DZJczc";
+
+// Fonction pour ouvrir/fermer le panneau
+function toggleAssistant() {
+    const p = document.getElementById('ai-panel');
+    if(p) p.style.display = (p.style.display === 'flex') ? 'none' : 'flex';
+}
+
+// Fonction pour envoyer le message
 async function sendChat() {
-    const input = document.getElementById('chat-inp');
-    const container = document.getElementById('chat-messages');
+    console.log("Tentative d'envoi..."); // Pour vérifier dans F12
+    const inp = document.getElementById('chat-inp');
+    const msgContainer = document.getElementById('chat-messages');
     
-    if(!input || !container) return;
-    const text = input.value.trim();
-    if(!text) return;
+    if(!inp || !msgContainer) return;
+    const val = inp.value.trim();
+    if(!val) return;
 
-    addMessageIA(text, 'user');
-    input.value = '';
+    // Affiche le message de l'utilisateur
+    addMsgUI(val, 'user');
+    inp.value = "";
 
-    const typingId = 'typing-' + Date.now();
-    addMessageIA('Réflexion...', 'bot', typingId);
-
-    // Préparation du contexte du rack
-    let rackStatus = "Voici l'inventaire actuel : ";
-    if (typeof state !== 'undefined') {
-        for(let id in state) {
-            if(state[id]?.ref) rackStatus += `${id}: ${state[id].ref}, `;
-        }
-    }
+    // Affiche l'attente
+    const tempId = "temp-" + Date.now();
+    addMsgUI("Réflexion...", "bot", tempId);
 
     try {
-        // Changement de l'URL pour la version v1 (plus stable que v1beta)
-        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-        
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GEMINI_API_KEY;
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: `Tu es l'assistant du rack AUEM. ${rackStatus} \n Question : ${text}`
-                    }]
-                }]
+                contents: [{ parts: [{ text: val }] }]
             })
         });
 
-        const data = await response.json();
+        const data = await res.json();
         
-        const typingElem = document.getElementById(typingId);
-        if(typingElem) typingElem.remove();
+        // Supprime le message "Réflexion..."
+        const tempElem = document.getElementById(tempId);
+        if(tempElem) tempElem.remove();
 
-        // Si l'API renvoie une erreur (404 ou autre), on l'affiche proprement
-        if (data.error) {
-            console.error("Erreur Google:", data.error);
-            addMessageIA("Erreur API : " + data.error.message, 'bot');
-            return;
-        }
-
-        if (data.candidates && data.candidates[0].content) {
-            const reply = data.candidates[0].content.parts[0].text;
-            addMessageIA(reply, 'bot');
+        if(data.candidates && data.candidates[0].content) {
+            const txt = data.candidates[0].content.parts[0].text;
+            addMsgUI(txt, "bot");
         } else {
-            addMessageIA("L'IA n'a pas pu formuler de réponse.", 'bot');
+            addMsgUI("Erreur API : " + (data.error ? data.error.message : "Inconnue"), "bot");
         }
-
-    } catch (error) {
-        if(document.getElementById(typingId)) document.getElementById(typingId).remove();
-        addMessageIA("Erreur de connexion. Vérifie ta console (F12).", 'bot');
-        console.error("Erreur fetch:", error);
+    } catch (e) {
+        console.error(e);
+        const tempElem = document.getElementById(tempId);
+        if(tempElem) tempElem.remove();
+        addMsgUI("Erreur de connexion.", "bot");
     }
+}
+
+// Fonction d'affichage des bulles
+function addMsgUI(txt, side, id) {
+    const c = document.getElementById('chat-messages');
+    const d = document.createElement('div');
+    d.className = "chat-msg " + side;
+    if(id) d.id = id;
+    d.innerHTML = '<div class="chat-bubble">' + txt.replace(/\n/g, '<br>') + '</div>';
+    c.appendChild(d);
+    c.scrollTop = c.scrollHeight;
 }
 </script>
 </body>
