@@ -22,7 +22,6 @@
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;padding-bottom:28px;overflow-x:hidden;}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-
 .hdr{background:var(--hdr);padding:12px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .hdr-l{display:flex;align-items:center;gap:10px;}
 .logo{width:34px;height:34px;background:var(--d-a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;font-weight:600;color:var(--hdr);letter-spacing:.8px;line-height:1.2;text-align:center;}
@@ -38,42 +37,30 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .sync-time.ok{color:#16a34a;}
 .btn-hdr{width:34px;height:34px;border-radius:var(--rs);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:#f3efe9;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;}
 .btn-hdr:active{background:rgba(255,255,255,.2);}
-
 .bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;}
 .search-wrap{position:relative;}
 .s-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.35;pointer-events:none;}
 .s-inp{width:100%;padding:9px 11px 9px 33px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;outline:none;}
 .s-inp:focus{border-color:var(--text);}
 .s-inp::placeholder{color:var(--text3);}
-
-#view-rack { display:block; }
-#view-emp { display:none; }
-#view-qr { display:none; }
-#view-guide { display:none; }
-
+#view-rack{display:block;}#view-emp{display:none;}#view-qr{display:none;}#view-guide{display:none;}
 .rack-body{padding:11px;}
 .niv-block{margin-bottom:9px;border-radius:var(--r);overflow:hidden;}
 .niv-hdr{display:flex;align-items:center;gap:10px;padding:9px 13px;}
-.nd .niv-hdr{background:var(--d-h);} .nc .niv-hdr{background:var(--c-h);} .nb .niv-hdr{background:var(--b-h);} .na .niv-hdr{background:var(--a-h);}
+.nd .niv-hdr{background:var(--d-h);}.nc .niv-hdr{background:var(--c-h);}.nb .niv-hdr{background:var(--b-h);}.na .niv-hdr{background:var(--a-h);}
 .niv-letter{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;}
-.nd .niv-letter{color:var(--d-a);} .nc .niv-letter{color:var(--c-a);} .nb .niv-letter{color:var(--b-a);} .na .niv-letter{color:var(--a-a);}
+.nd .niv-letter{color:var(--d-a);}.nc .niv-letter{color:var(--c-a);}.nb .niv-letter{color:var(--b-a);}.na .niv-letter{color:var(--a-a);}
 .niv-name{font-size:12px;font-weight:700;letter-spacing:.2px;}
-.nd .niv-name{color:var(--d-t);} .nc .niv-name{color:var(--c-t);} .nb .niv-name{color:var(--b-t);} .na .niv-name{color:var(--a-t);}
+.nd .niv-name{color:var(--d-t);}.nc .niv-name{color:var(--c-t);}.nb .niv-name{color:var(--b-t);}.na .niv-name{color:var(--a-t);}
 .niv-desc{font-size:10px;font-weight:400;opacity:.55;}
-.nd .niv-desc{color:var(--d-t);} .nc .niv-desc{color:var(--c-t);} .nb .niv-desc{color:var(--b-t);} .na .niv-desc{color:var(--a-t);}
+.nd .niv-desc{color:var(--d-t);}.nc .niv-desc{color:var(--c-t);}.nb .niv-desc{color:var(--b-t);}.na .niv-desc{color:var(--a-t);}
 .niv-cnt{margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.65);}
 .niv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;}
-.nd .niv-grid{background:rgba(245,158,11,.2);}
-.nc .niv-grid{background:rgba(96,165,250,.2);}
-.nb .niv-grid{background:rgba(74,222,128,.2);}
-.na .niv-grid{background:rgba(251,146,60,.2);}
-
+.nd .niv-grid{background:rgba(245,158,11,.2);}.nc .niv-grid{background:rgba(96,165,250,.2);}.nb .niv-grid{background:rgba(74,222,128,.2);}.na .niv-grid{background:rgba(251,146,60,.2);}
 .ecard{background:var(--card);cursor:pointer;padding:10px;min-height:76px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden;}
 .ecard:active{filter:brightness(.93);}
 .ecard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.ecard.vide::before{background:var(--border);}
-.ecard.occ::before{background:var(--text2);}
-.ecard.reserv::before{background:var(--text3);}
+.ecard.vide::before{background:var(--border);}.ecard.occ::before{background:var(--text2);}.ecard.reserv::before{background:var(--text3);}
 .ecard.occ{background:#f7f4f0;}
 .ecard-id{font-size:10px;font-weight:700;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.5px;}
 .ecard-ref{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -81,38 +68,30 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ecard.reserv .ecard-ref{color:var(--text2);font-weight:500;font-size:11px;}
 .ecard-afs{font-size:9px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ecard-space{font-size:9px;font-weight:700;font-family:'DM Mono',monospace;margin-top:1px;}
-.ecard-space.sp-oui{color:#16a34a;}
-.ecard-space.sp-un-peu{color:#d97706;}
-.ecard-space.sp-non{color:#dc2626;}
-
+.ecard-space.sp-oui{color:#16a34a;}.ecard-space.sp-un-peu{color:#d97706;}.ecard-space.sp-non{color:#dc2626;}
 .back-hdr{background:var(--hdr);padding:11px 14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
 .btn-back{width:36px;height:36px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:var(--rs);color:#f3efe9;cursor:pointer;font-size:18px;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1;}
 .btn-back:active{background:rgba(255,255,255,.25);}
 .bh-title{font-size:18px;font-weight:800;color:#f3efe9;letter-spacing:-.3px;}
 .bh-sub{font-size:11px;color:var(--text3);margin-top:1px;}
-
 .vbody{padding:13px;}
 .section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:10px;}
 .slbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'DM Mono',monospace;}
 .info-ref{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;}
 .info-arrive{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:10px;}
-
 .afs-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;min-height:28px;}
 .afs-tag{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #93c5fd;color:#2563eb;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
 .afs-x{background:none;border:none;color:#2563eb;cursor:pointer;font-size:15px;line-height:1;padding:0;margin-left:2px;opacity:.6;}
 .afs-x:active{opacity:1;color:#dc2626;}
 .afs-empty{font-size:12px;color:var(--text3);font-style:italic;padding:4px 0;display:block;}
-
 .inp{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none;margin-bottom:8px;text-transform:uppercase;}
 .inp:focus{border-color:var(--text);}
 .inp::placeholder{color:var(--text3);text-transform:none;font-weight:400;}
 .inp.noup{text-transform:none;}
 .inp-row{display:flex;gap:7px;align-items:flex-start;}
 .inp-row .inp{margin-bottom:0;}
-
 .sel{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none;cursor:pointer;margin-bottom:8px;}
 .sel:focus{border-color:var(--text);}
-
 .btn-main{width:100%;padding:12px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:10px;}
 .btn-main:active{opacity:.8;}
 .btn-sec{padding:10px 14px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
@@ -120,21 +99,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .btn-danger{width:100%;padding:12px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:6px;}
 .btn-danger:active{opacity:.7;}
 .div{height:1px;background:var(--border);margin:10px 0;}
-
 .space-display{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:var(--rs);margin-bottom:8px;font-size:13px;font-weight:700;}
 .space-display.sp-oui{background:#f0fdf4;border:1px solid #86efac;color:#16a34a;}
 .space-display.sp-un-peu{background:#fffbeb;border:1px solid #fcd34d;color:#d97706;}
 .space-display.sp-non{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;}
-
-.guide-slide{animation:slideIn .3s ease;}
 .guide-title{font-size:18px;font-weight:700;margin-bottom:16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;}
 .guide-text{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:16px;line-height:2;font-size:14px;}
-.guide-text p{margin:0 0 8px 0;}
-.guide-text p:last-child{margin-bottom:0;}
+.guide-text p{margin:0 0 8px 0;}.guide-text p:last-child{margin-bottom:0;}
 .btn-guide-next{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;padding:12px;cursor:pointer;}
 .btn-guide-next:active{opacity:.8;}
 @keyframes slideIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-
 .qr-body{display:flex;flex-direction:column;align-items:center;gap:16px;padding:22px 16px;}
 .qr-frame{background:white;padding:16px;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.1);}
 .qr-lbl{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;font-family:'DM Mono',monospace;}
@@ -142,7 +116,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .qr-ttl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'DM Mono',monospace;}
 .qr-step{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px;font-size:12px;color:var(--text2);line-height:1.5;}
 .qr-n{width:19px;height:19px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
-
 .modal-ov{position:fixed;inset:0;background:rgba(28,24,20,.65);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:16px;}
 .modal-ov.open{display:flex;}
 .modal-box{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:400px;}
@@ -151,22 +124,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .modal-acts{display:flex;gap:8px;}
 .btn-cancel{flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
 .btn-del{flex:1;padding:12px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
-
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);font-size:13px;font-weight:700;padding:9px 17px;border-radius:22px;transition:transform .28s;z-index:999;white-space:nowrap;display:flex;align-items:center;gap:6px;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:50vh;gap:12px;}
 .spinner{width:22px;height:22px;border:2px solid var(--border2);border-top-color:var(--text);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;}
+
 /* ── CHATBOT IA ── */
-#ai-panel{
-  position:fixed;top:58px;right:10px;width:310px;height:calc(100vh - 78px);
-  background:var(--hdr);border:1.5px solid rgba(255,255,255,.13);border-radius:16px;
-  box-shadow:0 16px 48px rgba(0,0,0,.4);z-index:150;overflow:hidden;
-  display:none;flex-direction:column;font-family:'DM Sans',sans-serif;
-  animation:aiIn .2s cubic-bezier(.34,1.4,.64,1);
-}
+#ai-panel{position:fixed;top:58px;right:10px;width:310px;height:calc(100vh - 78px);background:var(--hdr);border:1.5px solid rgba(255,255,255,.13);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.4);z-index:150;overflow:hidden;display:none;flex-direction:column;font-family:'DM Sans',sans-serif;animation:aiIn .2s cubic-bezier(.34,1.4,.64,1);}
 #ai-panel.open{display:flex;}
 @keyframes aiIn{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
 .ai-hdr{padding:11px 13px 9px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
@@ -176,18 +142,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ai-hdr-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;padding:0;line-height:1;}
 .ai-hdr-close:active{color:#fff;}
 .ai-hdr-sub{font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.3px;}
-
-/* Onglets */
 .ai-tabs{display:flex;gap:4px;padding:8px 10px 0;flex-shrink:0;}
 .ai-tab{flex:1;padding:6px 4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px 8px 0 0;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;letter-spacing:.3px;}
 .ai-tab.active{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.35);color:#fbbf24;}
 .ai-tab:active{opacity:.7;}
-
-/* Zone de contenu */
 .ai-tab-content{display:none;flex:1;overflow:hidden;flex-direction:column;}
 .ai-tab-content.active{display:flex;}
-
-/* ── CHAT ── */
 .chat-messages{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;}
 .chat-messages::-webkit-scrollbar{width:2px;}
 .chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);}
@@ -209,8 +169,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .chat-send{width:34px;height:34px;background:#fbbf24;border:none;border-radius:50%;color:#1c1814;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .chat-send:active{opacity:.8;}
 .chat-send:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.2);cursor:not-allowed;}
-
-/* ── HISTORIQUE ── */
 .hist-body{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;}
 .hist-body::-webkit-scrollbar{width:2px;}
 .hist-empty{text-align:center;padding:30px 10px;font-size:11px;color:rgba(255,255,255,.25);font-style:italic;}
@@ -251,52 +209,30 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
-<!-- VUE RACK -->
-<div id="view-rack">
-<div class="rack-body">
-<div id="rack-grid"><div class="loading"><div class="spinner"></div><div class="loading-txt">Chargement…</div></div></div>
-</div>
-</div>
+<div id="view-rack"><div class="rack-body"><div id="rack-grid"><div class="loading"><div class="spinner"></div><div class="loading-txt">Chargement…</div></div></div></div></div>
 
-<!-- VUE EMPLACEMENT -->
 <div id="view-emp">
-<div class="back-hdr">
-<button class="btn-back" onclick="goRack()">&#8592;</button>
-<div>
-<div class="bh-title" id="emp-title">—</div>
-<div class="bh-sub" id="emp-sub">Emplacement</div>
-</div>
-</div>
+<div class="back-hdr"><button class="btn-back" onclick="goRack()">&#8592;</button><div><div class="bh-title" id="emp-title">—</div><div class="bh-sub" id="emp-sub">Emplacement</div></div></div>
 <div class="vbody">
-<div id="st-occ" style="display:none">
-<div class="section">
+<div id="st-occ" style="display:none"><div class="section">
 <div class="slbl">Palette en place</div>
 <div class="info-ref" id="occ-ref">—</div>
 <div class="info-arrive" id="occ-arrive">—</div>
 <div class="slbl" style="margin-bottom:7px;">Numéros AFS</div>
 <div class="afs-wrap" id="afs-occ"></div>
-<div class="inp-row">
-<input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-<button class="btn-sec" onclick="addAFSOcc()">+</button>
-</div>
+<div class="inp-row"><input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSOcc()">+</button></div>
 <div id="space-occ-section" style="display:none;">
 <div class="div"></div>
 <div class="slbl" style="margin-bottom:7px;">Reste de la place ?</div>
 <div id="space-occ-display"></div>
-<select class="sel" id="sel-space-occ">
-<option value="">Mettre à jour…</option>
-<option value="oui">✅ Oui</option>
-<option value="un-peu">⚠️ Un peu</option>
-<option value="non">❌ Non</option>
-</select>
+<select class="sel" id="sel-space-occ"><option value="">Mettre à jour…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select>
 <button class="btn-sec" style="width:100%;" onclick="saveSpaceOcc()">✓ Enregistrer la place</button>
 </div>
 <div class="div"></div>
 <button class="btn-danger" onclick="askDel()">📦 Marquer comme sortie</button>
-</div>
-</div>
-<div id="st-reserved" style="display:none">
-<div class="section">
+</div></div>
+
+<div id="st-reserved" style="display:none"><div class="section">
 <div class="slbl">Emplacement réservé</div>
 <p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
 <p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
@@ -305,43 +241,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
 <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
 <div class="afs-wrap" id="afs-reserved"></div>
-<div class="inp-row">
-<input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-<button class="btn-sec" onclick="addAFSReserved()">+</button>
-</div>
-<div id="space-reserved-section" style="display:none;">
-<div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
-<select class="sel" id="sel-space-reserved">
-<option value="">Choisir…</option>
-<option value="oui">✅ Oui</option>
-<option value="un-peu">⚠️ Un peu</option>
-<option value="non">❌ Non</option>
-</select>
-</div>
+<div class="inp-row"><input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSReserved()">+</button></div>
+<div id="space-reserved-section" style="display:none;"><div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div><select class="sel" id="sel-space-reserved"><option value="">Choisir…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select></div>
 <button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
 <div class="div"></div>
 <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
-</div>
-</div>
+</div></div>
+
 <div id="st-free" style="display:none">
 <div class="section">
 <div class="slbl">Enregistrer une palette</div>
 <input class="inp" id="inp-ref" placeholder="N° commande / référence"/>
 <div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
 <div class="afs-wrap" id="afs-new"></div>
-<div class="inp-row">
-<input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
-<button class="btn-sec" onclick="addAFSNew()">+</button>
-</div>
-<div id="space-free-section" style="display:none;">
-<div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div>
-<select class="sel" id="sel-space-free">
-<option value="">Choisir…</option>
-<option value="oui">✅ Oui</option>
-<option value="un-peu">⚠️ Un peu</option>
-<option value="non">❌ Non</option>
-</select>
-</div>
+<div class="inp-row"><input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSNew()">+</button></div>
+<div id="space-free-section" style="display:none;"><div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div><select class="sel" id="sel-space-free"><option value="">Choisir…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select></div>
 <button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
 </div>
 <div class="section">
@@ -353,98 +267,44 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 </div>
 
-<!-- VUE GUIDE -->
 <div id="view-guide">
-<div class="back-hdr">
-<button class="btn-back" onclick="goRack()">&#8592;</button>
-<div><div class="bh-title">Guide</div><div class="bh-sub">Comment utiliser le Rack</div></div>
-</div>
+<div class="back-hdr"><button class="btn-back" onclick="goRack()">&#8592;</button><div><div class="bh-title">Guide</div><div class="bh-sub">Comment utiliser le Rack</div></div></div>
 <div class="vbody">
 <div id="guide-slide-1">
 <div class="guide-title">📱 Étape 1 : Scannez le QR Code</div>
-<div class="guide-text">
-<p><strong>Où est le QR ?</strong> Il est fixé sur le montant du RACK ATTENTE.</p>
-<p style="margin-top:12px;"><strong>Comment faire :</strong></p>
-<p>1️⃣ Ouvrez l'<strong>appareil photo</strong> de votre téléphone</p>
-<p>2️⃣ Pointez vers le <strong>carré noir/blanc</strong> du QR code</p>
-<p>3️⃣ Une notification apparaît → cliquez dessus</p>
-<p>4️⃣ Vous arrivez sur cette application ! ✅</p>
-</div>
+<div class="guide-text"><p><strong>Où est le QR ?</strong> Il est fixé sur le montant du RACK ATTENTE.</p><p style="margin-top:12px;"><strong>Comment faire :</strong></p><p>1️⃣ Ouvrez l'<strong>appareil photo</strong> de votre téléphone</p><p>2️⃣ Pointez vers le <strong>carré noir/blanc</strong> du QR code</p><p>3️⃣ Une notification apparaît → cliquez dessus</p><p>4️⃣ Vous arrivez sur cette application ! ✅</p></div>
 <button class="btn-guide-next" onclick="nextGuide(1)">Suivant →</button>
 </div>
 <div id="guide-slide-2" style="display:none;">
 <div class="guide-title">📍 Étape 2 : Choisissez votre emplacement</div>
-<div class="guide-text">
-<p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p>
-<p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p>
-<p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p>
-<p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p>
-<p>🟠 <strong>Bas (A)</strong> → A1 à A6</p>
-<p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre palette</p>
-</div>
+<div class="guide-text"><p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p><p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p><p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p><p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p><p>🟠 <strong>Bas (A)</strong> → A1 à A6</p><p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre palette</p></div>
 <button class="btn-guide-next" onclick="nextGuide(2)">Suivant →</button>
 </div>
 <div id="guide-slide-3" style="display:none;">
 <div class="guide-title">✏️ Étape 3 : Remplissez les infos</div>
-<div class="guide-text">
-<p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p>
-<p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p>
-<p><strong>🟠 Numéros AFS </strong></p>
-<p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p>
-<p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p>
-<p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place sur la palette !</p>
-<p style="font-size:12px;color:var(--text3);">✅ Oui · ⚠️ Un peu · ❌ Non</p>
-</div>
+<div class="guide-text"><p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p><p><strong>🟠 Numéros AFS</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p><p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p><p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place sur la palette !</p><p style="font-size:12px;color:var(--text3);">✅ Oui · ⚠️ Un peu · ❌ Non</p></div>
 <button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
 </div>
 <div id="guide-slide-4" style="display:none;">
 <div class="guide-title">🔒 Les emplacements réservés</div>
-<div class="guide-text">
-<p><strong>Certains emplacements sont réservés à une entreprise.</strong></p>
-<p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p>
-<p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p>
-<p>1️⃣ Cliquez sur l'emplacement réservé</p>
-<p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p>
-<p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p>
-<p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p>
-</div>
+<div class="guide-text"><p><strong>Certains emplacements sont réservés à une entreprise.</strong></p><p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p><p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p><p>1️⃣ Cliquez sur l'emplacement réservé</p><p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p><p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p><p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p></div>
 <button class="btn-guide-next" onclick="nextGuide(4)">Suivant →</button>
 </div>
 <div id="guide-slide-5" style="display:none;">
 <div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
-<div class="guide-text">
-<p>📱 <strong>1.</strong> Scanner le QR code au rack</p>
-<p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p>
-<p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p>
-<p>✓ <strong>4.</strong> Valider</p>
-<p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p>
-<p style="margin-top:8px;font-size:12px;color:var(--text3);">⚠️ <strong>B4, B5, B6</strong> : pensez à indiquer s'il reste de la place !</p>
-</div>
+<div class="guide-text"><p>📱 <strong>1.</strong> Scanner le QR code au rack</p><p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p><p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p><p>✓ <strong>4.</strong> Valider</p><p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p><p style="margin-top:8px;font-size:12px;color:var(--text3);">⚠️ <strong>B4, B5, B6</strong> : pensez à indiquer s'il reste de la place !</p></div>
 <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
 </div>
 </div>
 </div>
 
-<!-- VUE QR -->
 <div id="view-qr">
-<div class="back-hdr">
-<button class="btn-back" onclick="goRack()">&#8592;</button>
-<div><div class="bh-title">QR Code</div><div class="bh-sub">Partager l'accès</div></div>
-</div>
-<div class="vbody">
-<div class="qr-body">
-<div class="qr-frame">
-<div id="qr-c" style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;"><div class="spinner"></div></div>
-</div>
+<div class="back-hdr"><button class="btn-back" onclick="goRack()">&#8592;</button><div><div class="bh-title">QR Code</div><div class="bh-sub">Partager l'accès</div></div></div>
+<div class="vbody"><div class="qr-body">
+<div class="qr-frame"><div id="qr-c" style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;"><div class="spinner"></div></div></div>
 <div class="qr-lbl">RACK renvoie colis — AUEM</div>
-<div class="qr-card">
-<div class="qr-ttl">Instructions</div>
-<div class="qr-step"><div class="qr-n">1</div>Imprimez et plastifiez ce QR code</div>
-<div class="qr-step"><div class="qr-n">2</div>Fixez-le sur le rack à hauteur des yeux</div>
-<div class="qr-step"><div class="qr-n">3</div>Les opérateurs scannent et voient le même rack en temps réel</div>
-</div>
-</div>
-</div>
+<div class="qr-card"><div class="qr-ttl">Instructions</div><div class="qr-step"><div class="qr-n">1</div>Imprimez et plastifiez ce QR code</div><div class="qr-step"><div class="qr-n">2</div>Fixez-le sur le rack à hauteur des yeux</div><div class="qr-step"><div class="qr-n">3</div>Les opérateurs scannent et voient le même rack en temps réel</div></div>
+</div></div>
 </div>
 
 <!-- ── ASSISTANT IA ── -->
@@ -461,8 +321,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="ai-tab active" onclick="switchTab('chat')">💬 Chat</div>
     <div class="ai-tab" onclick="switchTab('hist')">📦 Sorties</div>
   </div>
-
-  <!-- TAB CHAT -->
   <div class="ai-tab-content active" id="tab-chat">
     <div class="chat-messages" id="chat-messages">
       <div class="chat-msg bot">
@@ -481,8 +339,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <button class="chat-send" id="chat-send-btn" onclick="sendChat()">➤</button>
     </div>
   </div>
-
-  <!-- TAB HISTORIQUE -->
   <div class="ai-tab-content" id="tab-hist">
     <div class="hist-body" id="hist-body"></div>
   </div>
@@ -503,864 +359,278 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 <script>
 var DB = "https://rac-attente-fin-delais-default-rtdb.europe-west1.firebasedatabase.app/rack.json";
+var GROQ_KEY = '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';
 var NIVEAUX = [
   {id:"D",label:"Niveau D",desc:"Haut — gerbeur obligatoire",hcls:"nd"},
   {id:"C",label:"Niveau C",desc:"Gerbeur nécessaire",hcls:"nc"},
   {id:"B",label:"Niveau B",desc:"Accessible à la main",hcls:"nb"},
   {id:"A",label:"Niveau A",desc:"Bas — niveau sol",hcls:"na"}
 ];
-var COLS = [1,2,3,4,5,6];
-var SPACE_IDS = ["B4","B5","B6"];
-var state = {}, curId = null, newAFS = [], toastTm = null, currentGuideSlide = 1;
+var COLS=[1,2,3,4,5,6];
+var SPACE_IDS=["B4","B5","B6"];
+var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
 
-function isSpaceEmp(id) { return SPACE_IDS.indexOf(id) >= 0; }
+function isSpaceEmp(id){return SPACE_IDS.indexOf(id)>=0;}
+function isValidObj(v){return v!==null&&v!==undefined&&typeof v==="object"&&!Array.isArray(v);}
 
-function isValidObj(v) {
-  return v !== null && v !== undefined && typeof v === "object" && !Array.isArray(v);
+function showOnly(id){["view-rack","view-emp","view-qr","view-guide"].forEach(function(v){document.getElementById(v).style.display=v===id?"block":"none";});window.scrollTo(0,0);}
+function goRack(){renderRack();showOnly("view-rack");}
+function goEmp(id){openEmp(id);showOnly("view-emp");}
+function goQR(){showOnly("view-qr");renderQR();}
+function goGuide(){currentGuideSlide=1;updateGuideSlide();showOnly("view-guide");}
+function nextGuide(c){var n=c+1;if(n<=5){currentGuideSlide=n;updateGuideSlide();}}
+function updateGuideSlide(){for(var i=1;i<=5;i++){var el=document.getElementById("guide-slide-"+i);if(el)el.style.display=(i===currentGuideSlide)?"block":"none";}window.scrollTo(0,0);}
+
+function setDot(s){
+  document.getElementById("sync-dot").className="sync-dot "+s;
+  var t=document.getElementById("sync-time");
+  if(s==="ok"){var n=new Date();t.textContent=pad(n.getHours())+":"+pad(n.getMinutes());t.className="sync-time ok";setTimeout(function(){t.className="sync-time";t.textContent="sync";},3000);}
+  else if(s==="loading"){t.textContent="…";t.className="sync-time";}
+  else{t.textContent="off";t.className="sync-time";}
 }
+function pad(n){return n<10?"0"+n:""+n;}
 
-/* ── NAV ── */
-function showOnly(id) {
-  ["view-rack","view-emp","view-qr","view-guide"].forEach(function(v) {
-    document.getElementById(v).style.display = v === id ? "block" : "none";
-  });
-  window.scrollTo(0,0);
-}
-function goRack() { renderRack(); showOnly("view-rack"); }
-function goEmp(id) { openEmp(id); showOnly("view-emp"); }
-function goQR() { showOnly("view-qr"); renderQR(); }
-function goGuide() { currentGuideSlide=1; updateGuideSlide(); showOnly("view-guide"); }
-
-function nextGuide(current) {
-  var next = current + 1;
-  if(next <= 5) { currentGuideSlide = next; updateGuideSlide(); }
-}
-function updateGuideSlide() {
-  for(var i=1; i<=5; i++) {
-    var el = document.getElementById("guide-slide-"+i);
-    if(el) el.style.display = (i === currentGuideSlide) ? "block" : "none";
-  }
-  window.scrollTo(0,0);
-}
-
-/* ── SYNC ── */
-function setDot(s) {
-  document.getElementById("sync-dot").className = "sync-dot " + s;
-  var t = document.getElementById("sync-time");
-  if(s === "ok") {
-    var n = new Date();
-    t.textContent = pad(n.getHours())+":"+pad(n.getMinutes());
-    t.className = "sync-time ok";
-    setTimeout(function(){ t.className="sync-time"; t.textContent="sync"; }, 3000);
-  } else if(s === "loading") {
-    t.textContent="…"; t.className="sync-time";
-  } else {
-    t.textContent="off"; t.className="sync-time";
-  }
-}
-function pad(n){ return n<10?"0"+n:""+n; }
-
-function refresh() {
+function refresh(){
   setDot("loading");
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", DB, true);
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState !== 4) return;
-    if(xhr.status === 200) {
-      try {
-        var raw = JSON.parse(xhr.responseText);
-        state = isValidObj(raw) ? raw : {};
-        setDot("ok");
-      } catch(e) { state={}; setDot("error"); }
-    } else {
-      loadLocal(); setDot("error"); showToast("Hors-ligne","📡");
-    }
-    renderRack(); openAssistantAuto();
+  var xhr=new XMLHttpRequest();
+  xhr.open("GET",DB,true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    if(xhr.status===200){try{var raw=JSON.parse(xhr.responseText);state=isValidObj(raw)?raw:{};setDot("ok");}catch(e){state={};setDot("error");}}
+    else{loadLocal();setDot("error");showToast("Hors-ligne","📡");}
+    renderRack();
   };
-  xhr.onerror = function(){ loadLocal(); setDot("error"); showToast("Hors-ligne","📡"); renderRack(); openAssistantAuto(); };
+  xhr.onerror=function(){loadLocal();setDot("error");showToast("Hors-ligne","📡");renderRack();};
   xhr.send();
 }
-function loadLocal(){ try{ state=JSON.parse(localStorage.getItem("att_bck")||"{}"); }catch(e){ state={}; } }
-function saveData() {
+function loadLocal(){try{state=JSON.parse(localStorage.getItem("att_bck")||"{}");}catch(e){state={};}}
+function saveData(){
   setDot("loading");
-  var body = JSON.stringify(state);
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", DB, true);
+  var body=JSON.stringify(state);
+  var xhr=new XMLHttpRequest();
+  xhr.open("PUT",DB,true);
   xhr.setRequestHeader("Content-Type","application/json");
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState !== 4) return;
-    localStorage.setItem("att_bck", body);
-    setDot(xhr.status === 200 ? "ok" : "error");
-  };
-  xhr.onerror = function(){ localStorage.setItem("att_bck",body); setDot("error"); };
+  xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;localStorage.setItem("att_bck",body);setDot(xhr.status===200?"ok":"error");};
+  xhr.onerror=function(){localStorage.setItem("att_bck",body);setDot("error");};
   xhr.send(body);
 }
-setInterval(function(){ if(document.getElementById("view-rack").style.display!=="none") refresh(); }, 20000);
+setInterval(function(){if(document.getElementById("view-rack").style.display!=="none")refresh();},20000);
 
-/* ── RENDER RACK ── */
-function getSpaceLabel(space) {
-  if(space === "oui") return "✅ Place dispo";
-  if(space === "un-peu") return "⚠️ Un peu";
-  if(space === "non") return "❌ Plein";
-  return null;
-}
-function getSpaceCls(space) {
-  if(space === "oui") return "sp-oui";
-  if(space === "un-peu") return "sp-un-peu";
-  if(space === "non") return "sp-non";
-  return "";
-}
+function getSpaceLabel(s){if(s==="oui")return"✅ Place dispo";if(s==="un-peu")return"⚠️ Un peu";if(s==="non")return"❌ Plein";return null;}
+function getSpaceCls(s){if(s==="oui")return"sp-oui";if(s==="un-peu")return"sp-un-peu";if(s==="non")return"sp-non";return"";}
 
-function renderRack() {
-  var wrap = document.getElementById("rack-grid");
-  wrap.innerHTML = "";
-
-  for(var ni=0; ni<NIVEAUX.length; ni++) {
-    var niv = NIVEAUX[ni];
-    var occ = 0;
-    for(var ci=0; ci<COLS.length; ci++) {
-      var raw = state[niv.id+COLS[ci]];
-      if(isValidObj(raw) && raw.ref) occ++;
-    }
-
-    var block = document.createElement("div");
-    block.className = "niv-block " + niv.hcls;
-
-    var hdr = document.createElement("div"); hdr.className = "niv-hdr";
-    var letter = document.createElement("div"); letter.className = "niv-letter"; letter.textContent = niv.id;
-    var info = document.createElement("div"); info.className = "niv-info";
-    var name = document.createElement("div"); name.className = "niv-name"; name.textContent = niv.label;
-    var desc = document.createElement("div"); desc.className = "niv-desc"; desc.textContent = niv.desc;
-    var cnt = document.createElement("div"); cnt.className = "niv-cnt"; cnt.textContent = occ+"/"+COLS.length;
-    info.appendChild(name); info.appendChild(desc);
-    hdr.appendChild(letter); hdr.appendChild(info); hdr.appendChild(cnt);
-    block.appendChild(hdr);
-
-    var grid = document.createElement("div"); grid.className = "niv-grid";
-
-    for(var ci2=0; ci2<COLS.length; ci2++) {
-      var col = COLS[ci2], id = niv.id+col;
-      var raw2 = state[id];
-      var data = isValidObj(raw2) ? raw2 : null;
-
-      var cardCls = "vide";
-      if(data && data.ref) { cardCls = "occ"; }
-      else if(data && data.reserved) { cardCls = "reserv"; }
-
-      var card = document.createElement("div"); card.className = "ecard " + cardCls;
-      var idEl = document.createElement("div"); idEl.className = "ecard-id"; idEl.textContent = id;
-      var refEl = document.createElement("div"); refEl.className = "ecard-ref";
-
-      if(data && data.ref) { refEl.textContent = data.ref; }
-      else if(data && data.reserved) { refEl.textContent = "🔒 " + data.reserved; }
-      else { refEl.textContent = "Libre"; }
-
-      card.appendChild(idEl); card.appendChild(refEl);
-
-      if(data && data.afs && data.afs.length > 0) {
-        var afsEl = document.createElement("div"); afsEl.className = "ecard-afs";
-        var shown = data.afs.slice(0,3), txt = "";
-        for(var ai=0; ai<shown.length; ai++) txt += (ai>0?" · ":"")+"AFS "+shown[ai];
-        if(data.afs.length>3) txt += " +"+(data.afs.length-3);
-        afsEl.textContent = txt; card.appendChild(afsEl);
-      }
-
-      if(isSpaceEmp(id) && data && data.ref && data.space) {
-        var spEl = document.createElement("div");
-        spEl.className = "ecard-space " + getSpaceCls(data.space);
-        spEl.textContent = getSpaceLabel(data.space);
-        card.appendChild(spEl);
-      }
-
-      card.setAttribute("data-empid", id);
-      card.onclick = function(){ goEmp(this.getAttribute("data-empid")); };
+function renderRack(){
+  var wrap=document.getElementById("rack-grid");wrap.innerHTML="";
+  for(var ni=0;ni<NIVEAUX.length;ni++){
+    var niv=NIVEAUX[ni],occ=0;
+    for(var ci=0;ci<COLS.length;ci++){var raw=state[niv.id+COLS[ci]];if(isValidObj(raw)&&raw.ref)occ++;}
+    var block=document.createElement("div");block.className="niv-block "+niv.hcls;
+    var hdr=document.createElement("div");hdr.className="niv-hdr";
+    var letter=document.createElement("div");letter.className="niv-letter";letter.textContent=niv.id;
+    var info=document.createElement("div");info.className="niv-info";
+    var name=document.createElement("div");name.className="niv-name";name.textContent=niv.label;
+    var desc=document.createElement("div");desc.className="niv-desc";desc.textContent=niv.desc;
+    var cnt=document.createElement("div");cnt.className="niv-cnt";cnt.textContent=occ+"/"+COLS.length;
+    info.appendChild(name);info.appendChild(desc);hdr.appendChild(letter);hdr.appendChild(info);hdr.appendChild(cnt);block.appendChild(hdr);
+    var grid=document.createElement("div");grid.className="niv-grid";
+    for(var ci2=0;ci2<COLS.length;ci2++){
+      var col=COLS[ci2],id=niv.id+col,raw2=state[id],data=isValidObj(raw2)?raw2:null;
+      var cardCls="vide";if(data&&data.ref){cardCls="occ";}else if(data&&data.reserved){cardCls="reserv";}
+      var card=document.createElement("div");card.className="ecard "+cardCls;
+      var idEl=document.createElement("div");idEl.className="ecard-id";idEl.textContent=id;
+      var refEl=document.createElement("div");refEl.className="ecard-ref";
+      if(data&&data.ref){refEl.textContent=data.ref;}else if(data&&data.reserved){refEl.textContent="🔒 "+data.reserved;}else{refEl.textContent="Libre";}
+      card.appendChild(idEl);card.appendChild(refEl);
+      if(data&&data.afs&&data.afs.length>0){var afsEl=document.createElement("div");afsEl.className="ecard-afs";var shown=data.afs.slice(0,3),txt="";for(var ai=0;ai<shown.length;ai++)txt+=(ai>0?" · ":"")+"AFS "+shown[ai];if(data.afs.length>3)txt+=" +"+(data.afs.length-3);afsEl.textContent=txt;card.appendChild(afsEl);}
+      if(isSpaceEmp(id)&&data&&data.ref&&data.space){var spEl=document.createElement("div");spEl.className="ecard-space "+getSpaceCls(data.space);spEl.textContent=getSpaceLabel(data.space);card.appendChild(spEl);}
+      card.setAttribute("data-empid",id);
+      card.onclick=function(){goEmp(this.getAttribute("data-empid"));};
       grid.appendChild(card);
     }
-    block.appendChild(grid);
-    wrap.appendChild(block);
+    block.appendChild(grid);wrap.appendChild(block);
   }
 }
 
-/* ── SEARCH ── */
-function doSearch(q) {
-  q = q.trim().toLowerCase();
-  document.querySelectorAll(".ecard").forEach(function(c) {
-    c.style.display = (!q||(c.textContent||"").toLowerCase().indexOf(q)>=0) ? "flex" : "none";
-  });
-}
+function doSearch(q){q=q.trim().toLowerCase();document.querySelectorAll(".ecard").forEach(function(c){c.style.display=(!q||(c.textContent||"").toLowerCase().indexOf(q)>=0)?"flex":"none";});}
 
-/* ── OPEN EMP ── */
-function openEmp(id) {
-  curId = id;
-  var niv = null;
-  for(var i=0; i<NIVEAUX.length; i++){ if(NIVEAUX[i].id===id[0]){ niv=NIVEAUX[i]; break; } }
-  document.getElementById("emp-title").textContent = id;
-  document.getElementById("emp-sub").textContent = niv ? niv.label+" — "+niv.desc : "";
-
-  var raw = state[id];
-  var data = isValidObj(raw) ? raw : null;
-
-  document.getElementById("st-occ").style.display = "none";
-  document.getElementById("st-reserved").style.display = "none";
-  document.getElementById("st-free").style.display = "none";
-
-  if(data && data.ref) {
-    document.getElementById("st-occ").style.display = "block";
-    document.getElementById("occ-ref").textContent = data.ref || "—";
-    var dA = new Date(data.date);
-    document.getElementById("occ-arrive").textContent =
-      "Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-    document.getElementById("modal-sub").textContent = "Libérer l'emplacement "+id+" — \""+( data.ref||"")+"\" ?";
-    renderAFSOcc(data.afs||[]);
-    document.getElementById("inp-afs-add").value = "";
-
-    var spaceOccSec = document.getElementById("space-occ-section");
-    if(isSpaceEmp(id)) {
-      spaceOccSec.style.display = "block";
-      var spaceDisp = document.getElementById("space-occ-display");
-      if(data.space) {
-        spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(data.space) + '">' + getSpaceLabel(data.space) + '</div>';
-      } else {
-        spaceDisp.innerHTML = '';
-      }
-      document.getElementById("sel-space-occ").value = "";
-    } else {
-      spaceOccSec.style.display = "none";
-    }
-
-  } else if(data && data.reserved) {
-    document.getElementById("st-reserved").style.display = "block";
-    document.getElementById("reserved-company").textContent = data.reserved;
-    document.getElementById("inp-ref-reserved").value = "";
-    document.getElementById("inp-afs-reserved").value = "";
-    var reservedAFS_local = [];
-    renderAFSReserved_local(reservedAFS_local);
-    document.getElementById("space-reserved-section").style.display = isSpaceEmp(id) ? "block" : "none";
-    document.getElementById("sel-space-reserved").value = "";
-
-  } else {
-    document.getElementById("st-free").style.display = "block";
-    document.getElementById("inp-ref").value = "";
-    document.getElementById("inp-afs-new").value = "";
-    document.getElementById("inp-company-reserve").value = "";
-    newAFS = []; renderAFSNew();
-    document.getElementById("space-free-section").style.display = isSpaceEmp(id) ? "block" : "none";
-    document.getElementById("sel-space-free").value = "";
+function openEmp(id){
+  curId=id;
+  var niv=null;for(var i=0;i<NIVEAUX.length;i++){if(NIVEAUX[i].id===id[0]){niv=NIVEAUX[i];break;}}
+  document.getElementById("emp-title").textContent=id;
+  document.getElementById("emp-sub").textContent=niv?niv.label+" — "+niv.desc:"";
+  var raw=state[id],data=isValidObj(raw)?raw:null;
+  document.getElementById("st-occ").style.display="none";
+  document.getElementById("st-reserved").style.display="none";
+  document.getElementById("st-free").style.display="none";
+  if(data&&data.ref){
+    document.getElementById("st-occ").style.display="block";
+    document.getElementById("occ-ref").textContent=data.ref||"—";
+    var dA=new Date(data.date);
+    document.getElementById("occ-arrive").textContent="Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    document.getElementById("modal-sub").textContent="Libérer l'emplacement "+id+" — \""+(data.ref||"")+"\" ?";
+    renderAFSOcc(data.afs||[]);document.getElementById("inp-afs-add").value="";
+    var spaceOccSec=document.getElementById("space-occ-section");
+    if(isSpaceEmp(id)){spaceOccSec.style.display="block";var spaceDisp=document.getElementById("space-occ-display");if(data.space){spaceDisp.innerHTML='<div class="space-display '+getSpaceCls(data.space)+'">'+getSpaceLabel(data.space)+'</div>';}else{spaceDisp.innerHTML='';}document.getElementById("sel-space-occ").value="";}
+    else{spaceOccSec.style.display="none";}
+  }else if(data&&data.reserved){
+    document.getElementById("st-reserved").style.display="block";
+    document.getElementById("reserved-company").textContent=data.reserved;
+    document.getElementById("inp-ref-reserved").value="";document.getElementById("inp-afs-reserved").value="";
+    renderAFSReserved_local([]);
+    document.getElementById("space-reserved-section").style.display=isSpaceEmp(id)?"block":"none";
+    document.getElementById("sel-space-reserved").value="";
+  }else{
+    document.getElementById("st-free").style.display="block";
+    document.getElementById("inp-ref").value="";document.getElementById("inp-afs-new").value="";document.getElementById("inp-company-reserve").value="";
+    newAFS=[];renderAFSNew();
+    document.getElementById("space-free-section").style.display=isSpaceEmp(id)?"block":"none";
+    document.getElementById("sel-space-free").value="";
   }
 }
 
-/* ── AFS OCC ── */
-function renderAFSOcc(list) {
-  var wrap = document.getElementById("afs-occ"); wrap.innerHTML = "";
-  if(!list||list.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS"; wrap.appendChild(e); return; }
-  list.forEach(function(val,idx) {
-    var tag=document.createElement("span"); tag.className="afs-tag";
-    var txt=document.createElement("span"); txt.textContent="AFS "+val;
-    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-    x.onclick=function(e){ e.stopPropagation(); removeAFSOcc(idx); };
-    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-  });
-}
-function addAFSOcc() {
-  var inp=document.getElementById("inp-afs-add"), raw=inp.value.trim(); if(!raw) return;
-  if(!state[curId]||!isValidObj(state[curId])) return;
-  if(!state[curId].afs) state[curId].afs=[];
-  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&state[curId].afs.indexOf(v)<0) state[curId].afs.push(v); });
-  inp.value=""; renderAFSOcc(state[curId].afs); renderRack(); saveData(); showToast("AFS ajouté","✓");
-}
-function removeAFSOcc(idx) {
-  if(!state[curId]||!state[curId].afs) return;
-  state[curId].afs.splice(idx,1); renderAFSOcc(state[curId].afs); renderRack(); saveData();
-}
+function renderAFSOcc(list){var wrap=document.getElementById("afs-occ");wrap.innerHTML="";if(!list||list.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS";wrap.appendChild(e);return;}list.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();removeAFSOcc(idx);};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
+function addAFSOcc(){var inp=document.getElementById("inp-afs-add"),raw=inp.value.trim();if(!raw)return;if(!state[curId]||!isValidObj(state[curId]))return;if(!state[curId].afs)state[curId].afs=[];raw.split(/[,;\s]+/).forEach(function(v){if(v&&state[curId].afs.indexOf(v)<0)state[curId].afs.push(v);});inp.value="";renderAFSOcc(state[curId].afs);renderRack();saveData();showToast("AFS ajouté","✓");}
+function removeAFSOcc(idx){if(!state[curId]||!state[curId].afs)return;state[curId].afs.splice(idx,1);renderAFSOcc(state[curId].afs);renderRack();saveData();}
 
-/* ── SAVE SPACE OCC ── */
-function saveSpaceOcc() {
-  var space = document.getElementById("sel-space-occ").value;
-  if(!space) { showToast("Sélectionnez une option","⚠️"); return; }
-  if(!state[curId]||!isValidObj(state[curId])) return;
-  state[curId].space = space;
-  var spaceDisp = document.getElementById("space-occ-display");
-  spaceDisp.innerHTML = '<div class="space-display ' + getSpaceCls(space) + '">' + getSpaceLabel(space) + '</div>';
-  document.getElementById("sel-space-occ").value = "";
-  renderRack(); saveData(); showToast("Place enregistrée","✓");
-}
+function saveSpaceOcc(){var space=document.getElementById("sel-space-occ").value;if(!space){showToast("Sélectionnez une option","⚠️");return;}if(!state[curId]||!isValidObj(state[curId]))return;state[curId].space=space;document.getElementById("space-occ-display").innerHTML='<div class="space-display '+getSpaceCls(space)+'">'+getSpaceLabel(space)+'</div>';document.getElementById("sel-space-occ").value="";renderRack();saveData();showToast("Place enregistrée","✓");}
 
-/* ── AFS RESERVED ── */
-var reservedAFS = [];
-function renderAFSReserved_local(list) { reservedAFS = list || []; renderAFSReserved(); }
-function renderAFSReserved() {
-  var wrap=document.getElementById("afs-reserved"); wrap.innerHTML="";
-  if(reservedAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
-  reservedAFS.forEach(function(val,idx) {
-    var tag=document.createElement("span"); tag.className="afs-tag";
-    var txt=document.createElement("span"); txt.textContent="AFS "+val;
-    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-    x.onclick=function(e){ e.stopPropagation(); reservedAFS.splice(idx,1); renderAFSReserved(); };
-    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-  });
-}
-function addAFSReserved() {
-  var inp=document.getElementById("inp-afs-reserved"), raw=inp.value.trim(); if(!raw) return;
-  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&reservedAFS.indexOf(v)<0) reservedAFS.push(v); });
-  inp.value=""; renderAFSReserved();
-}
-function addPalReserved() {
-  var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();
-  if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-  var reserved = state[curId] && state[curId].reserved ? state[curId].reserved : "";
-  var space = isSpaceEmp(curId) ? document.getElementById("sel-space-reserved").value : "";
-  if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
-  state[curId]={ref:ref, afs:reservedAFS.slice(), date:new Date().toISOString(), reserved:reserved};
-  if(space) state[curId].space = space;
-  AI.register(ref, reservedAFS);
-  showToast(ref+" enregistrée","✓");
-  if(navigator.vibrate) navigator.vibrate(10);
-  reservedAFS=[]; saveData(); goRack();
-}
+var reservedAFS=[];
+function renderAFSReserved_local(list){reservedAFS=list||[];renderAFSReserved();}
+function renderAFSReserved(){var wrap=document.getElementById("afs-reserved");wrap.innerHTML="";if(reservedAFS.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS ajouté";wrap.appendChild(e);return;}reservedAFS.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();reservedAFS.splice(idx,1);renderAFSReserved();};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
+function addAFSReserved(){var inp=document.getElementById("inp-afs-reserved"),raw=inp.value.trim();if(!raw)return;raw.split(/[,;\s]+/).forEach(function(v){if(v&&reservedAFS.indexOf(v)<0)reservedAFS.push(v);});inp.value="";renderAFSReserved();}
+function addPalReserved(){var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();if(!ref){showToast("Entrez une référence","⚠️");return;}var reserved=state[curId]&&state[curId].reserved?state[curId].reserved:"";var space=isSpaceEmp(curId)?document.getElementById("sel-space-reserved").value:"";if(isSpaceEmp(curId)&&!space){showToast("Indiquez s'il reste de la place","⚠️");return;}state[curId]={ref:ref,afs:reservedAFS.slice(),date:new Date().toISOString(),reserved:reserved};if(space)state[curId].space=space;showToast(ref+" enregistrée","✓");if(navigator.vibrate)navigator.vibrate(10);reservedAFS=[];saveData();goRack();}
 
-/* ── AFS NEW ── */
-function renderAFSNew() {
-  var wrap=document.getElementById("afs-new"); wrap.innerHTML="";
-  if(newAFS.length===0){ var e=document.createElement("span"); e.className="afs-empty"; e.textContent="Aucun AFS ajouté"; wrap.appendChild(e); return; }
-  newAFS.forEach(function(val,idx) {
-    var tag=document.createElement("span"); tag.className="afs-tag";
-    var txt=document.createElement("span"); txt.textContent="AFS "+val;
-    var x=document.createElement("button"); x.className="afs-x"; x.textContent="×";
-    x.onclick=function(e){ e.stopPropagation(); newAFS.splice(idx,1); renderAFSNew(); };
-    tag.appendChild(txt); tag.appendChild(x); wrap.appendChild(tag);
-  });
-}
-function addAFSNew() {
-  var inp=document.getElementById("inp-afs-new"), raw=inp.value.trim(); if(!raw) return;
-  raw.split(/[,;\s]+/).forEach(function(v){ if(v&&newAFS.indexOf(v)<0) newAFS.push(v); });
-  inp.value=""; renderAFSNew();
-}
+function renderAFSNew(){var wrap=document.getElementById("afs-new");wrap.innerHTML="";if(newAFS.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS ajouté";wrap.appendChild(e);return;}newAFS.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();newAFS.splice(idx,1);renderAFSNew();};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
+function addAFSNew(){var inp=document.getElementById("inp-afs-new"),raw=inp.value.trim();if(!raw)return;raw.split(/[,;\s]+/).forEach(function(v){if(v&&newAFS.indexOf(v)<0)newAFS.push(v);});inp.value="";renderAFSNew();}
 
-/* ── ADD / DELETE ── */
-function addPal() {
-  var ref=document.getElementById("inp-ref").value.trim().toUpperCase();
-  if(!ref){ showToast("Entrez une référence","⚠️"); return; }
-  var space = isSpaceEmp(curId) ? document.getElementById("sel-space-free").value : "";
-  if(isSpaceEmp(curId) && !space){ showToast("Indiquez s'il reste de la place","⚠️"); return; }
-  state[curId]={ref:ref, afs:newAFS.slice(), date:new Date().toISOString()};
-  if(space) state[curId].space = space;
-  AI.register(ref, newAFS);
-  showToast(ref+" enregistrée","✓");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
-}
-function reserveEmp() {
-  var company=document.getElementById("inp-company-reserve").value.trim();
-  if(!company){ showToast("Entrez un nom d'entreprise","⚠️"); return; }
-  state[curId]={reserved:company};
-  showToast(company+" — réservé","🔒");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
-}
-function cancelReservation() {
-  delete state[curId];
-  showToast("Réservation annulée","🔓");
-  if(navigator.vibrate) navigator.vibrate(10);
-  saveData(); goRack();
-}
-function askDel(){ document.getElementById("modal-del").classList.add("open"); }
-function closeModal(){ document.getElementById("modal-del").classList.remove("open"); }
-function closeModalIfBg(e){ if(e.target===document.getElementById("modal-del")) closeModal(); }
-function confirmDel() {
+function addPal(){var ref=document.getElementById("inp-ref").value.trim().toUpperCase();if(!ref){showToast("Entrez une référence","⚠️");return;}var space=isSpaceEmp(curId)?document.getElementById("sel-space-free").value:"";if(isSpaceEmp(curId)&&!space){showToast("Indiquez s'il reste de la place","⚠️");return;}state[curId]={ref:ref,afs:newAFS.slice(),date:new Date().toISOString()};if(space)state[curId].space=space;showToast(ref+" enregistrée","✓");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
+function reserveEmp(){var company=document.getElementById("inp-company-reserve").value.trim();if(!company){showToast("Entrez un nom d'entreprise","⚠️");return;}state[curId]={reserved:company};showToast(company+" — réservé","🔒");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
+function cancelReservation(){delete state[curId];showToast("Réservation annulée","🔓");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
+function askDel(){document.getElementById("modal-del").classList.add("open");}
+function closeModal(){document.getElementById("modal-del").classList.remove("open");}
+function closeModalIfBg(e){if(e.target===document.getElementById("modal-del"))closeModal();}
+function confirmDel(){
   var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
   var afs=(state[curId]&&state[curId].afs)?state[curId].afs:[];
-  addSortie(ref, afs, curId);
-  delete state[curId]; closeModal(); saveData();
+  addSortie(ref,afs,curId);
+  delete state[curId];closeModal();saveData();
   showToast(ref+" sortie","📦");
-  if(navigator.vibrate) navigator.vibrate(25);
+  if(navigator.vibrate)navigator.vibrate(25);
   goRack();
 }
 
-/* ── QR ── */
-function renderQR() {
-  var url=window.location.href.split("?")[0];
-  var c=document.getElementById("qr-c");
-  var img=new Image();
-  img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";
-  img.onload=function(){ c.innerHTML=""; c.appendChild(img); };
-  img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";
+function renderQR(){var url=window.location.href.split("?")[0];var c=document.getElementById("qr-c");var img=new Image();img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";img.onload=function(){c.innerHTML="";c.appendChild(img);};img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";}
+
+function showToast(msg,ico){document.getElementById("t-i").textContent=ico||"";document.getElementById("t-m").textContent=msg;var el=document.getElementById("toast");el.classList.add("show");clearTimeout(toastTm);toastTm=setTimeout(function(){el.classList.remove("show");},2200);}
+
+document.getElementById("inp-ref").onkeydown=function(e){if(e.key==="Enter")addPal();};
+document.getElementById("inp-afs-new").onkeydown=function(e){if(e.key==="Enter")addAFSNew();};
+document.getElementById("inp-afs-add").onkeydown=function(e){if(e.key==="Enter")addAFSOcc();};
+
+/* ══ HISTORIQUE SORTIES ══ */
+var sortieHistory=(function(){try{return JSON.parse(localStorage.getItem('rack_sorties')||'[]');}catch(e){return[];}})();
+function saveSortieHistory(){localStorage.setItem('rack_sorties',JSON.stringify(sortieHistory));}
+function addSortie(ref,afs,empId){sortieHistory.unshift({ref:ref,afs:afs||[],emp:empId||'?',date:new Date().toISOString()});if(sortieHistory.length>50)sortieHistory.pop();saveSortieHistory();}
+function renderHist(){
+  var body=document.getElementById('hist-body');if(!body)return;
+  if(sortieHistory.length===0){body.innerHTML='<div class="hist-empty">Aucune sortie enregistrée pour l\'instant.</div>';return;}
+  var html='';
+  sortieHistory.forEach(function(s){var d=new Date(s.date);var dateStr=d.toLocaleDateString('fr-FR')+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});var afsStr=s.afs&&s.afs.length>0?'AFS : '+s.afs.join(', '):'Aucun AFS';html+='<div class="hist-item"><span class="hist-ico">📦</span><div class="hist-body-txt"><div class="hist-ref">'+escHtml(s.ref)+'</div><div class="hist-meta">'+dateStr+' · Emp. '+escHtml(s.emp)+'</div><div class="hist-afs">'+escHtml(afsStr)+'</div></div><span class="hist-badge">SORTI</span></div>';});
+  html+='<button class="hist-clear" onclick="clearHist()">🗑 Effacer l\'historique</button>';
+  body.innerHTML=html;
 }
+function clearHist(){if(!confirm('Effacer tout l\'historique des sorties ?'))return;sortieHistory=[];saveSortieHistory();renderHist();}
 
-/* ── TOAST ── */
-function showToast(msg,ico) {
-  document.getElementById("t-i").textContent=ico||"";
-  document.getElementById("t-m").textContent=msg;
-  var el=document.getElementById("toast"); el.classList.add("show");
-  clearTimeout(toastTm); toastTm=setTimeout(function(){ el.classList.remove("show"); },2200);
-}
-
-/* ── KEYBOARD ── */
-document.getElementById("inp-ref").onkeydown=function(e){ if(e.key==="Enter") addPal(); };
-document.getElementById("inp-afs-new").onkeydown=function(e){ if(e.key==="Enter") addAFSNew(); };
-document.getElementById("inp-afs-add").onkeydown=function(e){ if(e.key==="Enter") addAFSOcc(); };
-
-
-/* ══════════════════════════════════════════
-   ASSISTANT IA — Chatbot + Historique
-   ══════════════════════════════════════════ */
-
-/* ── HISTORIQUE DES SORTIES ── */
-var sortieHistory = (function(){
-  try { return JSON.parse(localStorage.getItem('rack_sorties') || '[]'); } catch(e){ return []; }
-})();
-
-function saveSortieHistory(){ localStorage.setItem('rack_sorties', JSON.stringify(sortieHistory)); }
-
-function addSortie(ref, afs, empId) {
-  sortieHistory.unshift({ ref:ref, afs:afs||[], emp:empId||'?', date:new Date().toISOString() });
-  if(sortieHistory.length > 50) sortieHistory.pop();
-  saveSortieHistory();
-}
-
-function renderHist() {
-  var body = document.getElementById('hist-body');
-  if(!body) return;
-  if(sortieHistory.length === 0) {
-    body.innerHTML = '<div class="hist-empty">Aucune sortie enregistrée pour l\'instant.</div>';
-    return;
-  }
-  var html = '';
-  sortieHistory.forEach(function(s) {
-    var d = new Date(s.date);
-    var dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    var afsStr = s.afs && s.afs.length > 0 ? 'AFS : ' + s.afs.join(', ') : 'Aucun AFS';
-    html += '<div class="hist-item">';
-    html += '<span class="hist-ico">📦</span>';
-    html += '<div class="hist-body-txt">';
-    html += '<div class="hist-ref">' + escHtml(s.ref) + '</div>';
-    html += '<div class="hist-meta">' + dateStr + ' · Emp. ' + escHtml(s.emp) + '</div>';
-    html += '<div class="hist-afs">' + escHtml(afsStr) + '</div>';
-    html += '</div>';
-    html += '<span class="hist-badge">SORTI</span>';
-    html += '</div>';
-  });
-  html += '<button class="hist-clear" onclick="clearHist()">🗑 Effacer l\'historique</button>';
-  body.innerHTML = html;
-}
-
-function clearHist() {
-  if(!confirm('Effacer tout l\'historique des sorties ?')) return;
-  sortieHistory = []; saveSortieHistory(); renderHist();
-}
-
-/* ── ONGLETS ── */
-function switchTab(tab) {
-  document.querySelectorAll('.ai-tab').forEach(function(t){ t.classList.remove('active'); });
-  document.querySelectorAll('.ai-tab-content').forEach(function(t){ t.classList.remove('active'); });
-  var idx = tab === 'chat' ? 0 : 1;
+/* ══ ONGLETS ══ */
+function switchTab(tab){
+  document.querySelectorAll('.ai-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.ai-tab-content').forEach(function(t){t.classList.remove('active');});
+  var idx=tab==='chat'?0:1;
   document.querySelectorAll('.ai-tab')[idx].classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
-  if(tab === 'hist') renderHist();
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(tab==='hist')renderHist();
 }
 
-/* ── CHATBOT ── */
-var chatHistory = [];
-var chatBusy = false;
+/* ══ CHATBOT (Groq) ══ */
+var chatHistory=[];
+var chatBusy=false;
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-function getRackContext() {
-  var lines = [];
-  var libre = [], occ = [], reserv = [];
-  NIVEAUX.forEach(function(niv) {
-    for(var c=1; c<=6; c++) {
-      var id = niv.id+c;
-      var d = isValidObj(state[id]) ? state[id] : null;
-      if(d && d.ref) {
-        var info = id + ' : ' + d.ref;
-        if(d.afs && d.afs.length) info += ' (AFS: ' + d.afs.join(', ') + ')';
-        if(isSpaceEmp(id) && d.space) info += ' [place: ' + d.space + ']';
-        var dateStr = d.date ? ' - arrivé le ' + new Date(d.date).toLocaleDateString('fr-FR') : '';
-        occ.push(info + dateStr);
-      } else if(d && d.reserved) {
-        reserv.push(id + ' : réservé pour ' + d.reserved);
-      } else {
-        libre.push(id);
-      }
+function getRackContext(){
+  var libre=[],occ=[],reserv=[];
+  NIVEAUX.forEach(function(niv){
+    for(var c=1;c<=6;c++){
+      var id=niv.id+c,d=isValidObj(state[id])?state[id]:null;
+      if(d&&d.ref){var info=id+' : '+d.ref;if(d.afs&&d.afs.length)info+=' (AFS: '+d.afs.join(', ')+')';if(isSpaceEmp(id)&&d.space)info+=' [place: '+d.space+']';if(d.date)info+=' - arrivé le '+new Date(d.date).toLocaleDateString('fr-FR');occ.push(info);}
+      else if(d&&d.reserved){reserv.push(id+' : réservé pour '+d.reserved);}
+      else{libre.push(id);}
     }
   });
-  lines.push('=== ÉTAT DU RACK EN TEMPS RÉEL ===');
-  lines.push('Emplacements libres (' + libre.length + ') : ' + (libre.join(', ')||'aucun'));
-  lines.push('');
-  lines.push('Emplacements occupés (' + occ.length + ') :');
-  occ.forEach(function(l){ lines.push('  • ' + l); });
-  lines.push('');
-  lines.push('Emplacements réservés (' + reserv.length + ') :');
-  reserv.forEach(function(l){ lines.push('  • ' + l); });
-  lines.push('');
-  lines.push('=== INFOS RACK ===');
-  lines.push('4 niveaux : D (haut, gerbeur obligatoire), C (gerbeur nécessaire), B (accessible à la main), A (bas, niveau sol)');
-  lines.push('6 colonnes par niveau : 1 à 6. Total : 24 emplacements.');
-  lines.push('B4, B5, B6 : emplacements partagés (plusieurs colis possibles sur une palette), on indique s\'il reste de la place (oui/un peu/non).');
-  lines.push('');
-  lines.push('=== GUIDE D\'UTILISATION ===');
-  lines.push('1. Scanner le QR code fixé sur le rack avec l\'appareil photo du téléphone.');
-  lines.push('2. Cliquer sur l\'emplacement souhaité dans l\'appli.');
-  lines.push('3. Saisir le numéro de commande/référence (obligatoire) et les AFS (optionnel).');
-  lines.push('4. Pour B4/B5/B6, indiquer s\'il reste de la place sur la palette.');
-  lines.push('5. Valider. Pour sortir une palette : cliquer sur l\'emplacement → "Marquer comme sortie".');
-  lines.push('6. Un emplacement peut être réservé pour une entreprise (symbole 🔒).');
+  var lines=['=== ÉTAT DU RACK EN TEMPS RÉEL ===','Emplacements libres ('+libre.length+') : '+(libre.join(', ')||'aucun'),'','Emplacements occupés ('+occ.length+') :'];
+  occ.forEach(function(l){lines.push('  • '+l);});
+  lines.push('','Emplacements réservés ('+reserv.length+') :');
+  reserv.forEach(function(l){lines.push('  • '+l);});
+  lines.push('','=== INFOS RACK ===','4 niveaux : D (haut, gerbeur obligatoire), C (gerbeur nécessaire), B (à la main), A (bas, sol). 6 colonnes par niveau, 24 emplacements total.','B4, B5, B6 : emplacements partagés avec indicateur de place (oui/un peu/non).','=== GUIDE ===','1. Scanner QR code → 2. Cliquer emplacement → 3. Saisir N° commande + AFS → 4. Valider. Pour sortir : cliquer emplacement → "Marquer comme sortie". 🔒 = réservé entreprise.');
   return lines.join('\n');
 }
 
-function chatNow() { return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+function chatNow(){return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
 
-function appendMsg(role, text, isTyping) {
-  var msgs = document.getElementById('chat-messages');
-  var div = document.createElement('div');
-  div.className = 'chat-msg ' + role;
-  var bubble = document.createElement('div');
-  bubble.className = 'chat-bubble' + (isTyping ? ' typing' : '');
-  bubble.textContent = text;
-  var time = document.createElement('div');
-  time.className = 'chat-time';
-  time.textContent = chatNow();
-  div.appendChild(bubble);
-  div.appendChild(time);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+function appendMsg(role,text,isTyping){
+  var msgs=document.getElementById('chat-messages');
+  var div=document.createElement('div');div.className='chat-msg '+role;
+  var bubble=document.createElement('div');bubble.className='chat-bubble'+(isTyping?' typing':'');bubble.textContent=text;
+  var time=document.createElement('div');time.className='chat-time';time.textContent=chatNow();
+  div.appendChild(bubble);div.appendChild(time);msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
   return bubble;
 }
 
-function sendSugg(btn) {
-  var q = btn.textContent;
-  document.getElementById('chat-suggestions').style.display = 'none';
-  document.getElementById('chat-inp').value = q;
-  sendChat();
+function sendSugg(btn){document.getElementById('chat-suggestions').style.display='none';document.getElementById('chat-inp').value=btn.textContent;sendChat();}
+
+function sendChat(){
+  if(chatBusy)return;
+  var inp=document.getElementById('chat-inp'),q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  document.getElementById('chat-suggestions').style.display='none';
+  appendMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+  chatBusy=true;
+  document.getElementById('chat-send-btn').disabled=true;
+  var typingBubble=appendMsg('bot','…en train de réfléchir…',true);
+
+  var systemPrompt="Tu es un assistant pour opérateurs d'entrepôt AUEM, spécialisé sur le RACK ATTENTE (rack renvoie colis). Tu réponds en français, de façon concise et utile. Tu connais en temps réel l'état exact du rack (fourni ci-dessous). Réponds en moins de 5 phrases sauf si on demande plus de détails.\n\n"+getRackContext();
+
+  var messages=[{role:'system',content:systemPrompt}];
+  chatHistory.slice(-8).forEach(function(m){messages.push(m);});
+
+  fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+GROQ_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:messages,temperature:0.7,max_tokens:500})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var reply='Désolé, pas de réponse.';
+    if(data.choices&&data.choices[0]&&data.choices[0].message){reply=data.choices[0].message.content;}
+    else if(data.error){reply='❌ '+( data.error.message||'Erreur API');}
+    typingBubble.classList.remove('typing');typingBubble.textContent=reply;
+    chatHistory.push({role:'assistant',content:reply});
+    document.getElementById('chat-messages').scrollTop=99999;
+  })
+  .catch(function(err){typingBubble.classList.remove('typing');typingBubble.textContent='❌ Erreur réseau : '+err.message;})
+  .finally(function(){chatBusy=false;document.getElementById('chat-send-btn').disabled=false;});
 }
 
-function sendChat() {
-  if(chatBusy) return;
-  var inp = document.getElementById('chat-inp');
-  var q = inp.value.trim();
-  if(!q) return;
-  inp.value = '';
-  document.getElementById('chat-suggestions').style.display = 'none';
+function toggleAssistant(){var panel=document.getElementById('ai-panel');panel.classList.toggle('open');if(panel.classList.contains('open')){document.getElementById('ai-notif').style.display='none';}}
+function openAssistantAuto(){}
 
-  appendMsg('user', q);
-  chatHistory.push({ role:'user', content: q });
-
-  chatBusy = true;
-  document.getElementById('chat-send-btn').disabled = true;
-  var typingBubble = appendMsg('bot', '…en train de réfléchir…', true);
-
-  var systemPrompt = 'Tu es un assistant pour opérateurs d\'entrepôt AUEM, spécialisé sur le RACK ATTENTE (rack renvoie colis). '
-    + 'Tu réponds en français, de façon concise et utile. '
-    + 'Tu connais en temps réel l\'état exact du rack (fourni ci-dessous). '
-    + 'Quand on te demande où est une palette, donne l\'emplacement précis. '
-    + 'Quand on te demande les emplacements libres, liste-les clairement. '
-    + 'Pour les questions pratiques sur le fonctionnement, sois pédagogue. '
-    + 'Réponds toujours en moins de 5 phrases sauf si on te demande plus de détails.\n\n'
-    + getRackContext();
-
-  var messages = [];
-  chatHistory.slice(-6).forEach(function(m){ messages.push(m); });
-
-  fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      system: systemPrompt,
-      messages: messages
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Désolé, je n\'ai pas pu répondre.';
-    typingBubble.classList.remove('typing');
-    typingBubble.textContent = reply;
-    chatHistory.push({ role:'assistant', content: reply });
-    var msgs = document.getElementById('chat-messages');
-    msgs.scrollTop = msgs.scrollHeight;
-  })
-  .catch(function() {
-    typingBubble.classList.remove('typing');
-    typingBubble.textContent = 'Erreur de connexion. Vérifie ta connexion internet.';
-  })
-  .finally(function() {
-    chatBusy = false;
-    document.getElementById('chat-send-btn').disabled = false;
-  });
-}
-
-/* Heure d'init du chat */
-document.addEventListener('DOMContentLoaded', function() {
-  var el = document.getElementById('chat-init-time');
-  if(el) el.textContent = chatNow();
-});
-
-var AI = {
-  register: function(ref, afs) {
-    console.log('[AI] Palette enregistrée :', ref, afs);
-  }
-};
-
-/* ── DEAD CODE SUPPRIMÉ — ancienne analyze/render ── */
-var _UNUSED_AI = {
-  analyze: function() {
-    var totalEmp = 24, occ = 0, libre = 0, reserv = 0;
-    var niveauxData = [];
-    var alertes = [];
-    var spacesB = [];
-    var libresParNiveau = {};
-
-    NIVEAUX.forEach(function(niv) {
-      var nOcc = 0, nLibre = 0, nReserv = 0;
-      var libresIds = [];
-
-      for(var c = 1; c <= 6; c++) {
-        var id = niv.id + c;
-        var d = isValidObj(state[id]) ? state[id] : null;
-
-        if(d && d.ref) {
-          nOcc++; occ++;
-          if(['B4','B5','B6'].indexOf(id) >= 0) {
-            spacesB.push({ id:id, ref:d.ref, space: d.space || null });
-            if(!d.space) {
-              alertes.push({ type:'warn', prio:2, msg:'Place non renseignée sur <strong>' + id + '</strong> (' + d.ref + ')' });
-            } else if(d.space === 'non') {
-              alertes.push({ type:'info', prio:3, msg:'<strong>' + id + '</strong> plein — ' + d.ref });
-            }
-          }
-        } else if(d && d.reserved) {
-          nReserv++; reserv++;
-          alertes.push({ type:'info', prio:4, msg:'<strong>' + id + '</strong> réservé ' + d.reserved + ' — vide' });
-        } else {
-          nLibre++; libre++;
-          libresIds.push(id);
-        }
-      }
-
-      libresParNiveau[niv.id] = libresIds;
-      niveauxData.push({ id:niv.id, label:niv.label, desc:niv.desc, occ:nOcc, libre:nLibre, reserv:nReserv });
-    });
-
-    var pct = Math.round(occ / totalEmp * 100);
-    if(pct >= 90) alertes.push({ type:'err', prio:0, msg:'🔴 Rack quasi plein — ' + pct + '% occupé !' });
-    else if(pct >= 75) alertes.push({ type:'warn', prio:1, msg:'Rack chargé — ' + pct + '% occupé' });
-
-    alertes.sort(function(a,b){ return a.prio - b.prio; });
-
-    var suggMain = null, suggGerbeur = null;
-    niveauxData.forEach(function(niv) {
-      if(niv.libre > 0) {
-        if(niv.id === 'B' || niv.id === 'A') {
-          if(!suggMain || niv.libre > suggMain.libre) suggMain = niv;
-        } else {
-          if(!suggGerbeur || niv.libre > suggGerbeur.libre) suggGerbeur = niv;
-        }
-      }
-    });
-
-    return {
-      totalEmp:totalEmp, occ:occ, libre:libre, reserv:reserv, pct:pct,
-      niveauxData:niveauxData, alertes:alertes, spacesB:spacesB,
-      libresParNiveau:libresParNiveau, suggMain:suggMain, suggGerbeur:suggGerbeur
-    };
-  },
-
-  /* ── Rendu du panneau ── */
-  render: function() {
-    var body = document.getElementById('ai-body');
-    if(!body) return;
-    var A = this.analyze();
-    var html = '';
-
-    /* ─ SECTION 1 : Alertes ─ */
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">⚡ Alertes</div>';
-    if(A.alertes.length > 0) {
-      A.alertes.slice(0,5).forEach(function(al) {
-        var ico = al.type === 'err' ? '🔴' : al.type === 'warn' ? '🟡' : 'ℹ️';
-        html += '<div class="ai-alert ' + al.type + '"><span class="ai-alert-ico">' + ico + '</span><span>' + al.msg + '</span></div>';
-      });
-    } else {
-      html += '<div class="ai-alert ok"><span class="ai-alert-ico">✅</span><span>Aucune alerte — rack OK</span></div>';
-    }
-    html += '</div>';
-
-    /* ─ SECTION 2 : Suggestion emplacement ─ */
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">🎯 Où poser ?</div>';
-    if(A.libre === 0) {
-      html += '<div class="ai-alert err"><span class="ai-alert-ico">🔴</span><span>Aucun emplacement libre !</span></div>';
-    } else {
-      if(A.suggMain) {
-        /* FIX 2 : guillemets correctement échappés dans onclick */
-        var ids = A.libresParNiveau[A.suggMain.id] || [];
-        html += '<div class="ai-sugg" onclick="goEmp(\'' + ids[0] + '\'); toggleAssistant();">';
-        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggMain.id + '</span>';
-        html += '<span class="ai-sugg-label">À la main</span>';
-        html += '<span class="ai-badge green">' + A.suggMain.libre + ' libre' + (A.suggMain.libre > 1 ? 's' : '') + '</span></div>';
-        html += '<div class="ai-sugg-ids">';
-        ids.slice(0,4).forEach(function(id) {
-          html += '<span class="ai-sugg-id">' + id + '</span>';
-        });
-        if(ids.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (ids.length-4) + '</span>';
-        html += '</div></div>';
-      }
-      if(A.suggGerbeur) {
-        /* FIX 2 : guillemets correctement échappés dans onclick */
-        var idsG = A.libresParNiveau[A.suggGerbeur.id] || [];
-        html += '<div class="ai-sugg" onclick="goEmp(\'' + idsG[0] + '\'); toggleAssistant();">';
-        html += '<div class="ai-sugg-top"><span class="ai-sugg-niv">' + A.suggGerbeur.id + '</span>';
-        html += '<span class="ai-sugg-label">Gerbeur</span>';
-        html += '<span class="ai-badge gray">' + A.suggGerbeur.libre + ' libre' + (A.suggGerbeur.libre > 1 ? 's' : '') + '</span></div>';
-        html += '<div class="ai-sugg-ids">';
-        idsG.slice(0,4).forEach(function(id) {
-          html += '<span class="ai-sugg-id">' + id + '</span>';
-        });
-        if(idsG.length > 4) html += '<span class="ai-sugg-id" style="opacity:.4;">+' + (idsG.length-4) + '</span>';
-        html += '</div></div>';
-      }
-      if(!A.suggMain && !A.suggGerbeur) {
-        html += '<div class="ai-empty">Aucune suggestion disponible</div>';
-      }
-    }
-    html += '</div>';
-
-    /* ─ SECTION 3 : Occupation par niveau ─ */
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">📊 Occupation</div>';
-    html += '<div class="ai-stats-grid">';
-    html += '<div class="ai-stat-box highlight"><div class="ai-stat-num">' + A.libre + '</div><div class="ai-stat-lbl">Libres</div></div>';
-    html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.occ + '</div><div class="ai-stat-lbl">Occupés</div></div>';
-    html += '<div class="ai-stat-box"><div class="ai-stat-num">' + A.reserv + '</div><div class="ai-stat-lbl">Réservés</div></div>';
-    html += '<div class="ai-stat-box ' + (A.pct >= 75 ? 'danger' : '') + '"><div class="ai-stat-num">' + A.pct + '%</div><div class="ai-stat-lbl">Remplissage</div></div>';
-    html += '</div>';
-    A.niveauxData.forEach(function(niv) {
-      var fillPct = Math.round(niv.occ / 6 * 100);
-      var fillColor = fillPct >= 83 ? '#f87171' : fillPct >= 50 ? '#fcd34d' : '#4ade80';
-      html += '<div class="ai-dispo-row">';
-      html += '<span class="ai-dispo-id">' + niv.id + '</span>';
-      html += '<div class="ai-dispo-bar"><div class="ai-dispo-fill" style="width:' + fillPct + '%;background:' + fillColor + '"></div></div>';
-      html += '<span class="ai-dispo-cnt">' + niv.libre + ' libre</span>';
-      html += '</div>';
-    });
-    html += '</div>';
-
-    /* ─ SECTION 4 : État B4/B5/B6 ─ */
-    html += '<div class="ai-section">';
-    html += '<div class="ai-lbl">🗄️ Places partagées B4 · B5 · B6</div>';
-    var bIds = ['B4','B5','B6'];
-    bIds.forEach(function(bid) {
-      var d = isValidObj(state[bid]) ? state[bid] : null;
-      if(d && d.ref) {
-        var spLabel = d.space === 'oui' ? '✅ Place dispo' : d.space === 'un-peu' ? '⚠️ Un peu' : d.space === 'non' ? '❌ Plein' : '❓ Non renseigné';
-        var spCls = d.space ? d.space : 'none';
-        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
-        html += '<span class="ai-b-id">' + bid + '</span>';
-        html += '<span class="ai-b-ref">' + d.ref + '</span>';
-        html += '<span class="ai-space-badge ' + spCls + '">' + spLabel + '</span>';
-        html += '</div>';
-      } else if(d && d.reserved) {
-        html += '<div class="ai-b-row">';
-        html += '<span class="ai-b-id">' + bid + '</span>';
-        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.35);">🔒 ' + d.reserved + '</span>';
-        html += '<span class="ai-space-badge none">—</span>';
-        html += '</div>';
-      } else {
-        html += '<div class="ai-b-row" data-empid="' + bid + '" onclick="AI.clickEmp(this)">';
-        html += '<span class="ai-b-id">' + bid + '</span>';
-        html += '<span class="ai-b-ref" style="color:rgba(255,255,255,.3);">Libre</span>';
-        html += '<span class="ai-space-badge none" style="background:rgba(74,222,128,.12);color:#4ade80;">✅ Libre</span>';
-        html += '</div>';
-      }
-    });
-    html += '</div>';
-
-    body.innerHTML = html;
-  },
-
-  clickEmp: function(el) {
-    var empId = el.getAttribute('data-empid');
-    if(empId) { goEmp(empId); toggleAssistant(); }
-  },
-
-  countAlerts: function() { return 0; }
-}; /* fin _UNUSED_AI */
-
-function toggleAssistant() {
-  var panel = document.getElementById('ai-panel');
-  panel.classList.toggle('open');
-  if(panel.classList.contains('open')) {
-    document.getElementById('ai-notif').style.display = 'none';
-  }
-}
-
-function openAssistantAuto() { /* plus d'auto-open */ }
-
-document.addEventListener('keydown', function(e) {
-  if((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    toggleAssistant();
-  }
-});
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();toggleAssistant();}});
+document.addEventListener('DOMContentLoaded',function(){var el=document.getElementById('chat-init-time');if(el)el.textContent=chatNow();});
 
 showOnly("view-rack");
 refresh();
-
-async function appelIA() {
-    const input = document.getElementById('chat-inp');
-    const container = document.getElementById('chat-messages');
-    const val = input.value.trim();
-    if(!val) return;
-
-    // Affichage utilisateur
-    const u = document.createElement('div');
-    u.className = 'chat-msg user';
-    u.innerHTML = `<div class="chat-bubble">${val}</div>`;
-    container.appendChild(u);
-    input.value = "";
-
-    // Affichage attente
-    const b = document.createElement('div');
-    b.className = 'chat-msg bot';
-    b.id = "loading-ia";
-    b.innerHTML = `<div class="chat-bubble">Je cherche...</div>`;
-    container.appendChild(b);
-    container.scrollTop = container.scrollHeight;
-
-    try {
-        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + MA_CLE_GEMINI, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: val }] }]
-            })
-        });
-
-        const data = await response.json();
-        document.getElementById("loading-ia").remove();
-
-        if (data.candidates && data.candidates[0].content) {
-            const txt = data.candidates[0].content.parts[0].text;
-            const res = document.createElement('div');
-            res.className = 'chat-msg bot';
-            res.innerHTML = `<div class="chat-bubble">${txt.replace(/\n/g, '<br>')}</div>`;
-            container.appendChild(res);
-        } else {
-            // ICI ON VOIT LA VRAIE ERREUR
-            const err = data.error ? data.error.message : "Erreur inconnue (Vérifie ta clé API)";
-            const res = document.createElement('div');
-            res.className = 'chat-msg bot';
-            res.innerHTML = `<div class="chat-bubble" style="color:#ff6b6b">⚠️ ${err}</div>`;
-            container.appendChild(res);
-        }
-    } catch (e) {
-        document.getElementById("loading-ia").innerHTML = `<div class="chat-bubble">Panne réseau.</div>`;
-    }
-    container.scrollTop = container.scrollHeight;
-}
 </script>
 </body>
 </html>
