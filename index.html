@@ -63,9 +63,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .ecard.vide::before{background:var(--border);}.ecard.occ::before{background:var(--text2);}.ecard.reserv::before{background:var(--text3);}
 .ecard.occ{background:#f7f4f0;}
 .ecard-id{font-size:10px;font-weight:700;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.5px;}
-.ecard-ref{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ecard-ref{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ecard.vide .ecard-ref{color:var(--text3);font-weight:400;font-size:11px;}
 .ecard.reserv .ecard-ref{color:var(--text2);font-weight:500;font-size:11px;}
+.ecard-count{display:inline-flex;align-items:center;gap:3px;background:var(--text);color:var(--bg);border-radius:10px;padding:2px 7px;font-size:9px;font-weight:800;font-family:'DM Mono',monospace;margin-top:2px;width:fit-content;}
 .ecard-afs{font-size:9px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ecard-space{font-size:9px;font-weight:700;font-family:'DM Mono',monospace;margin-top:1px;}
 .ecard-space.sp-oui{color:#16a34a;}.ecard-space.sp-un-peu{color:#d97706;}.ecard-space.sp-non{color:#dc2626;}
@@ -77,13 +78,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .vbody{padding:13px;}
 .section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:10px;}
 .slbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'DM Mono',monospace;}
-.info-ref{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;}
-.info-arrive{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:10px;}
-.afs-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;min-height:28px;}
-.afs-tag{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #93c5fd;color:#2563eb;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
-.afs-x{background:none;border:none;color:#2563eb;cursor:pointer;font-size:15px;line-height:1;padding:0;margin-left:2px;opacity:.6;}
-.afs-x:active{opacity:1;color:#dc2626;}
-.afs-empty{font-size:12px;color:var(--text3);font-style:italic;padding:4px 0;display:block;}
 .inp{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none;margin-bottom:8px;text-transform:uppercase;}
 .inp:focus{border-color:var(--text);}
 .inp::placeholder{color:var(--text3);text-transform:none;font-weight:400;}
@@ -103,12 +97,44 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .space-display.sp-oui{background:#f0fdf4;border:1px solid #86efac;color:#16a34a;}
 .space-display.sp-un-peu{background:#fffbeb;border:1px solid #fcd34d;color:#d97706;}
 .space-display.sp-non{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;}
+
+/* ── COLIS LIST ── */
+.colis-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.colis-item{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);padding:10px 12px;position:relative;}
+.colis-item-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.colis-item-ref{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.2px;}
+.colis-item-date{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;}
+.colis-item-afs{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;margin-bottom:6px;}
+.colis-item-afs-wrap{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
+.afs-tag{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #93c5fd;color:#2563eb;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
+.afs-x{background:none;border:none;color:#2563eb;cursor:pointer;font-size:15px;line-height:1;padding:0;margin-left:2px;opacity:.6;}
+.afs-x:active{opacity:1;color:#dc2626;}
+.afs-empty{font-size:12px;color:var(--text3);font-style:italic;padding:2px 0;display:block;}
+.colis-item-actions{display:flex;gap:6px;align-items:center;}
+.colis-afs-inp-row{display:flex;gap:6px;align-items:center;margin-top:6px;}
+.colis-afs-inp{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Mono',monospace;font-size:12px;font-weight:600;padding:7px 10px;outline:none;}
+.colis-afs-inp:focus{border-color:var(--text);}
+.colis-afs-inp::placeholder{color:var(--text3);font-family:'DM Sans',sans-serif;font-weight:400;}
+.btn-afs-add{padding:7px 12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-afs-add:active{background:var(--border);}
+.btn-colis-del{padding:6px 10px;background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--rs);color:#dc2626;font-size:11px;font-weight:700;cursor:pointer;margin-left:auto;}
+.btn-colis-del:active{opacity:.7;}
+.colis-num{font-size:9px;font-weight:700;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.5px;margin-bottom:4px;}
+.colis-space-row{display:flex;gap:6px;align-items:center;margin-top:6px;}
+.colis-space-row .sel{margin-bottom:0;font-size:12px;padding:7px 10px;}
+.colis-space-row .btn-sec{padding:7px 10px;font-size:12px;}
+
+/* ── NOUVEAU COLIS FORM ── */
+.new-colis-form{background:var(--surface);border:2px dashed var(--border2);border-radius:var(--rs);padding:12px;margin-bottom:8px;}
+.new-colis-form .slbl{margin-bottom:8px;}
+.new-colis-afs-list{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:24px;}
+
 .guide-title{font-size:18px;font-weight:700;margin-bottom:16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;}
 .guide-text{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:16px;line-height:2;font-size:14px;}
 .guide-text p{margin:0 0 8px 0;}.guide-text p:last-child{margin-bottom:0;}
 .btn-guide-next{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;padding:12px;cursor:pointer;}
 .btn-guide-next:active{opacity:.8;}
-@keyframes slideIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
 .qr-body{display:flex;flex-direction:column;align-items:center;gap:16px;padding:22px 16px;}
 .qr-frame{background:white;padding:16px;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.1);}
 .qr-lbl{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;font-family:'DM Mono',monospace;}
@@ -211,60 +237,66 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 <div id="view-rack"><div class="rack-body"><div id="rack-grid"><div class="loading"><div class="spinner"></div><div class="loading-txt">Chargement…</div></div></div></div></div>
 
+<!-- ══ VUE EMPLACEMENT ══ -->
 <div id="view-emp">
-<div class="back-hdr"><button class="btn-back" onclick="goRack()">&#8592;</button><div><div class="bh-title" id="emp-title">—</div><div class="bh-sub" id="emp-sub">Emplacement</div></div></div>
-<div class="vbody">
-<div id="st-occ" style="display:none"><div class="section">
-<div class="slbl">Palette en place</div>
-<div class="info-ref" id="occ-ref">—</div>
-<div class="info-arrive" id="occ-arrive">—</div>
-<div class="slbl" style="margin-bottom:7px;">Numéros AFS</div>
-<div class="afs-wrap" id="afs-occ"></div>
-<div class="inp-row"><input class="inp noup" id="inp-afs-add" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSOcc()">+</button></div>
-<div id="space-occ-section" style="display:none;">
-<div class="div"></div>
-<div class="slbl" style="margin-bottom:7px;">Reste de la place ?</div>
-<div id="space-occ-display"></div>
-<select class="sel" id="sel-space-occ"><option value="">Mettre à jour…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select>
-<button class="btn-sec" style="width:100%;" onclick="saveSpaceOcc()">✓ Enregistrer la place</button>
-</div>
-<div class="div"></div>
-<button class="btn-danger" onclick="askDel()">📦 Marquer comme sortie</button>
-</div></div>
+  <div class="back-hdr"><button class="btn-back" onclick="goRack()">&#8592;</button><div><div class="bh-title" id="emp-title">—</div><div class="bh-sub" id="emp-sub">Emplacement</div></div></div>
+  <div class="vbody">
 
-<div id="st-reserved" style="display:none"><div class="section">
-<div class="slbl">Emplacement réservé</div>
-<p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
-<p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
-<div class="div"></div>
-<div class="slbl" style="margin-bottom:7px;">Enregistrer une palette sur cet emplacement</div>
-<input class="inp" id="inp-ref-reserved" placeholder="N° commande / référence"/>
-<div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
-<div class="afs-wrap" id="afs-reserved"></div>
-<div class="inp-row"><input class="inp noup" id="inp-afs-reserved" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSReserved()">+</button></div>
-<div id="space-reserved-section" style="display:none;"><div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div><select class="sel" id="sel-space-reserved"><option value="">Choisir…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select></div>
-<button class="btn-main" onclick="addPalReserved()">✓ Valider l'entrée</button>
-<div class="div"></div>
-<button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
-</div></div>
+    <!-- Emplacement réservé sans colis -->
+    <div id="st-reserved" style="display:none">
+      <div class="section">
+        <div class="slbl">Emplacement réservé</div>
+        <p style="font-size:18px;font-weight:800;margin-bottom:4px;">🔒 Réservé</p>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:14px;"><strong id="reserved-company">—</strong></p>
+        <div class="div"></div>
+        <button class="btn-danger" onclick="cancelReservation()">🔓 Annuler la réservation</button>
+      </div>
+    </div>
 
-<div id="st-free" style="display:none">
-<div class="section">
-<div class="slbl">Enregistrer une palette</div>
-<input class="inp" id="inp-ref" placeholder="N° commande / référence"/>
-<div class="slbl" style="margin-bottom:7px;margin-top:4px;">Numéros AFS</div>
-<div class="afs-wrap" id="afs-new"></div>
-<div class="inp-row"><input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/><button class="btn-sec" onclick="addAFSNew()">+</button></div>
-<div id="space-free-section" style="display:none;"><div class="slbl" style="margin-bottom:7px;margin-top:10px;">Reste de la place ?</div><select class="sel" id="sel-space-free"><option value="">Choisir…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select></div>
-<button class="btn-main" onclick="addPal()">✓ Valider l'entrée</button>
-</div>
-<div class="section">
-<div class="slbl">Réserver cet emplacement</div>
-<input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
-<button class="btn-sec" style="width:100%;margin-top:4px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
-</div>
-</div>
-</div>
+    <!-- Emplacements avec colis (occupé ou libre) -->
+    <div id="st-main">
+      <!-- Liste des colis existants -->
+      <div id="colis-list-section" style="display:none;">
+        <div class="section">
+          <div class="slbl" id="colis-count-lbl">Colis en place</div>
+          <div id="colis-list"></div>
+        </div>
+      </div>
+
+      <!-- Indicateur place restante (B4/B5/B6) -->
+      <div id="space-global-section" style="display:none;">
+        <div class="section">
+          <div class="slbl">Reste de la place sur l'emplacement ?</div>
+          <div id="space-global-display"></div>
+          <select class="sel" id="sel-space-global"><option value="">Mettre à jour…</option><option value="oui">✅ Oui</option><option value="un-peu">⚠️ Un peu</option><option value="non">❌ Non</option></select>
+          <button class="btn-sec" style="width:100%;" onclick="saveSpaceGlobal()">✓ Enregistrer</button>
+        </div>
+      </div>
+
+      <!-- Formulaire ajout nouveau colis -->
+      <div class="section">
+        <div class="slbl">➕ Ajouter un colis</div>
+        <div class="new-colis-form">
+          <input class="inp" id="inp-ref-new" placeholder="N° commande / référence" style="margin-bottom:8px;"/>
+          <div class="slbl" style="margin-bottom:6px;">Numéros AFS</div>
+          <div class="new-colis-afs-list" id="new-colis-afs-list"></div>
+          <div class="inp-row">
+            <input class="inp noup" id="inp-afs-new" placeholder="Ajouter un AFS…" style="margin-bottom:0"/>
+            <button class="btn-sec" onclick="addAFSNew()">+</button>
+          </div>
+          <button class="btn-main" onclick="addColis()" style="margin-top:10px;">✓ Ajouter ce colis</button>
+        </div>
+      </div>
+
+      <!-- Réservation (uniquement si emplacement libre) -->
+      <div class="section" id="reserve-section">
+        <div class="slbl">Réserver cet emplacement</div>
+        <input class="inp noup" id="inp-company-reserve" placeholder="Nom de l'entreprise"/>
+        <button class="btn-sec" style="width:100%;margin-top:4px;" onclick="reserveEmp()">🔒 Réserver pour cette entreprise</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div id="view-guide">
@@ -277,22 +309,17 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 </div>
 <div id="guide-slide-2" style="display:none;">
 <div class="guide-title">📍 Étape 2 : Choisissez votre emplacement</div>
-<div class="guide-text"><p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p><p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p><p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p><p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p><p>🟠 <strong>Bas (A)</strong> → A1 à A6</p><p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez votre palette</p></div>
+<div class="guide-text"><p><strong>Vous voyez le RACK entier avec 24 emplacements :</strong></p><p style="margin-top:10px;">🟡 <strong>Haut (D)</strong> → D1 à D6</p><p>🔵 <strong>Milieu-haut (C)</strong> → C1 à C6</p><p>🟢 <strong>Milieu (B)</strong> → B1 à B6</p><p>🟠 <strong>Bas (A)</strong> → A1 à A6</p><p style="margin-top:12px;"><strong>Action :</strong> Cliquez sur l'emplacement où vous mettez vos colis</p></div>
 <button class="btn-guide-next" onclick="nextGuide(2)">Suivant →</button>
 </div>
 <div id="guide-slide-3" style="display:none;">
-<div class="guide-title">✏️ Étape 3 : Remplissez les infos</div>
-<div class="guide-text"><p><strong>🔴 N° Commande / Référence (obligatoire)</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p><p><strong>🟠 Numéros AFS</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs ? → Séparez par virgules ou espaces</p><p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p><p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place sur la palette !</p><p style="font-size:12px;color:var(--text3);">✅ Oui · ⚠️ Un peu · ❌ Non</p></div>
+<div class="guide-title">✏️ Étape 3 : Ajoutez vos colis</div>
+<div class="guide-text"><p><strong>🔴 N° Commande / Référence (obligatoire par colis)</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Exemple : CMD001, REF12345…</p><p><strong>🟠 Numéros AFS</strong></p><p style="font-size:12px;margin-bottom:10px;color:var(--text3);">Plusieurs AFS par colis ? → Ajoutez-les un par un</p><p><strong>➕ Plusieurs colis sur le même emplacement ?</strong></p><p style="font-size:12px;color:var(--text3);">Ajoutez autant de colis que nécessaire sur un même emplacement !</p><p style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);"><strong>📊 Pour B4, B5, B6 :</strong></p><p style="font-size:12px;color:var(--text3);">Indiquez s'il reste de la place !</p></div>
 <button class="btn-guide-next" onclick="nextGuide(3)">Suivant →</button>
 </div>
 <div id="guide-slide-4" style="display:none;">
-<div class="guide-title">🔒 Les emplacements réservés</div>
-<div class="guide-text"><p><strong>Certains emplacements sont réservés à une entreprise.</strong></p><p style="margin-top:10px;">Vous les reconnaissez au symbole <strong>🔒</strong> affiché sur la case.</p><p style="margin-top:12px;"><strong>Que faire si vous avez une palette pour cette entreprise ?</strong></p><p>1️⃣ Cliquez sur l'emplacement réservé</p><p>2️⃣ Entrez le <strong>N° commande</strong> et les AFS</p><p>3️⃣ Cliquez <strong>"✓ Valider l'entrée"</strong></p><p style="margin-top:10px;font-size:12px;color:var(--text3);">✅ La réservation reste en place — l'emplacement est juste occupé</p></div>
-<button class="btn-guide-next" onclick="nextGuide(4)">Suivant →</button>
-</div>
-<div id="guide-slide-5" style="display:none;">
 <div class="guide-title">🎉 Vous maîtrisez le RACK !</div>
-<div class="guide-text"><p>📱 <strong>1.</strong> Scanner le QR code au rack</p><p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p><p>✏️ <strong>3.</strong> Entrer la N° Commande + AFS</p><p>✓ <strong>4.</strong> Valider</p><p>❓ <strong>5.</strong> Cliquer sur 🤖 pour poser une question</p><p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">🔒 <strong>Emplacement réservé ?</strong> Entrez quand même le colis directement dessus, la réservation reste.</p><p style="margin-top:8px;font-size:12px;color:var(--text3);">⚠️ <strong>B4, B5, B6</strong> : pensez à indiquer s'il reste de la place !</p></div>
+<div class="guide-text"><p>📱 <strong>1.</strong> Scanner le QR code au rack</p><p>📍 <strong>2.</strong> Cliquer sur votre emplacement</p><p>✏️ <strong>3.</strong> Ajouter un ou plusieurs colis</p><p>✓ <strong>4.</strong> Valider chaque colis</p><p>❓ <strong>5.</strong> Cliquer sur 🤖 pour poser une question</p><p style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.1);">📦 <strong>Sortir un colis ?</strong> Cliquer sur ✕ à côté du colis.</p><p style="margin-top:8px;font-size:12px;color:var(--text3);">⚠️ <strong>B4, B5, B6</strong> : pensez à indiquer s'il reste de la place !</p></div>
 <button class="btn-guide-next" onclick="goRack()">← Retour au Rack</button>
 </div>
 </div>
@@ -346,8 +373,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 <div class="modal-ov" id="modal-del" onclick="closeModalIfBg(event)">
 <div class="modal-box">
-<div class="modal-title">Libérer l'emplacement ?</div>
-<div class="modal-sub" id="modal-sub">La palette sera retirée définitivement.</div>
+<div class="modal-title" id="modal-title">Sortir ce colis ?</div>
+<div class="modal-sub" id="modal-sub">Le colis sera retiré définitivement.</div>
 <div class="modal-acts">
 <button class="btn-cancel" onclick="closeModal()">Annuler</button>
 <button class="btn-del" onclick="confirmDel()">Sortie confirmée</button>
@@ -369,17 +396,47 @@ var NIVEAUX = [
 var COLS=[1,2,3,4,5,6];
 var SPACE_IDS=["B4","B5","B6"];
 var state={}, curId=null, newAFS=[], toastTm=null, currentGuideSlide=1;
+var pendingDelIdx=null; // index du colis à supprimer
 
 function isSpaceEmp(id){return SPACE_IDS.indexOf(id)>=0;}
 function isValidObj(v){return v!==null&&v!==undefined&&typeof v==="object"&&!Array.isArray(v);}
+
+/* ══ MIGRATION données anciennes format → nouveau format ══
+   Ancien format : {ref, afs, date, space, reserved}
+   Nouveau format : {colis:[{ref,afs,date},...], space, reserved}
+*/
+function migrateEmp(data){
+  if(!data) return null;
+  // Déjà au nouveau format
+  if(data.colis && Array.isArray(data.colis)) return data;
+  // Ancien format avec ref → migrer
+  if(data.ref){
+    return {
+      colis:[{ref:data.ref, afs:data.afs||[], date:data.date||new Date().toISOString()}],
+      space: data.space||null,
+      reserved: data.reserved||null
+    };
+  }
+  // Réservation sans colis
+  if(data.reserved){
+    return {colis:[], space:null, reserved:data.reserved};
+  }
+  return null;
+}
+
+function getEmpData(id){
+  var raw=state[id];
+  if(!isValidObj(raw)) return {colis:[], space:null, reserved:null};
+  return migrateEmp(raw)||{colis:[], space:null, reserved:null};
+}
 
 function showOnly(id){["view-rack","view-emp","view-qr","view-guide"].forEach(function(v){document.getElementById(v).style.display=v===id?"block":"none";});window.scrollTo(0,0);}
 function goRack(){renderRack();showOnly("view-rack");}
 function goEmp(id){openEmp(id);showOnly("view-emp");}
 function goQR(){showOnly("view-qr");renderQR();}
 function goGuide(){currentGuideSlide=1;updateGuideSlide();showOnly("view-guide");}
-function nextGuide(c){var n=c+1;if(n<=5){currentGuideSlide=n;updateGuideSlide();}}
-function updateGuideSlide(){for(var i=1;i<=5;i++){var el=document.getElementById("guide-slide-"+i);if(el)el.style.display=(i===currentGuideSlide)?"block":"none";}window.scrollTo(0,0);}
+function nextGuide(c){var n=c+1;if(n<=4){currentGuideSlide=n;updateGuideSlide();}}
+function updateGuideSlide(){for(var i=1;i<=4;i++){var el=document.getElementById("guide-slide-"+i);if(el)el.style.display=(i===currentGuideSlide)?"block":"none";}window.scrollTo(0,0);}
 
 function setDot(s){
   document.getElementById("sync-dot").className="sync-dot "+s;
@@ -419,11 +476,15 @@ setInterval(function(){if(document.getElementById("view-rack").style.display!=="
 function getSpaceLabel(s){if(s==="oui")return"✅ Place dispo";if(s==="un-peu")return"⚠️ Un peu";if(s==="non")return"❌ Plein";return null;}
 function getSpaceCls(s){if(s==="oui")return"sp-oui";if(s==="un-peu")return"sp-un-peu";if(s==="non")return"sp-non";return"";}
 
+/* ══ RENDU RACK ══ */
 function renderRack(){
   var wrap=document.getElementById("rack-grid");wrap.innerHTML="";
   for(var ni=0;ni<NIVEAUX.length;ni++){
     var niv=NIVEAUX[ni],occ=0;
-    for(var ci=0;ci<COLS.length;ci++){var raw=state[niv.id+COLS[ci]];if(isValidObj(raw)&&raw.ref)occ++;}
+    for(var ci=0;ci<COLS.length;ci++){
+      var d=getEmpData(niv.id+COLS[ci]);
+      if(d.colis&&d.colis.length>0)occ++;
+    }
     var block=document.createElement("div");block.className="niv-block "+niv.hcls;
     var hdr=document.createElement("div");hdr.className="niv-hdr";
     var letter=document.createElement("div");letter.className="niv-letter";letter.textContent=niv.id;
@@ -434,15 +495,43 @@ function renderRack(){
     info.appendChild(name);info.appendChild(desc);hdr.appendChild(letter);hdr.appendChild(info);hdr.appendChild(cnt);block.appendChild(hdr);
     var grid=document.createElement("div");grid.className="niv-grid";
     for(var ci2=0;ci2<COLS.length;ci2++){
-      var col=COLS[ci2],id=niv.id+col,raw2=state[id],data=isValidObj(raw2)?raw2:null;
-      var cardCls="vide";if(data&&data.ref){cardCls="occ";}else if(data&&data.reserved){cardCls="reserv";}
+      var col=COLS[ci2],id=niv.id+col;
+      var d2=getEmpData(id);
+      var nbColis=d2.colis?d2.colis.length:0;
+      var cardCls="vide";
+      if(nbColis>0){cardCls="occ";}
+      else if(d2.reserved){cardCls="reserv";}
       var card=document.createElement("div");card.className="ecard "+cardCls;
       var idEl=document.createElement("div");idEl.className="ecard-id";idEl.textContent=id;
       var refEl=document.createElement("div");refEl.className="ecard-ref";
-      if(data&&data.ref){refEl.textContent=data.ref;}else if(data&&data.reserved){refEl.textContent="🔒 "+data.reserved;}else{refEl.textContent="Libre";}
+      if(nbColis>0){
+        // Afficher la ref du 1er colis
+        refEl.textContent=d2.colis[0].ref;
+      }else if(d2.reserved){
+        refEl.textContent="🔒 "+d2.reserved;
+      }else{
+        refEl.textContent="Libre";
+      }
       card.appendChild(idEl);card.appendChild(refEl);
-      if(data&&data.afs&&data.afs.length>0){var afsEl=document.createElement("div");afsEl.className="ecard-afs";var shown=data.afs.slice(0,3),txt="";for(var ai=0;ai<shown.length;ai++)txt+=(ai>0?" · ":"")+"AFS "+shown[ai];if(data.afs.length>3)txt+=" +"+(data.afs.length-3);afsEl.textContent=txt;card.appendChild(afsEl);}
-      if(isSpaceEmp(id)&&data&&data.ref&&data.space){var spEl=document.createElement("div");spEl.className="ecard-space "+getSpaceCls(data.space);spEl.textContent=getSpaceLabel(data.space);card.appendChild(spEl);}
+      // Badge nombre de colis
+      if(nbColis>0){
+        var cntEl=document.createElement("div");cntEl.className="ecard-count";
+        cntEl.textContent="📦 "+nbColis+(nbColis>1?" colis":" colis");
+        card.appendChild(cntEl);
+      }
+      // AFS du 1er colis
+      if(nbColis>0&&d2.colis[0].afs&&d2.colis[0].afs.length>0){
+        var afsEl=document.createElement("div");afsEl.className="ecard-afs";
+        var shown=d2.colis[0].afs.slice(0,2),txt="";
+        for(var ai=0;ai<shown.length;ai++)txt+=(ai>0?" · ":"")+"AFS "+shown[ai];
+        if(d2.colis[0].afs.length>2)txt+=" +"+(d2.colis[0].afs.length-2);
+        if(nbColis>1)txt+=" …";
+        afsEl.textContent=txt;card.appendChild(afsEl);
+      }
+      // Espace restant (B4/B5/B6)
+      if(isSpaceEmp(id)&&nbColis>0&&d2.space){
+        var spEl=document.createElement("div");spEl.className="ecard-space "+getSpaceCls(d2.space);spEl.textContent=getSpaceLabel(d2.space);card.appendChild(spEl);
+      }
       card.setAttribute("data-empid",id);
       card.onclick=function(){goEmp(this.getAttribute("data-empid"));};
       grid.appendChild(card);
@@ -453,79 +542,184 @@ function renderRack(){
 
 function doSearch(q){q=q.trim().toLowerCase();document.querySelectorAll(".ecard").forEach(function(c){c.style.display=(!q||(c.textContent||"").toLowerCase().indexOf(q)>=0)?"flex":"none";});}
 
+/* ══ OUVERTURE EMPLACEMENT ══ */
 function openEmp(id){
-  curId=id;
+  curId=id;newAFS=[];
   var niv=null;for(var i=0;i<NIVEAUX.length;i++){if(NIVEAUX[i].id===id[0]){niv=NIVEAUX[i];break;}}
   document.getElementById("emp-title").textContent=id;
   document.getElementById("emp-sub").textContent=niv?niv.label+" — "+niv.desc:"";
-  var raw=state[id],data=isValidObj(raw)?raw:null;
-  document.getElementById("st-occ").style.display="none";
+
+  var d=getEmpData(id);
+  var nbColis=d.colis?d.colis.length:0;
+
   document.getElementById("st-reserved").style.display="none";
-  document.getElementById("st-free").style.display="none";
-  if(data&&data.ref){
-    document.getElementById("st-occ").style.display="block";
-    document.getElementById("occ-ref").textContent=data.ref||"—";
-    var dA=new Date(data.date);
-    document.getElementById("occ-arrive").textContent="Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-    document.getElementById("modal-sub").textContent="Libérer l'emplacement "+id+" — \""+(data.ref||"")+"\" ?";
-    renderAFSOcc(data.afs||[]);document.getElementById("inp-afs-add").value="";
-    var spaceOccSec=document.getElementById("space-occ-section");
-    if(isSpaceEmp(id)){spaceOccSec.style.display="block";var spaceDisp=document.getElementById("space-occ-display");if(data.space){spaceDisp.innerHTML='<div class="space-display '+getSpaceCls(data.space)+'">'+getSpaceLabel(data.space)+'</div>';}else{spaceDisp.innerHTML='';}document.getElementById("sel-space-occ").value="";}
-    else{spaceOccSec.style.display="none";}
-  }else if(data&&data.reserved){
+  document.getElementById("st-main").style.display="block";
+
+  // Section réservation sans colis
+  if(d.reserved&&nbColis===0){
     document.getElementById("st-reserved").style.display="block";
-    document.getElementById("reserved-company").textContent=data.reserved;
-    document.getElementById("inp-ref-reserved").value="";document.getElementById("inp-afs-reserved").value="";
-    renderAFSReserved_local([]);
-    document.getElementById("space-reserved-section").style.display=isSpaceEmp(id)?"block":"none";
-    document.getElementById("sel-space-reserved").value="";
-  }else{
-    document.getElementById("st-free").style.display="block";
-    document.getElementById("inp-ref").value="";document.getElementById("inp-afs-new").value="";document.getElementById("inp-company-reserve").value="";
-    newAFS=[];renderAFSNew();
-    document.getElementById("space-free-section").style.display=isSpaceEmp(id)?"block":"none";
-    document.getElementById("sel-space-free").value="";
+    document.getElementById("st-main").style.display="none";
+    document.getElementById("reserved-company").textContent=d.reserved;
+    return;
   }
+
+  // Liste colis
+  document.getElementById("colis-list-section").style.display=nbColis>0?"block":"none";
+  document.getElementById("colis-count-lbl").textContent=nbColis+" colis en place";
+  renderColisList(d.colis||[]);
+
+  // Espace restant B4/B5/B6
+  var spaceSec=document.getElementById("space-global-section");
+  if(isSpaceEmp(id)&&nbColis>0){
+    spaceSec.style.display="block";
+    var spDisp=document.getElementById("space-global-display");
+    if(d.space){spDisp.innerHTML='<div class="space-display '+getSpaceCls(d.space)+'">'+getSpaceLabel(d.space)+'</div>';}
+    else{spDisp.innerHTML='';}
+    document.getElementById("sel-space-global").value="";
+  }else{spaceSec.style.display="none";}
+
+  // Réservation visible seulement si emplacement vide
+  document.getElementById("reserve-section").style.display=nbColis===0&&!d.reserved?"block":"none";
+
+  // Reset form
+  document.getElementById("inp-ref-new").value="";
+  document.getElementById("inp-afs-new").value="";
+  document.getElementById("inp-company-reserve").value="";
+  renderAFSNew();
 }
 
-function renderAFSOcc(list){var wrap=document.getElementById("afs-occ");wrap.innerHTML="";if(!list||list.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS";wrap.appendChild(e);return;}list.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();removeAFSOcc(idx);};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
-function addAFSOcc(){var inp=document.getElementById("inp-afs-add"),raw=inp.value.trim();if(!raw)return;if(!state[curId]||!isValidObj(state[curId]))return;if(!state[curId].afs)state[curId].afs=[];raw.split(/[,;\s]+/).forEach(function(v){if(v&&state[curId].afs.indexOf(v)<0)state[curId].afs.push(v);});inp.value="";renderAFSOcc(state[curId].afs);renderRack();saveData();showToast("AFS ajouté","✓");}
-function removeAFSOcc(idx){if(!state[curId]||!state[curId].afs)return;state[curId].afs.splice(idx,1);renderAFSOcc(state[curId].afs);renderRack();saveData();}
+/* ══ RENDU LISTE COLIS ══ */
+function renderColisList(colis){
+  var wrap=document.getElementById("colis-list");wrap.innerHTML="";
+  if(!colis||colis.length===0){wrap.innerHTML='';return;}
+  colis.forEach(function(c,idx){
+    var dA=new Date(c.date);
+    var dateStr="Arrivée le "+dA.toLocaleDateString("fr-FR")+" à "+dA.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    var item=document.createElement("div");item.className="colis-item";
+    var html='<div class="colis-num">COLIS '+(idx+1)+'</div>';
+    html+='<div class="colis-item-hdr"><div class="colis-item-ref">'+escHtml(c.ref)+'</div></div>';
+    html+='<div class="colis-item-date">'+escHtml(dateStr)+'</div>';
+    // AFS tags
+    html+='<div class="colis-item-afs-wrap" id="afs-wrap-'+idx+'">';
+    if(!c.afs||c.afs.length===0){html+='<span class="afs-empty">Aucun AFS</span>';}
+    else{c.afs.forEach(function(v,ai){html+='<span class="afs-tag">AFS '+escHtml(v)+'<button class="afs-x" onclick="removeAFSColis('+idx+','+ai+')">×</button></span>';});}
+    html+='</div>';
+    // Ajouter AFS
+    html+='<div class="colis-afs-inp-row"><input class="colis-afs-inp" id="afs-inp-'+idx+'" placeholder="Ajouter un AFS…" onkeydown="if(event.key===\'Enter\') addAFSColis('+idx+')"/><button class="btn-afs-add" onclick="addAFSColis('+idx+')">+</button></div>';
+    // Supprimer colis
+    html+='<button class="btn-danger" style="margin-top:10px;" onclick="askDelColis('+idx+')">📤 Marquer comme sorti</button>';
+    item.innerHTML=html;
+    wrap.appendChild(item);
+  });
+}
 
-function saveSpaceOcc(){var space=document.getElementById("sel-space-occ").value;if(!space){showToast("Sélectionnez une option","⚠️");return;}if(!state[curId]||!isValidObj(state[curId]))return;state[curId].space=space;document.getElementById("space-occ-display").innerHTML='<div class="space-display '+getSpaceCls(space)+'">'+getSpaceLabel(space)+'</div>';document.getElementById("sel-space-occ").value="";renderRack();saveData();showToast("Place enregistrée","✓");}
+function addAFSColis(idx){
+  var inp=document.getElementById("afs-inp-"+idx);
+  if(!inp)return;
+  var raw=inp.value.trim();if(!raw)return;
+  var d=getEmpData(curId);
+  if(!d.colis[idx].afs)d.colis[idx].afs=[];
+  raw.split(/[,;\s]+/).forEach(function(v){if(v&&d.colis[idx].afs.indexOf(v)<0)d.colis[idx].afs.push(v);});
+  state[curId]=d;inp.value="";renderColisList(d.colis);saveData();showToast("AFS ajouté","✓");
+}
 
-var reservedAFS=[];
-function renderAFSReserved_local(list){reservedAFS=list||[];renderAFSReserved();}
-function renderAFSReserved(){var wrap=document.getElementById("afs-reserved");wrap.innerHTML="";if(reservedAFS.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS ajouté";wrap.appendChild(e);return;}reservedAFS.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();reservedAFS.splice(idx,1);renderAFSReserved();};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
-function addAFSReserved(){var inp=document.getElementById("inp-afs-reserved"),raw=inp.value.trim();if(!raw)return;raw.split(/[,;\s]+/).forEach(function(v){if(v&&reservedAFS.indexOf(v)<0)reservedAFS.push(v);});inp.value="";renderAFSReserved();}
-function addPalReserved(){var ref=document.getElementById("inp-ref-reserved").value.trim().toUpperCase();if(!ref){showToast("Entrez une référence","⚠️");return;}var reserved=state[curId]&&state[curId].reserved?state[curId].reserved:"";var space=isSpaceEmp(curId)?document.getElementById("sel-space-reserved").value:"";if(isSpaceEmp(curId)&&!space){showToast("Indiquez s'il reste de la place","⚠️");return;}state[curId]={ref:ref,afs:reservedAFS.slice(),date:new Date().toISOString(),reserved:reserved};if(space)state[curId].space=space;showToast(ref+" enregistrée","✓");if(navigator.vibrate)navigator.vibrate(10);reservedAFS=[];saveData();goRack();}
+function removeAFSColis(cidx,aidx){
+  var d=getEmpData(curId);
+  if(!d.colis[cidx]||!d.colis[cidx].afs)return;
+  d.colis[cidx].afs.splice(aidx,1);
+  state[curId]=d;renderColisList(d.colis);saveData();
+}
 
-function renderAFSNew(){var wrap=document.getElementById("afs-new");wrap.innerHTML="";if(newAFS.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS ajouté";wrap.appendChild(e);return;}newAFS.forEach(function(val,idx){var tag=document.createElement("span");tag.className="afs-tag";var txt=document.createElement("span");txt.textContent="AFS "+val;var x=document.createElement("button");x.className="afs-x";x.textContent="×";x.onclick=function(e){e.stopPropagation();newAFS.splice(idx,1);renderAFSNew();};tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);});}
+/* ══ SUPPRIMER UN COLIS ══ */
+function askDelColis(idx){
+  pendingDelIdx=idx;
+  var d=getEmpData(curId);
+  var ref=d.colis[idx]?d.colis[idx].ref:"?";
+  document.getElementById("modal-title").textContent="Sortir ce colis ?";
+  document.getElementById("modal-sub").textContent='Marquer "'+ref+'" comme sorti de l\'emplacement '+curId+' ?';
+  document.getElementById("modal-del").classList.add("open");
+}
+function closeModal(){document.getElementById("modal-del").classList.remove("open");pendingDelIdx=null;}
+function closeModalIfBg(e){if(e.target===document.getElementById("modal-del"))closeModal();}
+
+function confirmDel(){
+  if(pendingDelIdx===null)return;
+  var d=getEmpData(curId);
+  var c=d.colis[pendingDelIdx];
+  if(!c){closeModal();return;}
+  addSortie(c.ref,c.afs,curId);
+  d.colis.splice(pendingDelIdx,1);
+  // Si plus aucun colis, effacer le space aussi
+  if(d.colis.length===0){d.space=null;}
+  // Si plus de colis et pas de réservation → vide
+  if(d.colis.length===0&&!d.reserved){delete state[curId];}
+  else{state[curId]=d;}
+  closeModal();saveData();
+  showToast(c.ref+" sorti","📦");
+  if(navigator.vibrate)navigator.vibrate(25);
+  // Refresh vue
+  openEmp(curId);renderRack();
+}
+
+/* ══ AJOUTER UN COLIS ══ */
+function renderAFSNew(){
+  var wrap=document.getElementById("new-colis-afs-list");wrap.innerHTML="";
+  if(newAFS.length===0){var e=document.createElement("span");e.className="afs-empty";e.textContent="Aucun AFS ajouté";wrap.appendChild(e);return;}
+  newAFS.forEach(function(val,idx){
+    var tag=document.createElement("span");tag.className="afs-tag";
+    var txt=document.createElement("span");txt.textContent="AFS "+val;
+    var x=document.createElement("button");x.className="afs-x";x.textContent="×";
+    x.onclick=function(e){e.stopPropagation();newAFS.splice(idx,1);renderAFSNew();};
+    tag.appendChild(txt);tag.appendChild(x);wrap.appendChild(tag);
+  });
+}
 function addAFSNew(){var inp=document.getElementById("inp-afs-new"),raw=inp.value.trim();if(!raw)return;raw.split(/[,;\s]+/).forEach(function(v){if(v&&newAFS.indexOf(v)<0)newAFS.push(v);});inp.value="";renderAFSNew();}
 
-function addPal(){var ref=document.getElementById("inp-ref").value.trim().toUpperCase();if(!ref){showToast("Entrez une référence","⚠️");return;}var space=isSpaceEmp(curId)?document.getElementById("sel-space-free").value:"";if(isSpaceEmp(curId)&&!space){showToast("Indiquez s'il reste de la place","⚠️");return;}state[curId]={ref:ref,afs:newAFS.slice(),date:new Date().toISOString()};if(space)state[curId].space=space;showToast(ref+" enregistrée","✓");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
-function reserveEmp(){var company=document.getElementById("inp-company-reserve").value.trim();if(!company){showToast("Entrez un nom d'entreprise","⚠️");return;}state[curId]={reserved:company};showToast(company+" — réservé","🔒");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
-function cancelReservation(){delete state[curId];showToast("Réservation annulée","🔓");if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();}
-function askDel(){document.getElementById("modal-del").classList.add("open");}
-function closeModal(){document.getElementById("modal-del").classList.remove("open");}
-function closeModalIfBg(e){if(e.target===document.getElementById("modal-del"))closeModal();}
-function confirmDel(){
-  var ref=(state[curId]&&state[curId].ref)?state[curId].ref:curId;
-  var afs=(state[curId]&&state[curId].afs)?state[curId].afs:[];
-  addSortie(ref,afs,curId);
-  delete state[curId];closeModal();saveData();
-  showToast(ref+" sortie","📦");
-  if(navigator.vibrate)navigator.vibrate(25);
-  goRack();
+function addColis(){
+  var ref=document.getElementById("inp-ref-new").value.trim().toUpperCase();
+  if(!ref){showToast("Entrez une référence","⚠️");return;}
+  var d=getEmpData(curId);
+  d.colis.push({ref:ref,afs:newAFS.slice(),date:new Date().toISOString()});
+  state[curId]=d;
+  newAFS=[];
+  document.getElementById("inp-ref-new").value="";
+  document.getElementById("inp-afs-new").value="";
+  showToast(ref+" ajouté","✓");
+  if(navigator.vibrate)navigator.vibrate(10);
+  saveData();
+  openEmp(curId);renderRack();
 }
 
+/* ══ ESPACE RESTANT (B4/B5/B6) ══ */
+function saveSpaceGlobal(){
+  var space=document.getElementById("sel-space-global").value;
+  if(!space){showToast("Sélectionnez une option","⚠️");return;}
+  var d=getEmpData(curId);d.space=space;state[curId]=d;
+  document.getElementById("space-global-display").innerHTML='<div class="space-display '+getSpaceCls(space)+'">'+getSpaceLabel(space)+'</div>';
+  document.getElementById("sel-space-global").value="";
+  renderRack();saveData();showToast("Place enregistrée","✓");
+}
+
+/* ══ RÉSERVATION ══ */
+function reserveEmp(){
+  var company=document.getElementById("inp-company-reserve").value.trim();
+  if(!company){showToast("Entrez un nom d'entreprise","⚠️");return;}
+  var d=getEmpData(curId);d.reserved=company;state[curId]=d;
+  showToast(company+" — réservé","🔒");if(navigator.vibrate)navigator.vibrate(10);
+  saveData();goRack();
+}
+function cancelReservation(){
+  delete state[curId];showToast("Réservation annulée","🔓");
+  if(navigator.vibrate)navigator.vibrate(10);saveData();goRack();
+}
+
+/* ══ QR ══ */
 function renderQR(){var url=window.location.href.split("?")[0];var c=document.getElementById("qr-c");var img=new Image();img.style.cssText="display:block;width:200px;height:200px;border-radius:4px;";img.onload=function(){c.innerHTML="";c.appendChild(img);};img.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(url)+"&bgcolor=ffffff&color=1c1814&margin=12";}
 
 function showToast(msg,ico){document.getElementById("t-i").textContent=ico||"";document.getElementById("t-m").textContent=msg;var el=document.getElementById("toast");el.classList.add("show");clearTimeout(toastTm);toastTm=setTimeout(function(){el.classList.remove("show");},2200);}
 
-document.getElementById("inp-ref").onkeydown=function(e){if(e.key==="Enter")addPal();};
+document.getElementById("inp-ref-new").onkeydown=function(e){if(e.key==="Enter")addColis();};
 document.getElementById("inp-afs-new").onkeydown=function(e){if(e.key==="Enter")addAFSNew();};
-document.getElementById("inp-afs-add").onkeydown=function(e){if(e.key==="Enter")addAFSOcc();};
 
 /* ══ HISTORIQUE SORTIES ══ */
 var sortieHistory=(function(){try{return JSON.parse(localStorage.getItem('rack_sorties')||'[]');}catch(e){return[];}})();
@@ -561,17 +755,29 @@ function getRackContext(){
   var libre=[],occ=[],reserv=[];
   NIVEAUX.forEach(function(niv){
     for(var c=1;c<=6;c++){
-      var id=niv.id+c,d=isValidObj(state[id])?state[id]:null;
-      if(d&&d.ref){var info=id+' : '+d.ref;if(d.afs&&d.afs.length)info+=' (AFS: '+d.afs.join(', ')+')';if(isSpaceEmp(id)&&d.space)info+=' [place: '+d.space+']';if(d.date)info+=' - arrivé le '+new Date(d.date).toLocaleDateString('fr-FR');occ.push(info);}
-      else if(d&&d.reserved){reserv.push(id+' : réservé pour '+d.reserved);}
-      else{libre.push(id);}
+      var id=niv.id+c;
+      var d=getEmpData(id);
+      var nb=d.colis?d.colis.length:0;
+      if(nb>0){
+        var info=id+' : '+nb+' colis — ';
+        d.colis.forEach(function(col,i){
+          info+=(i>0?' | ':'')+col.ref;
+          if(col.afs&&col.afs.length)info+=' (AFS: '+col.afs.join(', ')+')';
+        });
+        if(isSpaceEmp(id)&&d.space)info+=' [place restante: '+d.space+']';
+        occ.push(info);
+      }else if(d.reserved){
+        reserv.push(id+' : réservé pour '+d.reserved);
+      }else{
+        libre.push(id);
+      }
     }
   });
   var lines=['=== ÉTAT DU RACK EN TEMPS RÉEL ===','Emplacements libres ('+libre.length+') : '+(libre.join(', ')||'aucun'),'','Emplacements occupés ('+occ.length+') :'];
   occ.forEach(function(l){lines.push('  • '+l);});
   lines.push('','Emplacements réservés ('+reserv.length+') :');
   reserv.forEach(function(l){lines.push('  • '+l);});
-  lines.push('','=== INFOS RACK ===','4 niveaux : D (haut, gerbeur obligatoire), C (gerbeur nécessaire), B (à la main), A (bas, sol). 6 colonnes par niveau, 24 emplacements total.','B4, B5, B6 : emplacements partagés avec indicateur de place (oui/un peu/non).','=== GUIDE ===','1. Scanner QR code → 2. Cliquer emplacement → 3. Saisir N° commande + AFS → 4. Valider. Pour sortir : cliquer emplacement → "Marquer comme sortie". 🔒 = réservé entreprise.');
+  lines.push('','=== INFOS RACK ===','4 niveaux : D (haut), C (milieu-haut), B (milieu, accessible à la main), A (bas). 6 colonnes par niveau = 24 emplacements.','B4, B5, B6 : emplacements partagés avec indicateur de place restante.','Chaque emplacement peut contenir PLUSIEURS colis.','=== GUIDE ===','1. Scanner QR code → 2. Cliquer emplacement → 3. Saisir N° commande + AFS → 4. Valider. Plusieurs colis = cliquer "Ajouter un colis" autant de fois que nécessaire.');
   return lines.join('\n');
 }
 
@@ -614,7 +820,7 @@ function sendChat(){
   .then(function(data){
     var reply='Désolé, pas de réponse.';
     if(data.choices&&data.choices[0]&&data.choices[0].message){reply=data.choices[0].message.content;}
-    else if(data.error){reply='❌ '+( data.error.message||'Erreur API');}
+    else if(data.error){reply='❌ '+(data.error.message||'Erreur API');}
     typingBubble.classList.remove('typing');typingBubble.textContent=reply;
     chatHistory.push({role:'assistant',content:reply});
     document.getElementById('chat-messages').scrollTop=99999;
@@ -624,7 +830,6 @@ function sendChat(){
 }
 
 function toggleAssistant(){var panel=document.getElementById('ai-panel');panel.classList.toggle('open');if(panel.classList.contains('open')){document.getElementById('ai-notif').style.display='none';}}
-function openAssistantAuto(){}
 
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();toggleAssistant();}});
 document.addEventListener('DOMContentLoaded',function(){var el=document.getElementById('chat-init-time');if(el)el.textContent=chatNow();});
