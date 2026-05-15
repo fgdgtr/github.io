@@ -231,6 +231,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .tooltip-3d .t3-free{color:#4ade80;font-size:10px;}
 .tooltip-3d .t3-resv{color:#60a5fa;font-size:10px;}
 .btn-3d-open{pointer-events:auto;}
+.btn-3d-back{position:absolute;top:68px;left:14px;z-index:10;pointer-events:auto;display:flex;align-items:center;gap:7px;background:rgba(10,10,18,.82);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:7px 14px 7px 10px;color:#f3efe9;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(10px);letter-spacing:.2px;}
+.btn-3d-back:active{background:rgba(255,255,255,.15);}
+.btn-3d-back-arrow{font-size:16px;line-height:1;}
+.view-indicator{position:absolute;top:68px;right:14px;z-index:10;background:rgba(10,10,18,.82);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:6px 13px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:rgba(255,255,255,.55);backdrop-filter:blur(10px);pointer-events:none;display:flex;align-items:center;gap:6px;letter-spacing:.5px;}
+.view-indicator-dot{width:6px;height:6px;border-radius:50%;background:#f59e0b;animation:blink .8s ease-in-out infinite alternate;}
+.view-dir{color:#fbbf24;font-weight:800;}
 </style>
 </head>
 <body>
@@ -363,21 +369,34 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div id="view-3d">
   <div style="position:relative;height:calc(100vh - 58px);">
     <canvas id="canvas-3d"></canvas>
-    <div class="hud-3d hud-top">
-      <div class="hud-badge">RACK · TEMPS RÉEL</div>
-      <div class="hud-stats">
+
+    <!-- Bouton retour -->
+    <button class="btn-3d-back" onclick="goRack()">
+      <span class="btn-3d-back-arrow">←</span> Retour au rack
+    </button>
+
+    <!-- Indicateur face avant/arrière -->
+    <div class="view-indicator" id="view-indicator">
+      <div class="view-indicator-dot"></div>
+      Vue : <span class="view-dir" id="view-dir-lbl">AVANT</span>
+    </div>
+
+    <div class="hud-3d" style="position:absolute;bottom:52px;left:0;right:0;display:flex;justify-content:space-between;padding:0 14px;pointer-events:none;z-index:5;">
+      <div class="hud-legend" style="position:static;display:flex;gap:6px;flex-wrap:wrap;">
+        <div class="hud-leg-item"><div class="hud-dot" style="background:#4ade80;"></div>LIBRE</div>
+        <div class="hud-leg-item"><div class="hud-dot" style="background:#f59e0b;"></div>OCCUPÉ</div>
+        <div class="hud-leg-item"><div class="hud-dot" style="background:#ef4444;"></div>PLEIN</div>
+        <div class="hud-leg-item"><div class="hud-dot" style="background:#60a5fa;"></div>RÉSERVÉ</div>
+      </div>
+      <div class="hud-stats" style="display:flex;gap:6px;align-items:flex-end;">
         <div class="hud-stat"><span class="free" id="h3-free">—</span> libres</div>
         <div class="hud-stat"><span class="occ" id="h3-occ">—</span> occupés</div>
         <div class="hud-stat"><span class="resv" id="h3-resv">—</span> réservés</div>
       </div>
     </div>
-    <div class="hud-legend">
-      <div class="hud-leg-item"><div class="hud-dot" style="background:#4ade80;"></div>LIBRE</div>
-      <div class="hud-leg-item"><div class="hud-dot" style="background:#f59e0b;"></div>OCCUPÉ</div>
-      <div class="hud-leg-item"><div class="hud-dot" style="background:#ef4444;"></div>PLEIN</div>
-      <div class="hud-leg-item"><div class="hud-dot" style="background:#60a5fa;"></div>RÉSERVÉ</div>
-    </div>
-    <div class="hud-hint">Glisse pour tourner · Tape pour ouvrir</div>
+
+    <div class="hud-hint" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);white-space:nowrap;">Glisse pour tourner · Tape pour ouvrir l'emplacement</div>
+
     <div class="tooltip-3d" id="tooltip-3d">
       <div class="t3-id" id="t3-id"></div>
       <div class="t3-ref" id="t3-ref"></div>
@@ -936,6 +955,37 @@ function init3D(){
     // Traverses de fond
     for(var r2=0;r2<=4;r2++){addBar(3.3,r2*1.08-0.02,-0.28,6.8,0.04,0.04);}
 
+    // ══ PANNEAU ARRIÈRE DU RACK ══
+    // Fond principal (panneau fermé métallique)
+    var backPanelMat=new THREE.MeshLambertMaterial({color:0x141420,emissive:0x050510,side:THREE.FrontSide});
+    var backPanel=new THREE.Mesh(new THREE.BoxGeometry(6.6,4.4,0.06),backPanelMat);
+    backPanel.position.set(3.3,2.1,-0.31);
+    three3D.scene.add(backPanel);
+
+    // Raidisseurs horizontaux sur le panneau arrière
+    var stiffMat=new THREE.MeshLambertMaterial({color:0x1c1c2e,emissive:0x080820});
+    for(var sr=0;sr<3;sr++){
+      var stiff=new THREE.Mesh(new THREE.BoxGeometry(6.5,0.04,0.04),stiffMat);
+      stiff.position.set(3.3,0.6+sr*1.2,-0.28);
+      three3D.scene.add(stiff);
+    }
+
+    // Lignes de ventilation (fentes décoratives)
+    var ventMat=new THREE.MeshBasicMaterial({color:0x0a0a16});
+    for(var vi=0;vi<4;vi++){
+      for(var vj=0;vj<8;vj++){
+        var vent=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.03,0.02),ventMat);
+        vent.position.set(0.3+vj*0.88,0.3+vi*1.05,-0.27);
+        three3D.scene.add(vent);
+      }
+    }
+
+    // Logo AUEM sur le panneau arrière (rectangle lumineux)
+    var logoMat=new THREE.MeshBasicMaterial({color:0xf59e0b,transparent:true,opacity:0.25});
+    var logoBg=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.22,0.01),logoMat);
+    logoBg.position.set(3.3,3.8,-0.27);
+    three3D.scene.add(logoBg);
+
     // Étiquettes niveaux (plans lumineux)
     var nivColors=[0xf59e0b,0x60a5fa,0x4ade80,0xfb923c];
     var nivNames=["D","C","B","A"];
@@ -1098,6 +1148,16 @@ function animate3D(){
   three3D.camera.position.z=dist*Math.cos(three3D.rotY)*Math.cos(three3D.rotX);
   three3D.camera.lookAt(3.3,2,0);
   if(three3D.fillLight){three3D.fillLight.position.x=3.3+4*Math.sin(_t3*0.4);three3D.fillLight.position.z=4*Math.cos(_t3*0.4);}
+
+  // Indicateur vue avant / arrière
+  var normY=((three3D.rotY%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+  var isArriere=(normY>Math.PI*0.5&&normY<Math.PI*1.5);
+  var lbl=document.getElementById("view-dir-lbl");
+  if(lbl){
+    lbl.textContent=isArriere?"ARRIÈRE":"AVANT";
+    lbl.style.color=isArriere?"#60a5fa":"#fbbf24";
+  }
+
   three3D.renderer.render(three3D.scene,three3D.camera);
 }
 
